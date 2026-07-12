@@ -1,0 +1,42 @@
+name: AquaNavAI CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.28"
+          enable-cache: true
+      - name: Install frontend dependencies
+        run: npm ci
+      - name: Sync Python environment
+        run: uv sync --frozen --project engine --python 3.12.13
+      - name: Reproduce pinned offline fixture
+        run: uv run --project engine aquanav reproduce --scenario south-florida-v1 --offline
+      - name: Check Python
+        run: |
+          uv run --project engine ruff check engine/src engine/tests
+          uv run --project engine mypy --config-file engine/pyproject.toml engine/src
+          uv run --project engine pytest
+          uv run --project engine pip-audit
+      - name: Check frontend and build limits
+        run: npm run check
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+      - name: Verify offline browser flow
+        run: npm run test:e2e

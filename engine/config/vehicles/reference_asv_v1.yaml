@@ -1,0 +1,6 @@
+id: reference-asv-v1
+label: Reference displacement ASV proxy
+cruise_speed_mps: 1.5
+hotel_power_w: 30
+propulsion_coefficient_w_per_mps3: 44.44
+waiting_enabled: false

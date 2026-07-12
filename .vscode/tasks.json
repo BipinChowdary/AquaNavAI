@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "AquaNavAI: Dev Server",
+      "type": "npm",
+      "script": "dev",
+      "isBackground": true,
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "AquaNavAI: Check All",
+      "type": "shell",
+      "command": "npm run check; if ($LASTEXITCODE -eq 0) { uv run --project engine pytest }",
+      "problemMatcher": [],
+      "group": { "kind": "test", "isDefault": true }
+    },
+    {
+      "label": "AquaNavAI: Rebuild Offline Scenario",
+      "type": "shell",
+      "command": "uv run --project engine aquanav reproduce --scenario south-florida-v1 --offline",
+      "problemMatcher": []
+    }
+  ]
+}

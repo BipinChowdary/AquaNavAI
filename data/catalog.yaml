@@ -1,0 +1,32 @@
+schema_version: 1.0.0
+scenario: south-florida-v1
+mode: proxy
+sources:
+  - id: cudem
+    provider: NOAA NCEI
+    product: Continuously Updated Digital Elevation Model
+    role: primary bathymetry and feasibility mask
+    landing_page: https://www.ncei.noaa.gov/products/coastal-elevation-models
+    pinned_urls: []
+    expected_sha256: []
+  - id: etopo
+    provider: NOAA NCEI
+    product: ETOPO 2022 15 Arc-Second Global Relief Model
+    role: regional context only
+    landing_page: https://www.ncei.noaa.gov/products/etopo-global-relief-model
+    pinned_urls: []
+    expected_sha256: []
+  - id: rtofs
+    provider: NOAA NCEP
+    product: Global RTOFS
+    role: surface-current forcing
+    landing_page: https://polar.ncep.noaa.gov/global/about/index.shtml?text=
+    pinned_urls: []
+    expected_sha256: []
+  - id: ndbc
+    provider: NOAA NDBC
+    product: Realtime observations
+    role: observational context and later validation
+    landing_page: https://www.ndbc.noaa.gov/faq/rt_data_access.shtml
+    pinned_urls: []
+    expected_sha256: []

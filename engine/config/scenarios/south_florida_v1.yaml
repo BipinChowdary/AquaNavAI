@@ -1,0 +1,24 @@
+id: south-florida-v1
+title: South Florida Atlantic Shelf
+version: 1.0.0-proxy.1
+bbox: [-80.20, 26.00, -79.90, 26.55]
+analysis_crs: EPSG:32617
+interchange_crs: EPSG:4326
+grid_resolution_m: 500
+minimum_depth_m: 5
+land_buffer_m: 250
+forecast_time_bin_hours: 1
+offline_proxy: true
+route_pairs:
+  - id: shelf-northbound
+    label: Broward to Boca shelf transit
+    start: [-80.055, 26.055]
+    goal: [-80.050, 26.455]
+  - id: shelf-southbound
+    label: Boca to Broward return transit
+    start: [-80.050, 26.455]
+    goal: [-80.055, 26.055]
+  - id: cross-shelf
+    label: Coastal to offshore diagonal
+    start: [-80.070, 26.180]
+    goal: [-79.955, 26.360]

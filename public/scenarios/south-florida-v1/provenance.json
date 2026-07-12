@@ -1,0 +1,41 @@
+{
+  "analysisGrid": {
+    "crs": "EPSG:32617",
+    "nativeSourceResolutionPreservedInMetadata": true,
+    "resolutionM": 500.0
+  },
+  "scenarioId": "south-florida-v1",
+  "sources": [
+    {
+      "id": "cudem",
+      "product": "CUDEM",
+      "provider": "NOAA NCEI",
+      "role": "planned primary feasibility mask",
+      "status": "pending",
+      "url": "https://www.ncei.noaa.gov/products/coastal-elevation-models"
+    },
+    {
+      "id": "rtofs",
+      "product": "Global RTOFS",
+      "provider": "NOAA NCEP",
+      "role": "planned surface-current forcing",
+      "status": "pending",
+      "url": "https://polar.ncep.noaa.gov/global/about/index.shtml?text="
+    },
+    {
+      "id": "ndbc",
+      "product": "Realtime observations",
+      "provider": "NOAA NDBC",
+      "role": "planned observational context and validation",
+      "status": "pending",
+      "url": "https://www.ndbc.noaa.gov/faq/rt_data_access.shtml"
+    }
+  ],
+  "status": "proxy",
+  "transformations": [
+    "deterministic analytic coastline/depth fixture",
+    "deterministic time-varying current fixture",
+    "500 m eight-neighbour routing grid"
+  ],
+  "warning": "This fixture exercises the complete software path but is not a NOAA-derived result."
+}

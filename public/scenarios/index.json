@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {
+      "dataMode": "offline-proxy",
+      "id": "south-florida-v1",
+      "manifest": "/scenarios/south-florida-v1/manifest.json",
+      "title": "South Florida Atlantic Shelf",
+      "version": "1.0.0-proxy.1"
+    }
+  ],
+  "schemaVersion": "1.0.0"
+}

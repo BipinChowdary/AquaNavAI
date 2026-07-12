@@ -1,0 +1,53 @@
+# JavaScript
+node_modules/
+dist/
+dist-ssr/
+*.local
+*.log
+npm-debug.log*
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+coverage/
+test-results/
+playwright-report/
+
+# Research data and generated experiments
+data/raw/
+data/cache/
+data/processed/
+artifacts/
+engine/artifacts/
+emissions.csv
+.codecarbon-tracker.pid
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Editors and operating systems
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# VS Code: keep reproducible project configuration
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+
+# Notebook checkpoints
+.ipynb_checkpoints/

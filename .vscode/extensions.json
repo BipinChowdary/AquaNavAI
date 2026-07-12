@@ -1,0 +1,19 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "charliermarsh.ruff",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-toolsai.jupyter",
+    "redhat.vscode-yaml",
+    "mechatroner.rainbow-csv",
+    "eamodio.gitlens",
+    "github.vscode-pull-request-github",
+    "pkief.material-icon-theme"
+  ],
+  "unwantedRecommendations": [
+    "codecarbon.codecarbon",
+    "gruntfuggly.todo-tree"
+  ]
+}
