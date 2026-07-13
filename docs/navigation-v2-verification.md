@@ -56,8 +56,8 @@ The browser suite additionally seeks to 25%, 50%, and 100%; verifies reset to or
 
 ## Release artifact measurement
 
-- `dist`: 26 files, 4,549,430 bytes total.
-- NOAA scenario: 10 files, 2,783,346 bytes raw; 254,202 bytes summed gzip.
+- `dist`: 26 files, 4,549,573 bytes total.
+- NOAA scenario: 10 files, 2,783,348 bytes raw; 241,583 bytes summed gzip.
 - Largest asset: `navigation-grid.json`, 1,791,344 bytes.
 - Cloudflare Pages comparison: 26 files versus 20,000; 1.71 MiB largest versus 25 MiB.
 - No R2, Worker, KV, database, runtime Python service, localhost dependency, local user path, or secret is required.
