@@ -7,6 +7,7 @@ import type {
   ProvenanceArtifact,
   ScenarioIndex,
   ScenarioManifest,
+  NavigationGridArtifact,
 } from '../types/scenario'
 
 async function fetchJson<T>(url: string): Promise<T> {
@@ -15,13 +16,14 @@ async function fetchJson<T>(url: string): Promise<T> {
   return (await response.json()) as T
 }
 
-export async function loadScenario(id = 'south-florida-v1'): Promise<LoadedScenario> {
+export async function loadScenario(id?: string): Promise<LoadedScenario> {
   const [index, schema] = await Promise.all([
     fetchJson<ScenarioIndex>('/scenarios/index.json'),
     fetchJson<Record<string, unknown>>('/schemas/scenario.schema.json'),
   ])
-  const entry = index.scenarios.find((scenario) => scenario.id === id)
-  if (!entry) throw new Error(`Scenario '${id}' is not listed in the release index.`)
+  const requestedId = id ?? index.scenarios[0]?.id
+  const entry = index.scenarios.find((scenario) => scenario.id === requestedId)
+  if (!entry) throw new Error(`Scenario '${requestedId}' is not listed in the release index.`)
   const manifest = await fetchJson<ScenarioManifest>(entry.manifest)
   const ajv = new Ajv2020({ allErrors: true, strict: false })
   addFormats(ajv)
@@ -38,6 +40,9 @@ export async function loadScenario(id = 'south-florida-v1'): Promise<LoadedScena
     fetchJson<GeoJsonFeatureCollection>(base + manifest.files.stations),
     fetchJson<GeoJsonFeatureCollection>(base + manifest.files.routes),
   ])
+  const navigationGrid = manifest.files.grid
+    ? await fetchJson<NavigationGridArtifact>(base + manifest.files.grid)
+    : null
   return {
     manifest,
     metrics,
@@ -47,5 +52,6 @@ export async function loadScenario(id = 'south-florida-v1'): Promise<LoadedScena
     stations,
     routes,
     bathymetryUrl: base + manifest.files.bathymetry,
+    navigationGrid,
   }
 }

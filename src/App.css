@@ -110,6 +110,19 @@
   color: #cbbd9f;
 }
 
+.data-status {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  padding: 9px 24px;
+  border-bottom: 1px solid rgba(45, 212, 191, 0.2);
+  color: #a8d8d3;
+  background: rgba(45, 212, 191, 0.055);
+  font-size: 11px;
+}
+
+.data-status a { color: var(--teal); }
+
 .disclaimer__mark {
   width: 22px;
   height: 22px;
@@ -139,7 +152,7 @@
 .workspace {
   display: grid;
   grid-template-columns: 310px minmax(0, 1fr);
-  min-height: 720px;
+  min-height: 76vh;
   border-bottom: 1px solid var(--line);
 }
 
@@ -294,9 +307,50 @@ a:focus-visible {
 
 .map-shell {
   position: relative;
-  min-height: 620px;
+  min-height: 70vh;
   overflow: hidden;
 }
+
+.control-hint,
+.route-error {
+  margin: 12px 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.route-error { color: var(--danger); }
+
+.calculate-button,
+.animation-controls button {
+  padding: 10px 12px;
+  border: 1px solid rgba(45, 212, 191, 0.45);
+  border-radius: 3px;
+  color: #dffcf8;
+  background: rgba(45, 212, 191, 0.12);
+  cursor: pointer;
+}
+
+.calculate-button { width: 100%; }
+.calculate-button:disabled { opacity: 0.55; cursor: wait; }
+
+.animation-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  background: rgba(3, 18, 28, 0.94);
+  font-family: 'Cascadia Mono', 'Segoe UI Mono', ui-monospace, monospace;
+  font-size: 9px;
+}
+
+.animation-controls label { display: flex; align-items: center; gap: 6px; }
+.animation-controls select { width: auto; padding: 7px; }
+.limitations { color: var(--muted); font-size: 11px; line-height: 1.6; }
+.source-grid code { color: #6e8d96; font-size: 9px; }
 
 .map-shell .coastal-map {
   position: absolute;
@@ -614,8 +668,11 @@ footer {
   }
 
   .map-shell {
-    min-height: 520px;
+    min-height: 65vh;
   }
+
+  .data-status { flex-direction: column; }
+  .animation-controls { position: relative; overflow-x: auto; flex-wrap: nowrap; }
 
   .metric-grid,
   .source-grid {

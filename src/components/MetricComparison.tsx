@@ -1,22 +1,38 @@
-import { formatDistance, formatDuration, formatEnergy, formatNumber } from '../lib/format'
+import {
+  formatDistance,
+  formatDuration,
+  formatEnergy,
+  formatNumber,
+} from '../lib/format'
 import type { RouteMetric } from '../types/scenario'
 
 interface MetricComparisonProps {
   distance: RouteMetric
   environmental: RouteMetric
+  dataMode?: 'offline-proxy' | 'pinned-noaa'
 }
 
 function deltaPercent(baseline: number, value: number) {
   return baseline === 0 ? 0 : ((value - baseline) / baseline) * 100
 }
 
-export function MetricComparison({ distance, environmental }: MetricComparisonProps) {
+export function MetricComparison({
+  distance,
+  environmental,
+  dataMode = 'offline-proxy',
+}: MetricComparisonProps) {
   const energyDelta = deltaPercent(
     distance.modelled_propulsion_energy_wh,
     environmental.modelled_propulsion_energy_wh,
   )
-  const timeDelta = deltaPercent(distance.travel_time_s, environmental.travel_time_s)
-  const distanceDelta = deltaPercent(distance.path_length_m, environmental.path_length_m)
+  const timeDelta = deltaPercent(
+    distance.travel_time_s,
+    environmental.travel_time_s,
+  )
+  const distanceDelta = deltaPercent(
+    distance.path_length_m,
+    environmental.path_length_m,
+  )
   const metrics = [
     {
       label: 'Modelled energy',
@@ -51,7 +67,11 @@ export function MetricComparison({ distance, environmental }: MetricComparisonPr
           <article className="metric-card" key={metric.label}>
             <div className="metric-card__header">
               <span>{metric.label}</span>
-              <span className={metric.delta <= 0 ? 'delta delta--good' : 'delta delta--bad'}>
+              <span
+                className={
+                  metric.delta <= 0 ? 'delta delta--good' : 'delta delta--bad'
+                }
+              >
                 {metric.delta > 0 ? '+' : ''}
                 {formatNumber(metric.delta, 1)}%
               </span>
@@ -71,16 +91,22 @@ export function MetricComparison({ distance, environmental }: MetricComparisonPr
         <article className="metric-card metric-card--context">
           <div className="metric-card__header">
             <span>Environmental context</span>
-            <span className="tag">proxy</span>
+            <span className="tag">
+              {dataMode === 'pinned-noaa' ? 'RTOFS model' : 'proxy'}
+            </span>
           </div>
           <div className="metric-values">
             <div>
               <span>Minimum depth</span>
-              <strong>{formatNumber(environmental.minimum_depth_m, 1)} m</strong>
+              <strong>
+                {formatNumber(environmental.minimum_depth_m, 1)} m
+              </strong>
             </div>
             <div>
               <span>Mean current</span>
-              <strong>{formatNumber(environmental.mean_current_mps, 2)} m/s</strong>
+              <strong>
+                {formatNumber(environmental.mean_current_mps, 2)} m/s
+              </strong>
             </div>
           </div>
         </article>
