@@ -15,6 +15,8 @@ The default `south-florida-noaa-v1` scenario is derived from pinned official NOA
 
 The deterministic `south-florida-v1` proxy remains available as a software fixture and is never represented as NOAA-derived.
 
+![AquaNavAI verified NOAA scenario demonstration](docs/screenshots/noaa-demo.png)
+
 ## Run and verify
 
 ```powershell
