@@ -12,7 +12,7 @@
     "propulsionFormula": "P = 44.44 * v^3 W",
     "status": "modelled proxy, not measured vessel energy"
   },
-  "generatedAt": "2026-07-12T16:00:00Z",
+  "generatedAt": "2026-07-13T00:00:00Z",
   "limitations": [
     "CUDEM is not a navigation chart and the 500 m analysis grid cannot represent all coastal hazards.",
     "RTOFS is an ocean forecast model; interpolating does not increase its native resolution.",
@@ -70,7 +70,7 @@
       "product": "Continuously Updated Digital Elevation Model 1/9 arc-second Florida topobathymetry",
       "provider": "NOAA National Centers for Environmental Information",
       "regridding": "bilinear reprojection to a 500 m EPSG:32617 analysis grid; interpolation does not increase source accuracy",
-      "retrievalTimestamp": "2026-07-12T15:42:00Z",
+      "retrievalTimestamp": "2026-07-12T23:51:13Z",
       "role": "authoritative v1 elevation, bathymetry, land, shallow-water, and feasibility source",
       "status": "pinned",
       "variables": [
@@ -108,7 +108,7 @@
       "product": "Global Real-Time Ocean Forecast System western Atlantic standard fields",
       "provider": "NOAA National Centers for Environmental Prediction",
       "regridding": "component-wise bilinear reprojection to the same 500 m EPSG:32617 grid; no vector sign or axis swaps",
-      "retrievalTimestamp": "2026-07-12T14:58:00Z",
+      "retrievalTimestamp": "2026-07-12T23:47:38Z",
       "retrievalUrl": "https://nomads.ncep.noaa.gov/pub/data/nccf/com/rtofs/prod/rtofs.20260712/rtofs_glo.t00z.f024_west_atl_std.grb2",
       "role": "modelled surface-current forcing",
       "sourceFileChecksum": "8c7d2f7132cd863781e575e95b2d556d5cae5905f131138a9ad932031a9fc3dd",
@@ -158,7 +158,7 @@
       "product": "Realtime station text observations",
       "provider": "NOAA National Data Buoy Center",
       "regridding": "none; latest observation retained at station coordinate",
-      "retrievalTimestamp": "2026-07-12T15:45:00Z",
+      "retrievalTimestamp": "2026-07-12T23:50:47Z",
       "role": "contextual wave and meteorological observations only; not spatial current ground truth",
       "status": "pinned",
       "variables": [

@@ -5,7 +5,7 @@ scenarios:
     mode: pinned-noaa
     geographic_bbox: [-80.24, 25.55, -80.005, 26.70]
     processed_crs: EPSG:32617
-    retrieval_timestamp_utc: '2026-07-12T15:45:00Z'
+    retrieval_timestamp_utc: '2026-07-12T23:51:13Z'
     sources:
       - id: cudem
         provider: NOAA National Centers for Environmental Information
@@ -15,7 +15,7 @@ scenarios:
         status: pinned
         citation: NOAA NCEI Continuously Updated Digital Elevation Model (CUDEM), Florida 1/9 arc-second tiles
         authoritativeEndpoint: https://chs.coast.noaa.gov/htdata/raster2/elevation/NCEI_ninth_Topobathy_2014_8483/FL/
-        retrievalTimestamp: '2026-07-12T15:42:00Z'
+        retrievalTimestamp: '2026-07-12T23:51:13Z'
         dataTimestamp: tile editions 2016v1 and 2018v1
         geographicBoundingBox: [-80.25018519, 25.49981481, -79.99981481, 26.75018519]
         nativeCrs: EPSG:4269 (NAD83)
@@ -53,7 +53,7 @@ scenarios:
         citation: NOAA NCEP Global Real-Time Ocean Forecast System (RTOFS), 2026-07-12 00Z cycle
         authoritativeEndpoint: https://nomads.ncep.noaa.gov/pub/data/nccf/com/rtofs/prod/rtofs.20260712/
         retrievalUrl: https://nomads.ncep.noaa.gov/pub/data/nccf/com/rtofs/prod/rtofs.20260712/rtofs_glo.t00z.f024_west_atl_std.grb2
-        retrievalTimestamp: '2026-07-12T14:58:00Z'
+        retrievalTimestamp: '2026-07-12T23:47:38Z'
         dataTimestamp: 2026-07-12T00:00:00Z cycle; hourly valid fields 2026-07-12T01:00:00Z through 2026-07-13T00:00:00Z
         forecastCycle: '2026-07-12T00:00:00Z'
         geographicBoundingBox: [-100.0400696864, 9.9599078341, -53.9599303136, 44.8400921659]
@@ -82,7 +82,7 @@ scenarios:
         status: pinned
         citation: NOAA National Data Buoy Center realtime observations, stations 41122 and LKWF1
         authoritativeEndpoint: https://www.ndbc.noaa.gov/data/realtime2/
-        retrievalTimestamp: '2026-07-12T15:45:00Z'
+        retrievalTimestamp: '2026-07-12T23:50:47Z'
         dataTimestamp: latest record embedded per station in stations.geojson
         geographicBoundingBox: [-80.096, 26.001, -80.034, 26.613]
         nativeCrs: WGS84 station coordinates

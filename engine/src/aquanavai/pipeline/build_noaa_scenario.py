@@ -33,7 +33,7 @@ from aquanavai.routing.graph import GridEnvironment
 from aquanavai.routing.shortest_path import shortest_path
 
 SCENARIO_ID = "south-florida-noaa-v1"
-GENERATED_AT = datetime(2026, 7, 12, 16, 0, tzinfo=UTC)
+GENERATED_AT = datetime(2026, 7, 13, 0, 0, tzinfo=UTC)
 
 
 def _read_catalog(path: Path) -> dict[str, Any]:

@@ -6,13 +6,13 @@
     26.7
   ],
   "checksums": {
-    "PROVENANCE.md": "7e36d0cbfa6eab24f3c56a69f85bcf9a5dc0a8d4c7b7c06693594caacec71272",
+    "PROVENANCE.md": "35e7e0558dab00a0b9437903e90d1176a7ef5ccbc35f530c51c2fc0b7a64cceb",
     "bathymetry.webp": "22e145900f257fdb1ee5f61adc7780ba608c9055a461d5b8458abf0c3836fe59",
     "coastline.geojson": "1a5a308d97ce4af0d935b1f47c25762770ffff144386d1f2fe1bbb6e96087690",
     "currents.geojson": "451417007e1ed8d4e23c58459ebb71a862b6ee52887806d3937491e0c3cb619c",
     "metrics.json": "f08fb565c598c604bb37251628f45847b65ad91adffb3c5efbd04722402c3263",
     "navigation-grid.json": "6abc05099a607989325b44be3f795dbfca7b5ec185a1b74b027ab60a3f0683e3",
-    "provenance.json": "e233a9c441bc81c0f02a4512fa2fd46d17e6fb769c16c4b7f1696a506a95ffb6",
+    "provenance.json": "8aec955f1c77d257fb53c4dfb056c08f11b8cec543609dc0448fcb19e40fbc09",
     "routes.geojson": "fb9d89f4583d2ee569afe7498f30c02399e871d8e1a08ad033bfbca9987a49d6",
     "stations.geojson": "00922127863000c2ceb86802968ed28099c455565b70b54f007b90dc6b411464"
   },
@@ -63,7 +63,7 @@
     "2026-07-12T09:00:00Z",
     "2026-07-12T10:00:00Z"
   ],
-  "generatedAt": "2026-07-12T16:00:00Z",
+  "generatedAt": "2026-07-13T00:00:00Z",
   "id": "south-florida-noaa-v1",
   "immutable": true,
   "referenceVehicleId": "reference-asv-v1",
