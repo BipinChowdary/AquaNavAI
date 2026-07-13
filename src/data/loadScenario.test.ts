@@ -61,10 +61,22 @@ describe('loadScenario', () => {
         sources: [],
         transformations: [],
       },
-      '/scenarios/south-florida-v1/coastline.geojson': { type: 'FeatureCollection', features: [] },
-      '/scenarios/south-florida-v1/currents.geojson': { type: 'FeatureCollection', features: [] },
-      '/scenarios/south-florida-v1/stations.geojson': { type: 'FeatureCollection', features: [] },
-      '/scenarios/south-florida-v1/routes.geojson': { type: 'FeatureCollection', features: [] },
+      '/scenarios/south-florida-v1/coastline.geojson': {
+        type: 'FeatureCollection',
+        features: [],
+      },
+      '/scenarios/south-florida-v1/currents.geojson': {
+        type: 'FeatureCollection',
+        features: [],
+      },
+      '/scenarios/south-florida-v1/stations.geojson': {
+        type: 'FeatureCollection',
+        features: [],
+      },
+      '/scenarios/south-florida-v1/routes.geojson': {
+        type: 'FeatureCollection',
+        features: [],
+      },
     }
     vi.stubGlobal(
       'fetch',
@@ -76,7 +88,9 @@ describe('loadScenario', () => {
     )
     const loaded = await loadScenario()
     expect(loaded.manifest.id).toBe('south-florida-v1')
-    expect(loaded.bathymetryUrl).toBe('/scenarios/south-florida-v1/bathymetry.webp')
-    expect(vi.mocked(fetch)).toHaveBeenCalledTimes(9)
+    expect(loaded.bathymetryUrl).toBe(
+      '/scenarios/south-florida-v1/bathymetry.webp',
+    )
+    expect(vi.mocked(fetch)).toHaveBeenCalledTimes(8)
   })
 })
