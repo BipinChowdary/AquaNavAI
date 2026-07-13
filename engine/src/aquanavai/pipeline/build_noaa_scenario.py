@@ -517,7 +517,8 @@ def build(config_path: Path, *, allow_network: bool = True) -> Path:
         f"- RTOFS valid times: {valid_times[0]} through {valid_times[-1]}",
         "- Propulsion energy: modelled reference proxy, not measured performance",
     ]
-    (output / "PROVENANCE.md").write_text("\n".join(report) + "\n", encoding="utf-8")
+    with (output / "PROVENANCE.md").open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write("\n".join(report) + "\n")
 
     artifact_names = [
         "bathymetry.webp",

@@ -31,8 +31,8 @@ scenarios:
         limitations: not a nautical chart; 500 m analysis cannot resolve all beaches, structures, channels, or hazards
         processedArtifactChecksums:
           bathymetry.webp: 22e145900f257fdb1ee5f61adc7780ba608c9055a461d5b8458abf0c3836fe59
-          coastline.geojson: f2f1693ec49a71d7573da35536537869929fffffbbefe57b5f4c7d6c55e9d775
-          navigation-grid.json: 079ded7ed76f72fbd956340f2f7d205e67710f38f40157af6a32241e69b200a9
+          coastline.geojson: 1a5a308d97ce4af0d935b1f47c25762770ffff144386d1f2fe1bbb6e96087690
+          navigation-grid.json: 6abc05099a607989325b44be3f795dbfca7b5ec185a1b74b027ab60a3f0683e3
         files:
           - url: https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/FL/ncei19_n25X75_w080X25_2018v1.tif
             sha256: 8cce349860bc86ca2c8c60c2771f43e56799adda0c48c2b16c1907231a30f658
@@ -71,9 +71,9 @@ scenarios:
         licenseUsageAttribution: NOAA NCEP model output with visible NOAA attribution
         limitations: modelled forecast, not an observation; native ocean-model resolution and five-metre minimum model depth limit nearshore interpretation
         processedArtifactChecksums:
-          currents.geojson: cff7d22f9b1ed820e6327b56c5ddac98bdacc0d3d3274d72fec7370d3ec84654
-          routes.geojson: f58234597a6b4f85ec166d7660d4ab9c32552b71946a5d4fddf48bce6aa0b747
-          metrics.json: c604fb3786c87860c564e7f928ad964866196cbbf4f919d4bd7ae6635fa0789f
+          currents.geojson: 451417007e1ed8d4e23c58459ebb71a862b6ee52887806d3937491e0c3cb619c
+          routes.geojson: fb9d89f4583d2ee569afe7498f30c02399e871d8e1a08ad033bfbca9987a49d6
+          metrics.json: f08fb565c598c604bb37251628f45847b65ad91adffb3c5efbd04722402c3263
       - id: ndbc
         provider: NOAA National Data Buoy Center
         product: Realtime station text observations
@@ -96,7 +96,7 @@ scenarios:
         licenseUsageAttribution: NOAA NDBC data with station attribution
         limitations: stations sample local conditions and cannot validate the full gridded current field
         processedArtifactChecksums:
-          stations.geojson: 7613f58b8d5df947a6c658c983793ea9903cbf5b6810b42bc02c5a69d2311db4
+          stations.geojson: 00922127863000c2ceb86802968ed28099c455565b70b54f007b90dc6b411464
         files:
           - url: https://www.ndbc.noaa.gov/data/realtime2/41122.txt
             sha256: 48481ec4fc3fa1fd3ce3bb7917e0c3eee2ddcbeae4141abb275e283838f4366e

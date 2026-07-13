@@ -6,15 +6,15 @@
     26.7
   ],
   "checksums": {
-    "PROVENANCE.md": "39ab15ad66e41a904e9e6531c71a89664eca0e51cd29405f0be8db79357c8a93",
+    "PROVENANCE.md": "7e36d0cbfa6eab24f3c56a69f85bcf9a5dc0a8d4c7b7c06693594caacec71272",
     "bathymetry.webp": "22e145900f257fdb1ee5f61adc7780ba608c9055a461d5b8458abf0c3836fe59",
-    "coastline.geojson": "f2f1693ec49a71d7573da35536537869929fffffbbefe57b5f4c7d6c55e9d775",
-    "currents.geojson": "cff7d22f9b1ed820e6327b56c5ddac98bdacc0d3d3274d72fec7370d3ec84654",
-    "metrics.json": "c604fb3786c87860c564e7f928ad964866196cbbf4f919d4bd7ae6635fa0789f",
-    "navigation-grid.json": "079ded7ed76f72fbd956340f2f7d205e67710f38f40157af6a32241e69b200a9",
-    "provenance.json": "610c77a144c130b0e02faeda56683a2b3fa319b87874358e224f5c6e2f35113e",
-    "routes.geojson": "f58234597a6b4f85ec166d7660d4ab9c32552b71946a5d4fddf48bce6aa0b747",
-    "stations.geojson": "7613f58b8d5df947a6c658c983793ea9903cbf5b6810b42bc02c5a69d2311db4"
+    "coastline.geojson": "1a5a308d97ce4af0d935b1f47c25762770ffff144386d1f2fe1bbb6e96087690",
+    "currents.geojson": "451417007e1ed8d4e23c58459ebb71a862b6ee52887806d3937491e0c3cb619c",
+    "metrics.json": "f08fb565c598c604bb37251628f45847b65ad91adffb3c5efbd04722402c3263",
+    "navigation-grid.json": "6abc05099a607989325b44be3f795dbfca7b5ec185a1b74b027ab60a3f0683e3",
+    "provenance.json": "e233a9c441bc81c0f02a4512fa2fd46d17e6fb769c16c4b7f1696a506a95ffb6",
+    "routes.geojson": "fb9d89f4583d2ee569afe7498f30c02399e871d8e1a08ad033bfbca9987a49d6",
+    "stations.geojson": "00922127863000c2ceb86802968ed28099c455565b70b54f007b90dc6b411464"
   },
   "citations": [
     "NOAA NCEI Continuously Updated Digital Elevation Model (CUDEM), Florida 1/9 arc-second tiles",
