@@ -4,9 +4,14 @@ interface Props {
   durationS: number
   remainingM: number
   speed: number
+  progress: number
+  bearing: number
+  objective: string
+  disabledReason?: string
   onPlayPause: () => void
   onReset: () => void
   onSpeed: (speed: number) => void
+  onSeek: (progress: number) => void
 }
 export function AnimationControls(props: Props) {
   const etaMinutes = Math.ceil(
@@ -17,10 +22,19 @@ export function AnimationControls(props: Props) {
       className="animation-controls"
       aria-label="ASV mission animation controls"
     >
-      <button type="button" onClick={props.onPlayPause}>
+      <button
+        type="button"
+        onClick={props.onPlayPause}
+        disabled={Boolean(props.disabledReason)}
+        title={props.disabledReason}
+      >
         {props.playing ? 'Pause' : props.elapsedS ? 'Resume' : 'Play'} ASV
       </button>
-      <button type="button" onClick={props.onReset}>
+      <button
+        type="button"
+        onClick={props.onReset}
+        disabled={Boolean(props.disabledReason)}
+      >
         Reset
       </button>
       <label>
@@ -36,9 +50,28 @@ export function AnimationControls(props: Props) {
           ))}
         </select>
       </label>
-      <span>{Math.round(props.elapsedS / 60)} min elapsed</span>
+      <label className="animation-progress">
+        Progress{' '}
+        <input
+          aria-label="Animation progress"
+          type="range"
+          min="0"
+          max="100"
+          step="1"
+          value={Math.round(props.progress * 100)}
+          disabled={Boolean(props.disabledReason)}
+          onChange={(event) => props.onSeek(Number(event.target.value) / 100)}
+        />
+      </label>
+      <strong>{Math.round(props.progress * 100)}%</strong>
+      <span>{Math.round(props.elapsedS / 60)} simulated min</span>
       <span>{(props.remainingM / 1852).toFixed(1)} nm remaining</span>
       <span>ETA +{etaMinutes} min</span>
+      <span>{props.bearing.toFixed(0)}° heading</span>
+      <span>{props.objective}</span>
+      {props.disabledReason && (
+        <span className="route-error">{props.disabledReason}</span>
+      )}
     </div>
   )
 }

@@ -28,8 +28,8 @@ from aquanavai.evaluation.metrics import evaluate_path
 from aquanavai.evaluation.runner import DISCLAIMER
 from aquanavai.processing.mask import feasible_water_mask, snap_to_feasible
 from aquanavai.provenance import sha256_file, write_json
-from aquanavai.routing.environmental_astar import environmental_astar
 from aquanavai.routing.graph import GridEnvironment
+from aquanavai.routing.objective_astar import objective_astar
 from aquanavai.routing.shortest_path import shortest_path
 
 SCENARIO_ID = "south-florida-noaa-v1"
@@ -277,8 +277,8 @@ def _evaluate(
             goal_cell = snap_to_feasible(shifted.feasible, *shifted.nearest_cell(pair.goal))
             start = shifted.grid.node(*start_cell)
             goal = shifted.grid.node(*goal_cell)
-            for algorithm in ("distance", "environmental"):
-                if algorithm == "distance":
+            for algorithm in ("shortest", "fastest", "energy", "balanced"):
+                if algorithm == "shortest":
                     distance_path = shortest_path(shifted, start, goal)
                     nodes = distance_path.nodes
                     metric = evaluate_path(shifted, nodes, vehicle)
@@ -286,9 +286,16 @@ def _evaluate(
                     travel_s = metric.travel_time_s
                     energy_wh = metric.energy_wh
                     mean_current = metric.mean_current_mps
+                    current_risk = min(1.0, mean_current / vehicle.cruise_speed_mps)
+                    shallow_risk = max(
+                        0.0, min(1.0, (20.0 - shifted.minimum_depth(nodes)) / 15.0)
+                    )
+                    risk_score = 0.6 * current_risk + 0.4 * shallow_risk
                 else:
-                    environmental_path = environmental_astar(shifted, start, goal, vehicle)
-                    nodes = environmental_path.nodes
+                    objective_path = objective_astar(
+                        shifted, start, goal, vehicle, algorithm  # type: ignore[arg-type]
+                    )
+                    nodes = objective_path.nodes
                     distance_m = sum(
                         shifted.grid.resolution_m
                         * float(
@@ -296,9 +303,10 @@ def _evaluate(
                         )
                         for a, b in pairwise(nodes)
                     )
-                    travel_s = environmental_path.travel_time_s
-                    energy_wh = environmental_path.energy_wh
-                    mean_current = environmental_path.mean_current_mps
+                    travel_s = objective_path.travel_time_s
+                    energy_wh = objective_path.energy_wh
+                    mean_current = objective_path.mean_current_mps
+                    risk_score = objective_path.risk_score
                 result_id = f"{valid_time[:13]}-{pair.id}-{algorithm}"
                 coordinates = [shifted.coordinate(node) for node in nodes]
                 route_features.append(
@@ -325,6 +333,7 @@ def _evaluate(
                         "modelled_propulsion_energy_wh": round(energy_wh, 2),
                         "minimum_depth_m": round(shifted.minimum_depth(nodes), 2),
                         "mean_current_mps": round(mean_current, 4),
+                        "risk_score": round(risk_score, 4),
                         "compute_time_ms": 0.0,
                         "compute_emissions_kg": None,
                     }
@@ -478,12 +487,31 @@ def build(config_path: Path, *, allow_network: bool = True) -> Path:
                 "so increasing graph row is geographic north"
             ),
             "NDBC latest records retained as contextual observations only",
+            (
+                "NOAA ENC/ENC Direct to GIS was audited as a future chart-constraint "
+                "source but no unpinned chart feature changes the Navigation V2 mask"
+            ),
+            (
+                "full raw 500 m/diagonal planner-node geometry is retained; no spline "
+                "or decorative smoothing is applied"
+            ),
         ],
         "energyModel": {
             "status": "modelled proxy, not measured vessel energy",
             "cruiseSpeedMps": vehicle.cruise_speed_mps,
             "hotelPowerW": vehicle.hotel_power_w,
             "propulsionFormula": "P = 44.44 * v^3 W",
+        },
+        "routeObjectives": {
+            "shortest": "distance-only Dijkstra",
+            "fastest": "time-expanded current-aware minimum travel time",
+            "energy": "time-expanded minimum modelled reference-vessel energy",
+            "balanced": {
+                "time": 0.35,
+                "modelledEnergy": 0.35,
+                "currentExposure": 0.15,
+                "shallowWaterContext": 0.15,
+            },
         },
         "limitations": [
             (
@@ -497,6 +525,10 @@ def build(config_path: Path, *, allow_network: bool = True) -> Path:
             (
                 "No tides, traffic, regulations, collision avoidance, or verified "
                 "wave field are included."
+            ),
+            (
+                "NOAA ENC was provenance-audited but chart-derived hazards and "
+                "restrictions are not yet integrated into the feasibility mask."
             ),
             "NDBC observations do not validate the spatial RTOFS current field.",
         ],
@@ -516,6 +548,9 @@ def build(config_path: Path, *, allow_network: bool = True) -> Path:
         f"- Navigable cells: {int(feasible.sum())} / {feasible.size}",
         f"- RTOFS valid times: {valid_times[0]} through {valid_times[-1]}",
         "- Propulsion energy: modelled reference proxy, not measured performance",
+        "- Routes: shortest, fastest, lowest modelled energy, and balanced mission",
+        "- Geometry: complete raw planner nodes; no decorative smoothing",
+        "- NOAA ENC: audited for future chart constraints; not integrated into the v2 mask",
     ]
     with (output / "PROVENANCE.md").open("w", encoding="utf-8", newline="\n") as handle:
         handle.write("\n".join(report) + "\n")

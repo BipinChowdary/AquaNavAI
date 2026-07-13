@@ -5,7 +5,7 @@
       "id": "south-florida-noaa-v1",
       "manifest": "/scenarios/south-florida-noaa-v1/manifest.json",
       "title": "NOAA South Florida Atlantic Shelf",
-      "version": "1.0.0"
+      "version": "2.0.0"
     },
     {
       "dataMode": "offline-proxy",

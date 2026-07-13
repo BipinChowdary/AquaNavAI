@@ -1,7 +1,7 @@
 {
   "name": "aquanavai",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Forecast-aware coastal route-planning research and offline professor demonstration.",
   "type": "module",
   "packageManager": "npm@11.13.0",

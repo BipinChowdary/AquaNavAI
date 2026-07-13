@@ -2,10 +2,10 @@ import type { DataMode } from '../types/scenario'
 
 export function StatusBanner({
   dataMode,
-  pairedCases,
+  cases,
 }: {
   dataMode: DataMode
-  pairedCases: number
+  cases: number
 }) {
   return (
     <div className="status-banner" role="status">
@@ -14,8 +14,7 @@ export function StatusBanner({
         ? 'NOAA snapshot loaded'
         : 'Proxy fixture loaded'}
       <span aria-hidden="true">|</span>
-      {pairedCases} paired cases<span aria-hidden="true">|</span>v1 research
-      release
+      {cases} cases<span aria-hidden="true">|</span>v2 research release
     </div>
   )
 }

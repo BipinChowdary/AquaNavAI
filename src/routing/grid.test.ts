@@ -24,25 +24,24 @@ describe('browser routing contract', () => {
   it('reproduces compatible Python route metrics well below the interactive target', () => {
     const grid = decodeGrid(artifact)
     const mission = artifact.missions[0]
-    const distance = calculateRoute(
-      grid,
-      mission.start,
-      mission.goal,
-      'distance',
-      0,
+    const routes = (['shortest', 'fastest', 'energy', 'balanced'] as const).map(
+      (objective) =>
+        calculateRoute(grid, mission.start, mission.goal, objective, 0),
     )
-    const environmental = calculateRoute(
-      grid,
-      mission.start,
-      mission.goal,
-      'environmental',
-      0,
-    )
+    const [distance, , environmental] = routes
     expect(distance.computeTimeMs).toBeLessThan(2000)
     expect(environmental.computeTimeMs).toBeLessThan(2000)
     expect(distance.pathLengthM).toBeCloseTo(42_207.11, -1)
     expect(environmental.modelledEnergyWh).toBeCloseTo(891.08, 0)
     expect(distance.minimumDepthM).toBeGreaterThanOrEqual(5)
+    expect(routes.every((route) => route.coordinates.length > 2)).toBe(true)
+    expect(
+      routes.every((route) => route.riskScore >= 0 && route.riskScore <= 1),
+    ).toBe(true)
+    expect(
+      calculateRoute(grid, mission.start, mission.goal, 'balanced', 0)
+        .coordinates,
+    ).toEqual(routes[3].coordinates)
     expect(
       environmental.coordinates.every(([lon, lat]) =>
         Number.isFinite(lon + lat),

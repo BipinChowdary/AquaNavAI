@@ -1,6 +1,6 @@
 id: south-florida-noaa-v1
 title: NOAA South Florida Atlantic Shelf
-version: 1.0.0
+version: 2.0.0
 bbox: [-80.24, 25.55, -80.005, 26.70]
 analysis_crs: EPSG:32617
 interchange_crs: EPSG:4326

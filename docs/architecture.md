@@ -2,18 +2,22 @@
 
 ## Trust and deployment boundary
 
-The Python engine is the research system of record. It acquires and validates explicitly catalogued NOAA files, harmonizes them onto one analysis grid, computes release routes, and exports immutable artifacts. Cloudflare Pages serves only the React build and those processed artifacts.
+The Python engine is the research system of record. It validates catalogued NOAA files, harmonizes them onto one analysis grid, computes released routes, and exports immutable artifacts. Cloudflare Pages serves only the React build and processed artifacts. There is no v2 backend.
 
-The browser validates the manifest contract, loads same-origin data, and can recompute two routes in a Web Worker without a Python server. The worker consumes the exact quantized grid exported by Python: uint8 feasibility, decimetre depth, centimetre-per-second signed currents, and float32 WGS84 cell coordinates.
+The browser validates the manifest contract once, loads only same-origin data, and recomputes four routes in one persistent Web Worker. The worker has a ready handshake, unique request IDs, correlated replies, explicit timeouts, surfaced errors, and safe supersession. The grid is decoded once per scenario version.
 
-## Data flow
+## Data and route flow
 
-1. `data/catalog.yaml` identifies exact URLs, source timestamps, checksums, units, missing values, and limitations.
-2. The build verifies or retrieves immutable raw files under ignored `data/raw/south-florida-noaa-v1/`.
-3. CUDEM NAD83 elevation and RTOFS vector components are independently reprojected to a 500 m EPSG:32617 grid.
-4. Raster rows are flipped together for the graph convention that increasing row is north; a test protects this convention.
-5. CUDEM depth ≥5 m plus a one-cell exclusion around invalid/shallow cells defines feasibility.
-6. Dijkstra and time-expanded environmental A* share this graph, vehicle, endpoints, and forecast horizon.
-7. Checksummed GeoJSON, imagery, metrics, grid, provenance, and manifest artifacts are published under `public/scenarios/`.
+1. `data/catalog.yaml` records exact source URLs, timestamps, checksums, units, missing values, transformations, and limitations.
+2. Raw downloads remain under ignored `data/raw/south-florida-noaa-v1/`.
+3. CUDEM elevation and RTOFS east/north currents are reprojected to a 500 m EPSG:32617 grid.
+4. All arrays are flipped together from raster north-up storage into the graph convention; tests protect vector and row orientation.
+5. CUDEM depth >= 5 m plus the documented invalid/shallow buffer defines feasibility.
+6. Distance Dijkstra and time-expanded fastest, energy, and balanced searches share the graph, endpoints, vehicle, constraints, and forecast horizon.
+7. Checksummed GeoJSON, imagery, metrics, grid, provenance, and manifest artifacts are released under `public/scenarios/`.
 
-The environmental objective is a physics-inspired modelled-energy proxy. Browser compute time is measured locally; released static metrics omit nondeterministic timing to preserve artifact reproducibility.
+The energy result is a modelled proxy, not measured vessel energy. Balanced weights are time 0.35, modelled energy 0.35, current exposure 0.15, and shallow-water context 0.15. Full planner-node geometry is retained; no decorative spline is generated.
+
+## UI lifecycle
+
+Initialization uses `loading_manifest`, `loading_artifacts`, `validating`, `initializing_worker`, `initializing_map`, `ready`, and recoverable `error` states. Map endpoint changes are local mission state and cannot re-enter global validation. The ASV animation uses one `requestAnimationFrame` controller, distance-based interpolation, an imperative MapLibre marker, and throttled React status updates.

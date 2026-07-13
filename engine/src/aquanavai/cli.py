@@ -61,10 +61,13 @@ def validate_data(
 @app.command("route")
 def route(
     scenario: Annotated[str, typer.Option(help="Scenario identifier.")] = _scenario_option(),
-    algorithm: Annotated[str, typer.Option(help="distance or environmental")] = "environmental",
+    algorithm: Annotated[
+        str,
+        typer.Option(help="shortest, fastest, energy, or balanced"),
+    ] = "balanced",
 ) -> None:
-    if algorithm not in {"distance", "environmental"}:
-        raise typer.BadParameter("algorithm must be distance or environmental")
+    if algorithm not in {"shortest", "fastest", "energy", "balanced"}:
+        raise typer.BadParameter("algorithm must be shortest, fastest, energy, or balanced")
     config = load_scenario(scenario)
     if not config.offline_proxy:
         path = repository_root() / "public" / "scenarios" / scenario / "metrics.json"
@@ -96,7 +99,7 @@ def evaluate(
         source = repository_root() / "public" / "scenarios" / scenario / "metrics.json"
         artifact = json.loads(source.read_text(encoding="utf-8"))
         write_json(output, artifact)
-        typer.echo(f"Wrote {len(artifact['results']) // 2} paired NOAA cases to {output}")
+        typer.echo(f"Wrote {len(artifact['results']) // 4} four-objective NOAA cases to {output}")
         return
     with computation_emissions(output.parent, enabled=track_compute):
         bundle = evaluate_scenario(config, load_vehicle(), all_cycles=True)
@@ -104,13 +107,13 @@ def evaluate(
         output,
         {
             "scenarioId": scenario,
-            "pairedCases": len(bundle.results) // 2,
+            "pairedCases": len(bundle.results) // 4,
             "results": [
                 item.model_dump(mode="json", exclude={"coordinates"}) for item in bundle.results
             ],
         },
     )
-    typer.echo(f"Wrote {len(bundle.results) // 2} paired cases to {output}")
+    typer.echo(f"Wrote {len(bundle.results) // 4} four-objective cases to {output}")
 
 
 @app.command("export-web")

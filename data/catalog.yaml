@@ -17,7 +17,8 @@ scenarios:
         authoritativeEndpoint: https://chs.coast.noaa.gov/htdata/raster2/elevation/NCEI_ninth_Topobathy_2014_8483/FL/
         retrievalTimestamp: '2026-07-12T23:51:13Z'
         dataTimestamp: tile editions 2016v1 and 2018v1
-        geographicBoundingBox: [-80.25018519, 25.49981481, -79.99981481, 26.75018519]
+        geographicBoundingBox:
+          [-80.25018519, 25.49981481, -79.99981481, 26.75018519]
         nativeCrs: EPSG:4269 (NAD83)
         nativeGrid: 1/9 arc-second geographic raster, approximately 3 m
         processedCrs: EPSG:32617
@@ -56,7 +57,8 @@ scenarios:
         retrievalTimestamp: '2026-07-12T23:47:38Z'
         dataTimestamp: 2026-07-12T00:00:00Z cycle; hourly valid fields 2026-07-12T01:00:00Z through 2026-07-13T00:00:00Z
         forecastCycle: '2026-07-12T00:00:00Z'
-        geographicBoundingBox: [-100.0400696864, 9.9599078341, -53.9599303136, 44.8400921659]
+        geographicBoundingBox:
+          [-100.0400696864, 9.9599078341, -53.9599303136, 44.8400921659]
         nativeCrs: GRIB geographic sphere
         nativeGrid: western Atlantic 0.08 degree raster, 575 x 435, north-up
         processedCrs: EPSG:32617
@@ -72,8 +74,8 @@ scenarios:
         limitations: modelled forecast, not an observation; native ocean-model resolution and five-metre minimum model depth limit nearshore interpretation
         processedArtifactChecksums:
           currents.geojson: 451417007e1ed8d4e23c58459ebb71a862b6ee52887806d3937491e0c3cb619c
-          routes.geojson: fb9d89f4583d2ee569afe7498f30c02399e871d8e1a08ad033bfbca9987a49d6
-          metrics.json: f08fb565c598c604bb37251628f45847b65ad91adffb3c5efbd04722402c3263
+          routes.geojson: a944ba8f49b5e2787440efe03f3ff9e286d2d4f596de718c0cb07029cdc0607b
+          metrics.json: ce0da55f241b8ffa5a77be0df74df706f16a2f46652d7fc0ed41a04ee2f5fcb6
       - id: ndbc
         provider: NOAA National Data Buoy Center
         product: Realtime station text observations
@@ -102,6 +104,27 @@ scenarios:
             sha256: 48481ec4fc3fa1fd3ce3bb7917e0c3eee2ddcbeae4141abb275e283838f4366e
           - url: https://www.ndbc.noaa.gov/data/realtime2/LKWF1.txt
             sha256: 398a642deb96a287f9c731f73da09c1d727d76b9bacf45994b07ea30267818a7
+      - id: noaa-enc
+        provider: NOAA Office of Coast Survey
+        product: NOAA Electronic Navigational Charts and ENC Direct to GIS
+        datasetIdentifier: NOAA ENC / ENC Direct to GIS audit for South Florida cells
+        role: audited future chart-derived coastline, channel, obstruction, wreck, restricted-area, and marine-boundary constraints
+        status: audited-not-integrated
+        citation: NOAA Office of Coast Survey, NOAA Electronic Navigational Charts
+        authoritativeEndpoint: https://nauticalcharts.noaa.gov/charts/noaa-enc.html
+        retrievalTimestamp: '2026-07-13T01:20:00Z'
+        dataTimestamp: null
+        geographicBoundingBox: [-80.24, 25.55, -80.005, 26.70]
+        nativeCrs: ENC/S-57 chart cells; consult edition metadata
+        nativeGrid: vector chart features
+        processedCrs: EPSG:32617
+        variables:
+          - name: coastline, navigable-water context, channels, obstructions, wrecks, restricted features, and marine boundaries where available
+            units: feature geometry and chart attributes
+        missingValueRules: no ENC features are included in Navigation V2; CUDEM remains the sole v2 feasibility mask
+        regridding: none in Navigation V2
+        licenseUsageAttribution: visible NOAA attribution required; ENC Direct to GIS is a research/GIS aid and is not certified for operational navigation
+        limitations: chart-cell editions and applicable feature classes must be pinned and independently validated before they can alter the routing mask
       - id: wavewatch-iii
         provider: NOAA National Centers for Environmental Prediction
         product: WAVEWATCH III

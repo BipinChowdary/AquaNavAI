@@ -17,9 +17,21 @@
     "CUDEM is not a navigation chart and the 500 m analysis grid cannot represent all coastal hazards.",
     "RTOFS is an ocean forecast model; interpolating does not increase its native resolution.",
     "No tides, traffic, regulations, collision avoidance, or verified wave field are included.",
+    "NOAA ENC was provenance-audited but chart-derived hazards and restrictions are not yet integrated into the feasibility mask.",
     "NDBC observations do not validate the spatial RTOFS current field."
   ],
   "processingVersion": "aquanavai-engine 0.2.0",
+  "routeObjectives": {
+    "balanced": {
+      "currentExposure": 0.15,
+      "modelledEnergy": 0.35,
+      "shallowWaterContext": 0.15,
+      "time": 0.35
+    },
+    "energy": "time-expanded minimum modelled reference-vessel energy",
+    "fastest": "time-expanded current-aware minimum travel time",
+    "shortest": "distance-only Dijkstra"
+  },
   "scenarioId": "south-florida-noaa-v1",
   "sources": [
     {
@@ -101,8 +113,8 @@
       "nativeGrid": "western Atlantic 0.08 degree raster, 575 x 435, north-up",
       "processedArtifactChecksums": {
         "currents.geojson": "451417007e1ed8d4e23c58459ebb71a862b6ee52887806d3937491e0c3cb619c",
-        "metrics.json": "f08fb565c598c604bb37251628f45847b65ad91adffb3c5efbd04722402c3263",
-        "routes.geojson": "fb9d89f4583d2ee569afe7498f30c02399e871d8e1a08ad033bfbca9987a49d6"
+        "metrics.json": "ce0da55f241b8ffa5a77be0df74df706f16a2f46652d7fc0ed41a04ee2f5fcb6",
+        "routes.geojson": "a944ba8f49b5e2787440efe03f3ff9e286d2d4f596de718c0cb07029cdc0607b"
       },
       "processedCrs": "EPSG:32617",
       "product": "Global Real-Time Ocean Forecast System western Atlantic standard fields",
@@ -169,6 +181,37 @@
       ]
     },
     {
+      "authoritativeEndpoint": "https://nauticalcharts.noaa.gov/charts/noaa-enc.html",
+      "citation": "NOAA Office of Coast Survey, NOAA Electronic Navigational Charts",
+      "dataTimestamp": null,
+      "datasetIdentifier": "NOAA ENC / ENC Direct to GIS audit for South Florida cells",
+      "geographicBoundingBox": [
+        -80.24,
+        25.55,
+        -80.005,
+        26.7
+      ],
+      "id": "noaa-enc",
+      "licenseUsageAttribution": "visible NOAA attribution required; ENC Direct to GIS is a research/GIS aid and is not certified for operational navigation",
+      "limitations": "chart-cell editions and applicable feature classes must be pinned and independently validated before they can alter the routing mask",
+      "missingValueRules": "no ENC features are included in Navigation V2; CUDEM remains the sole v2 feasibility mask",
+      "nativeCrs": "ENC/S-57 chart cells; consult edition metadata",
+      "nativeGrid": "vector chart features",
+      "processedCrs": "EPSG:32617",
+      "product": "NOAA Electronic Navigational Charts and ENC Direct to GIS",
+      "provider": "NOAA Office of Coast Survey",
+      "regridding": "none in Navigation V2",
+      "retrievalTimestamp": "2026-07-13T01:20:00Z",
+      "role": "audited future chart-derived coastline, channel, obstruction, wreck, restricted-area, and marine-boundary constraints",
+      "status": "audited-not-integrated",
+      "variables": [
+        {
+          "name": "coastline, navigable-water context, channels, obstructions, wrecks, restricted features, and marine boundaries where available",
+          "units": "feature geometry and chart attributes"
+        }
+      ]
+    },
+    {
       "authoritativeEndpoint": "https://polar.ncep.noaa.gov/waves/download.shtml",
       "citation": "NOAA WAVEWATCH III model products",
       "dataTimestamp": null,
@@ -201,7 +244,9 @@
     "depth derived as max(-elevation, 0); minimum depth 5 m; 250 m exclusion buffer rounded to one 500 m cell",
     "RTOFS surface UOGRD/VOGRD reprojected independently by bilinear interpolation; coastal model-mask gaps filled from the nearest RTOFS wet cell only where CUDEM confirms navigable water",
     "all routing arrays flipped together from raster north-up row order so increasing graph row is geographic north",
-    "NDBC latest records retained as contextual observations only"
+    "NDBC latest records retained as contextual observations only",
+    "NOAA ENC/ENC Direct to GIS was audited as a future chart-constraint source but no unpinned chart feature changes the Navigation V2 mask",
+    "full raw 500 m/diagonal planner-node geometry is retained; no spline or decorative smoothing is applied"
   ],
   "warning": "Verified NOAA-derived environmental snapshot. Research demonstrator; not for operational navigation."
 }

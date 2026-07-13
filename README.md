@@ -1,21 +1,22 @@
 # AquaNavAI
 
-AquaNavAI is a PhD-facing research demonstrator for forecast-aware coastal route planning for autonomous surface vehicles. It compares a distance Dijkstra baseline with an environmental-energy A* objective on the same navigability grid and runs as a static, offline-capable MapLibre application.
+AquaNavAI is a PhD-facing research demonstrator for forecast-aware coastal route planning for autonomous surface vehicles. Navigation V2 compares shortest-distance, fastest-arrival, lowest-modelled-energy, and balanced-mission objectives on one navigability grid and runs as a static, offline-capable MapLibre application.
 
 > **Research demonstration only.** Not for navigation, collision avoidance, vessel control, or operational mission planning.
 
-## Verified v1 release
+## Navigation V2 release
 
 The default `south-florida-noaa-v1` scenario is derived from pinned official NOAA data:
 
 - NOAA CUDEM Florida 1/9-arc-second topobathymetry (five immutable tiles) is the only v1 bathymetry and feasibility source.
 - NOAA Global RTOFS 2026-07-12 00Z western Atlantic GRIB2 provides 24 hourly modelled surface-current fields; ten departure times are released.
 - NDBC stations 41122 and LKWF1 provide contextual observations, not spatial current ground truth.
+- NOAA ENC/ENC Direct to GIS is provenance-audited for future chart constraints; no unpinned ENC feature alters the V2 mask.
 - WAVEWATCH III is explicitly deferred. No wave values enter v1 routing.
 
 The deterministic `south-florida-v1` proxy remains available as a software fixture and is never represented as NOAA-derived.
 
-![AquaNavAI verified NOAA scenario demonstration](docs/screenshots/noaa-demo.png)
+![AquaNavAI Navigation V2 ready state](docs/screenshots/navigation-v2-ready.png)
 
 ## Run and verify
 
@@ -47,7 +48,7 @@ Large raw files are ignored by Git. With the pinned cache present, the build is 
 uv run --project engine python -m aquanavai.pipeline.build_noaa_scenario --config data/catalog.yaml
 ```
 
-The command validates source checksums, reprojects CUDEM and RTOFS, derives navigability, runs both planners, exports compact public artifacts, validates the JSON Schema, and writes a provenance report. See `data/catalog.yaml` and `public/scenarios/south-florida-noaa-v1/PROVENANCE.md`.
+The command validates source checksums, reprojects CUDEM and RTOFS, derives navigability, runs all four objectives, exports compact public artifacts, validates the JSON Schema, and writes a provenance report. See `data/catalog.yaml` and `public/scenarios/south-florida-noaa-v1/PROVENANCE.md`.
 
 ## Architecture
 

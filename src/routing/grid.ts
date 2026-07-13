@@ -145,6 +145,7 @@ interface Edge {
   travel: number
   energy: number
   current: number
+  risk: number
 }
 
 function edgeCost(
@@ -172,6 +173,7 @@ function edgeCost(
     travel,
     energy: (power * travel) / 3600,
     current: Math.hypot(east, north),
+    risk: Math.min(1, Math.hypot(east, north) / grid.vehicle.cruiseSpeedMps),
   }
 }
 
@@ -197,12 +199,13 @@ export function calculateRoute(
   const start = nearestFeasible(grid, startCoordinate)
   const goal = nearestFeasible(grid, goalCoordinate)
   const bins = grid.forecastBins - forecastIndex
-  const stateCount = algorithm === 'distance' ? count : count * bins
+  const stateCount = algorithm === 'shortest' ? count : count * bins
   const cost = new Float64Array(stateCount)
   cost.fill(Number.POSITIVE_INFINITY)
   const arrival = new Float64Array(stateCount)
   arrival.fill(Number.POSITIVE_INFINITY)
   const currentSum = new Float64Array(stateCount)
+  const riskSum = new Float64Array(stateCount)
   const edgeCount = new Uint32Array(stateCount)
   const parent = new Int32Array(stateCount)
   parent.fill(-1)
@@ -214,9 +217,10 @@ export function calculateRoute(
   while (true) {
     const item = queue.pop()
     if (!item) break
-    const [, state] = item
+    const [queuedScore, state] = item
     const node = state % count
-    const score = algorithm === 'distance' ? cost[state] : cost[state]
+    const score = cost[state]
+    if (queuedScore !== score) continue
     if (node === goal) {
       goalState = state
       break
@@ -237,16 +241,37 @@ export function calculateRoute(
       const nextBin = Math.floor(nextArrival / 3600)
       if (nextBin >= bins) continue
       const nextState =
-        algorithm === 'distance' ? nextNode : nextBin * count + nextNode
+        algorithm === 'shortest' ? nextNode : nextBin * count + nextNode
+      const distance = grid.resolutionM * Math.hypot(dr, dc)
+      const shallowRisk = Math.max(
+        0,
+        Math.min(1, (20 - grid.depth[nextNode] * grid.depthScaleM) / 15),
+      )
+      const combinedRisk = 0.6 * edge.risk + 0.4 * shallowRisk
+      const nominalTravel = distance / grid.vehicle.cruiseSpeedMps
+      const nominalEnergy =
+        ((grid.vehicle.hotelPowerW +
+          grid.vehicle.propulsionCoefficient *
+            grid.vehicle.cruiseSpeedMps ** 3) *
+          nominalTravel) /
+        3600
       const increment =
-        algorithm === 'distance'
-          ? grid.resolutionM * Math.hypot(dr, dc)
-          : edge.energy
+        algorithm === 'shortest'
+          ? distance
+          : algorithm === 'fastest'
+            ? edge.travel
+            : algorithm === 'energy'
+              ? edge.energy
+              : 0.35 * (edge.travel / nominalTravel) +
+                0.35 * (edge.energy / nominalEnergy) +
+                0.15 * edge.risk +
+                0.15 * shallowRisk
       const candidate = score + increment
       if (candidate < cost[nextState]) {
         cost[nextState] = candidate
         arrival[nextState] = nextArrival
         currentSum[nextState] = currentSum[state] + edge.current
+        riskSum[nextState] = riskSum[state] + combinedRisk
         edgeCount[nextState] = edgeCount[state] + 1
         parent[nextState] = state
         queue.push([candidate, nextState])
@@ -292,6 +317,9 @@ export function calculateRoute(
     minimumDepthM,
     meanCurrentMps: edgeCount[goalState]
       ? currentSum[goalState] / edgeCount[goalState]
+      : 0,
+    riskScore: edgeCount[goalState]
+      ? riskSum[goalState] / edgeCount[goalState]
       : 0,
     computeTimeMs: performance.now() - started,
     start: [grid.longitude[start], grid.latitude[start]],

@@ -18,3 +18,16 @@ On 2026-07-12 the proxy baseline passed TypeScript, ESLint, Vite, 16 Python test
 - [ ] Validate the propulsion proxy against a named ASV or high-fidelity simulator.
 
 No learned model was added: a regressor trained only to imitate the current formula would not add scientific evidence and could confuse the provenance boundary.
+
+## Navigation V2
+
+- [x] Preserve deployed Navigation V1 at annotated tag `pre-navigation-v2`.
+- [x] Replace ad hoc loading booleans with explicit initialization and recoverable error stages.
+- [x] Initialize one persistent routing worker with correlated requests, timeouts, surfaced errors, and safe supersession.
+- [x] Implement shortest, fastest, lowest-modelled-energy, and balanced objectives in TypeScript and Python.
+- [x] Regenerate the pinned NOAA release as 30 cases / 120 route records.
+- [x] Retain full planner geometry and document the decision not to apply unsafe decorative smoothing.
+- [x] Animate an imperative MapLibre ASV marker along cumulative geodesic distance with a matching progress trail.
+- [x] Add browser assertions for geographic/pixel movement, pause/resume/reset/seek, custom clicks, invalid points, rapid requests, hard reload, route/cycle switching, offline networking, and mobile layout.
+- [x] Audit NOAA ENC/ENC Direct to GIS as a future chart-constraint source without implying that unpinned ENC hazards are already integrated.
+- [ ] Merge to `main` only after the user approves the verified Cloudflare preview.

@@ -1,7 +1,8 @@
 import type { FeatureCollection, Geometry } from 'geojson'
 
 export type DataMode = 'offline-proxy' | 'pinned-noaa'
-export type Algorithm = 'distance' | 'environmental'
+export type Algorithm = 'shortest' | 'fastest' | 'energy' | 'balanced'
+export type LegacyAlgorithm = 'distance' | 'environmental'
 
 export interface ScenarioIndex {
   schemaVersion: '1.0.0'
@@ -44,7 +45,11 @@ export interface NavigationGridArtifact {
     hotelPowerW: number
     propulsionCoefficient: number
   }
-  encoding: { byteOrder: 'little'; depthScaleM: number; currentScaleMps: number }
+  encoding: {
+    byteOrder: 'little'
+    depthScaleM: number
+    currentScaleMps: number
+  }
   feasible: string
   depth: string
   longitude: string
@@ -67,6 +72,7 @@ export interface InteractiveRoute {
   modelledEnergyWh: number
   minimumDepthM: number
   meanCurrentMps: number
+  riskScore: number
   computeTimeMs: number
   start: [number, number]
   goal: [number, number]
@@ -75,7 +81,7 @@ export interface InteractiveRoute {
 export interface RouteMetric {
   id: string
   pair_id: string
-  algorithm: Algorithm
+  algorithm: Algorithm | LegacyAlgorithm
   forecast_cycle: string
   departure_time: string
   path_length_m: number
@@ -83,6 +89,7 @@ export interface RouteMetric {
   modelled_propulsion_energy_wh: number
   minimum_depth_m: number
   mean_current_mps: number
+  risk_score?: number
   compute_time_ms: number
   compute_emissions_kg: number | null
 }
@@ -122,7 +129,10 @@ export interface ProvenanceArtifact {
   limitations?: string[]
 }
 
-export type GeoJsonFeatureCollection = FeatureCollection<Geometry, Record<string, unknown>>
+export type GeoJsonFeatureCollection = FeatureCollection<
+  Geometry,
+  Record<string, unknown>
+>
 
 export interface LoadedScenario {
   manifest: ScenarioManifest
@@ -143,7 +153,22 @@ export const PROXY_ROUTE_PAIRS = [
 ] as const
 
 export const PROXY_MISSIONS: NavigationGridArtifact['missions'] = [
-  { id: 'shelf-northbound', label: 'Broward to Boca', start: [-80.055, 26.055], goal: [-80.05, 26.455] },
-  { id: 'shelf-southbound', label: 'Boca to Broward', start: [-80.05, 26.455], goal: [-80.055, 26.055] },
-  { id: 'cross-shelf', label: 'Cross-shelf diagonal', start: [-80.07, 26.18], goal: [-79.955, 26.36] },
+  {
+    id: 'shelf-northbound',
+    label: 'Broward to Boca',
+    start: [-80.055, 26.055],
+    goal: [-80.05, 26.455],
+  },
+  {
+    id: 'shelf-southbound',
+    label: 'Boca to Broward',
+    start: [-80.05, 26.455],
+    goal: [-80.055, 26.055],
+  },
+  {
+    id: 'cross-shelf',
+    label: 'Cross-shelf diagonal',
+    start: [-80.07, 26.18],
+    goal: [-79.955, 26.36],
+  },
 ]
