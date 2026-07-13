@@ -32,8 +32,9 @@ def objective_astar(
 ) -> ObjectivePath:
     """Deterministic time-expanded search for Navigation V2 objectives.
 
-    Balanced cost uses documented dimensionless edge components: travel time 0.35,
-    modelled energy 0.35, current exposure 0.15, and shallow-water context 0.15.
+    Balanced cost uses documented dimensionless components normalized to a fixed
+    grid-resolution reference step: travel time 0.35, modelled energy 0.35,
+    current exposure 0.15, and shallow-water context 0.15.
     A zero heuristic is used so the result remains admissible for every objective.
     """
     if time_bin_seconds <= 0:
@@ -91,8 +92,9 @@ def objective_astar(
             depth = float(environment.depth_m[environment.grid.cell(neighbor)])
             shallow_risk = max(0.0, min(1.0, (20.0 - depth) / 15.0))
             combined_risk = 0.6 * current_risk + 0.4 * shallow_risk
-            nominal_time = distance / vehicle.cruise_speed_mps
+            nominal_time = environment.grid.resolution_m / vehicle.cruise_speed_mps
             nominal_energy = vehicle.energy_wh(nominal_time)
+            distance_factor = distance / environment.grid.resolution_m
             if objective == "fastest":
                 increment = edge.travel_time_s
             elif objective == "energy":
@@ -101,8 +103,8 @@ def objective_astar(
                 increment = (
                     0.35 * edge.travel_time_s / nominal_time
                     + 0.35 * edge.energy_wh / nominal_energy
-                    + 0.15 * current_risk
-                    + 0.15 * shallow_risk
+                    + 0.15 * current_risk * distance_factor
+                    + 0.15 * shallow_risk * distance_factor
                 )
             candidate_score = cost_so_far + increment
             if candidate_score < score.get(next_state, inf):

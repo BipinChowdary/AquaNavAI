@@ -121,8 +121,8 @@ export function RouteControls(props: RouteControlsProps) {
         ))}
       </fieldset>
       <p className="control-hint">
-        Fastest and lowest-energy may overlap because the reference vehicle uses
-        constant through-water cruise power. Overlap is a model result, not
+        Fastest, lowest-energy, and balanced objectives may overlap under the
+        reference vehicle and pinned field. Overlap is a model result, not
         hidden or cosmetically separated.
       </p>
     </section>

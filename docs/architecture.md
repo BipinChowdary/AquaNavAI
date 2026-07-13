@@ -16,7 +16,7 @@ The browser validates the manifest contract once, loads only same-origin data, a
 6. Distance Dijkstra and time-expanded fastest, energy, and balanced searches share the graph, endpoints, vehicle, constraints, and forecast horizon.
 7. Checksummed GeoJSON, imagery, metrics, grid, provenance, and manifest artifacts are released under `public/scenarios/`.
 
-The energy result is a modelled proxy, not measured vessel energy. Balanced weights are time 0.35, modelled energy 0.35, current exposure 0.15, and shallow-water context 0.15. Full planner-node geometry is retained; no decorative spline is generated.
+The energy result is a modelled proxy, not measured vessel energy. Balanced weights are time 0.35, modelled energy 0.35, current exposure 0.15, and shallow-water context 0.15; every component is normalized to a fixed 500 m reference step before mission-wide summation. Full planner-node geometry is retained; no decorative spline is generated.
 
 ## UI lifecycle
 

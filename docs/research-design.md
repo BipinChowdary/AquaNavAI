@@ -7,7 +7,7 @@ For identical South Florida coastal missions and departure times, how do four de
 - **Shortest Distance:** Dijkstra minimizes valid eight-neighbour grid distance.
 - **Fastest Arrival:** time-expanded current-aware search minimizes travel time.
 - **Lowest Modelled Energy:** time-expanded search minimizes the documented reference-vessel energy proxy.
-- **Balanced Mission:** normalized time (0.35), modelled energy (0.35), current exposure (0.15), and shallow-water context (0.15).
+- **Balanced Mission:** time (0.35), modelled energy (0.35), current exposure (0.15), and shallow-water context (0.15), normalized to a fixed 500 m reference step before summation.
 
 All objectives use the same 500 m graph, endpoints, mask, departure, vehicle, and forecast horizon. Waiting and forecast extrapolation are disabled. Failure is explicit when current or forecast constraints make a route infeasible. Two objectives may legitimately overlap.
 

@@ -16,8 +16,11 @@ def test_zero_current_environmental_search_matches_distance_baseline() -> None:
     environment = GridEnvironment(grid, feasible, depth, current, current.copy())
     start, goal = grid.node(0, 0), grid.node(4, 4)
     distance = shortest_path(environment, start, goal)
-    environmental = environmental_astar(environment, start, goal, VehicleModel(1.5, 30, 44.44))
+    vehicle = VehicleModel(1.5, 30, 44.44)
+    environmental = environmental_astar(environment, start, goal, vehicle)
     assert environmental.nodes == distance.nodes
+    for objective in ("fastest", "energy", "balanced"):
+        assert objective_astar(environment, start, goal, vehicle, objective).nodes == distance.nodes
 
 
 def test_search_never_crosses_blocked_cells() -> None:

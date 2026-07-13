@@ -54,13 +54,13 @@
       "departure_time": "2026-07-12T01:00:00Z",
       "forecast_cycle": "2026-07-12T01:00:00Z",
       "id": "2026-07-12T01-fowey-hollywood-balanced",
-      "mean_current_mps": 0.9837,
+      "mean_current_mps": 0.9141,
       "minimum_depth_m": 116.58,
-      "modelled_propulsion_energy_wh": 918.18,
+      "modelled_propulsion_energy_wh": 891.08,
       "pair_id": "fowey-hollywood",
-      "path_length_m": 43863.96,
-      "risk_score": 0.3935,
-      "travel_time_s": 18365.15
+      "path_length_m": 42207.11,
+      "risk_score": 0.3656,
+      "travel_time_s": 17823.15
     },
     {
       "algorithm": "shortest",
@@ -116,11 +116,11 @@
       "id": "2026-07-12T01-hollywood-boca-balanced",
       "mean_current_mps": 0.8407,
       "minimum_depth_m": 62.65,
-      "modelled_propulsion_energy_wh": 913.19,
+      "modelled_propulsion_energy_wh": 913.14,
       "pair_id": "hollywood-boca",
       "path_length_m": 42414.21,
       "risk_score": 0.3363,
-      "travel_time_s": 18265.31
+      "travel_time_s": 18264.33
     },
     {
       "algorithm": "shortest",
@@ -174,13 +174,13 @@
       "departure_time": "2026-07-12T01:00:00Z",
       "forecast_cycle": "2026-07-12T01:00:00Z",
       "id": "2026-07-12T01-boca-lake-worth-balanced",
-      "mean_current_mps": 0.7584,
-      "minimum_depth_m": 13.29,
-      "modelled_propulsion_energy_wh": 677.42,
+      "mean_current_mps": 0.7581,
+      "minimum_depth_m": 13.0,
+      "modelled_propulsion_energy_wh": 663.12,
       "pair_id": "boca-lake-worth",
-      "path_length_m": 30035.53,
-      "risk_score": 0.3065,
-      "travel_time_s": 13549.47
+      "path_length_m": 29621.32,
+      "risk_score": 0.3358,
+      "travel_time_s": 13263.48
     },
     {
       "algorithm": "shortest",
@@ -234,13 +234,13 @@
       "departure_time": "2026-07-12T02:00:00Z",
       "forecast_cycle": "2026-07-12T02:00:00Z",
       "id": "2026-07-12T02-fowey-hollywood-balanced",
-      "mean_current_mps": 0.9907,
+      "mean_current_mps": 0.9216,
       "minimum_depth_m": 116.58,
-      "modelled_propulsion_energy_wh": 916.18,
+      "modelled_propulsion_energy_wh": 888.65,
       "pair_id": "fowey-hollywood",
-      "path_length_m": 43863.96,
-      "risk_score": 0.3963,
-      "travel_time_s": 18325.13
+      "path_length_m": 42207.11,
+      "risk_score": 0.3686,
+      "travel_time_s": 17774.53
     },
     {
       "algorithm": "shortest",
@@ -296,11 +296,11 @@
       "id": "2026-07-12T02-hollywood-boca-balanced",
       "mean_current_mps": 0.8445,
       "minimum_depth_m": 62.65,
-      "modelled_propulsion_energy_wh": 911.57,
+      "modelled_propulsion_energy_wh": 911.54,
       "pair_id": "hollywood-boca",
       "path_length_m": 42414.21,
       "risk_score": 0.3378,
-      "travel_time_s": 18232.84
+      "travel_time_s": 18232.35
     },
     {
       "algorithm": "shortest",
@@ -355,12 +355,12 @@
       "forecast_cycle": "2026-07-12T02:00:00Z",
       "id": "2026-07-12T02-boca-lake-worth-balanced",
       "mean_current_mps": 0.7632,
-      "minimum_depth_m": 13.29,
-      "modelled_propulsion_energy_wh": 676.1,
+      "minimum_depth_m": 13.0,
+      "modelled_propulsion_energy_wh": 661.68,
       "pair_id": "boca-lake-worth",
-      "path_length_m": 30035.53,
-      "risk_score": 0.3084,
-      "travel_time_s": 13523.07
+      "path_length_m": 29621.32,
+      "risk_score": 0.3378,
+      "travel_time_s": 13234.79
     },
     {
       "algorithm": "shortest",
@@ -414,13 +414,13 @@
       "departure_time": "2026-07-12T03:00:00Z",
       "forecast_cycle": "2026-07-12T03:00:00Z",
       "id": "2026-07-12T03-fowey-hollywood-balanced",
-      "mean_current_mps": 0.9493,
+      "mean_current_mps": 0.9321,
       "minimum_depth_m": 116.58,
-      "modelled_propulsion_energy_wh": 892.04,
+      "modelled_propulsion_energy_wh": 885.14,
       "pair_id": "fowey-hollywood",
-      "path_length_m": 42621.32,
-      "risk_score": 0.3797,
-      "travel_time_s": 17842.3
+      "path_length_m": 42207.11,
+      "risk_score": 0.3729,
+      "travel_time_s": 17704.26
     },
     {
       "algorithm": "shortest",
@@ -475,12 +475,12 @@
       "forecast_cycle": "2026-07-12T03:00:00Z",
       "id": "2026-07-12T03-hollywood-boca-balanced",
       "mean_current_mps": 0.8456,
-      "minimum_depth_m": 26.93,
-      "modelled_propulsion_energy_wh": 911.49,
+      "minimum_depth_m": 62.65,
+      "modelled_propulsion_energy_wh": 911.22,
       "pair_id": "hollywood-boca",
       "path_length_m": 42414.21,
       "risk_score": 0.3382,
-      "travel_time_s": 18231.37
+      "travel_time_s": 18225.87
     },
     {
       "algorithm": "shortest",
@@ -535,12 +535,12 @@
       "forecast_cycle": "2026-07-12T03:00:00Z",
       "id": "2026-07-12T03-boca-lake-worth-balanced",
       "mean_current_mps": 0.7632,
-      "minimum_depth_m": 13.29,
-      "modelled_propulsion_energy_wh": 676.1,
+      "minimum_depth_m": 13.0,
+      "modelled_propulsion_energy_wh": 661.68,
       "pair_id": "boca-lake-worth",
-      "path_length_m": 30035.53,
-      "risk_score": 0.3084,
-      "travel_time_s": 13523.07
+      "path_length_m": 29621.32,
+      "risk_score": 0.3378,
+      "travel_time_s": 13234.79
     },
     {
       "algorithm": "shortest",
@@ -594,13 +594,13 @@
       "departure_time": "2026-07-12T04:00:00Z",
       "forecast_cycle": "2026-07-12T04:00:00Z",
       "id": "2026-07-12T04-fowey-hollywood-balanced",
-      "mean_current_mps": 0.9615,
+      "mean_current_mps": 0.9441,
       "minimum_depth_m": 116.58,
-      "modelled_propulsion_energy_wh": 887.97,
+      "modelled_propulsion_energy_wh": 880.98,
       "pair_id": "fowey-hollywood",
-      "path_length_m": 42621.32,
-      "risk_score": 0.3846,
-      "travel_time_s": 17760.97
+      "path_length_m": 42207.11,
+      "risk_score": 0.3776,
+      "travel_time_s": 17620.99
     },
     {
       "algorithm": "shortest",
@@ -654,13 +654,13 @@
       "departure_time": "2026-07-12T04:00:00Z",
       "forecast_cycle": "2026-07-12T04:00:00Z",
       "id": "2026-07-12T04-hollywood-boca-balanced",
-      "mean_current_mps": 0.8506,
-      "minimum_depth_m": 52.8,
-      "modelled_propulsion_energy_wh": 909.59,
+      "mean_current_mps": 0.8507,
+      "minimum_depth_m": 62.65,
+      "modelled_propulsion_energy_wh": 909.25,
       "pair_id": "hollywood-boca",
       "path_length_m": 42414.21,
-      "risk_score": 0.3402,
-      "travel_time_s": 18193.31
+      "risk_score": 0.3403,
+      "travel_time_s": 18186.43
     },
     {
       "algorithm": "shortest",
@@ -715,12 +715,12 @@
       "forecast_cycle": "2026-07-12T04:00:00Z",
       "id": "2026-07-12T04-boca-lake-worth-balanced",
       "mean_current_mps": 0.7632,
-      "minimum_depth_m": 13.29,
-      "modelled_propulsion_energy_wh": 676.1,
+      "minimum_depth_m": 13.0,
+      "modelled_propulsion_energy_wh": 661.68,
       "pair_id": "boca-lake-worth",
-      "path_length_m": 30035.53,
-      "risk_score": 0.3084,
-      "travel_time_s": 13523.07
+      "path_length_m": 29621.32,
+      "risk_score": 0.3378,
+      "travel_time_s": 13234.79
     },
     {
       "algorithm": "shortest",
@@ -774,13 +774,13 @@
       "departure_time": "2026-07-12T05:00:00Z",
       "forecast_cycle": "2026-07-12T05:00:00Z",
       "id": "2026-07-12T05-fowey-hollywood-balanced",
-      "mean_current_mps": 0.9741,
+      "mean_current_mps": 0.9565,
       "minimum_depth_m": 116.58,
-      "modelled_propulsion_energy_wh": 883.8,
+      "modelled_propulsion_energy_wh": 876.8,
       "pair_id": "fowey-hollywood",
-      "path_length_m": 42621.32,
-      "risk_score": 0.3896,
-      "travel_time_s": 17677.46
+      "path_length_m": 42207.11,
+      "risk_score": 0.3826,
+      "travel_time_s": 17537.55
     },
     {
       "algorithm": "shortest",
@@ -834,13 +834,13 @@
       "departure_time": "2026-07-12T05:00:00Z",
       "forecast_cycle": "2026-07-12T05:00:00Z",
       "id": "2026-07-12T05-hollywood-boca-balanced",
-      "mean_current_mps": 0.862,
+      "mean_current_mps": 0.8622,
       "minimum_depth_m": 62.65,
-      "modelled_propulsion_energy_wh": 905.21,
+      "modelled_propulsion_energy_wh": 904.89,
       "pair_id": "hollywood-boca",
       "path_length_m": 42414.21,
-      "risk_score": 0.3448,
-      "travel_time_s": 18105.78
+      "risk_score": 0.3449,
+      "travel_time_s": 18099.25
     },
     {
       "algorithm": "shortest",
@@ -894,13 +894,13 @@
       "departure_time": "2026-07-12T05:00:00Z",
       "forecast_cycle": "2026-07-12T05:00:00Z",
       "id": "2026-07-12T05-boca-lake-worth-balanced",
-      "mean_current_mps": 0.7651,
-      "minimum_depth_m": 13.29,
-      "modelled_propulsion_energy_wh": 675.57,
+      "mean_current_mps": 0.7649,
+      "minimum_depth_m": 13.0,
+      "modelled_propulsion_energy_wh": 661.2,
       "pair_id": "boca-lake-worth",
-      "path_length_m": 30035.53,
-      "risk_score": 0.3091,
-      "travel_time_s": 13512.5
+      "path_length_m": 29621.32,
+      "risk_score": 0.3385,
+      "travel_time_s": 13225.03
     },
     {
       "algorithm": "shortest",
@@ -954,13 +954,13 @@
       "departure_time": "2026-07-12T06:00:00Z",
       "forecast_cycle": "2026-07-12T06:00:00Z",
       "id": "2026-07-12T06-fowey-hollywood-balanced",
-      "mean_current_mps": 0.9862,
+      "mean_current_mps": 0.9683,
       "minimum_depth_m": 116.58,
-      "modelled_propulsion_energy_wh": 879.5,
+      "modelled_propulsion_energy_wh": 872.59,
       "pair_id": "fowey-hollywood",
-      "path_length_m": 42621.32,
-      "risk_score": 0.3945,
-      "travel_time_s": 17591.39
+      "path_length_m": 42207.11,
+      "risk_score": 0.3873,
+      "travel_time_s": 17453.32
     },
     {
       "algorithm": "shortest",
@@ -1016,11 +1016,11 @@
       "id": "2026-07-12T06-hollywood-boca-balanced",
       "mean_current_mps": 0.877,
       "minimum_depth_m": 62.65,
-      "modelled_propulsion_energy_wh": 899.53,
+      "modelled_propulsion_energy_wh": 899.29,
       "pair_id": "hollywood-boca",
       "path_length_m": 42414.21,
       "risk_score": 0.3508,
-      "travel_time_s": 17992.05
+      "travel_time_s": 17987.35
     },
     {
       "algorithm": "shortest",
@@ -1074,13 +1074,13 @@
       "departure_time": "2026-07-12T06:00:00Z",
       "forecast_cycle": "2026-07-12T06:00:00Z",
       "id": "2026-07-12T06-boca-lake-worth-balanced",
-      "mean_current_mps": 0.7716,
-      "minimum_depth_m": 13.29,
-      "modelled_propulsion_energy_wh": 673.74,
+      "mean_current_mps": 0.7713,
+      "minimum_depth_m": 13.0,
+      "modelled_propulsion_energy_wh": 659.4,
       "pair_id": "boca-lake-worth",
-      "path_length_m": 30035.53,
-      "risk_score": 0.3117,
-      "travel_time_s": 13476.02
+      "path_length_m": 29621.32,
+      "risk_score": 0.3411,
+      "travel_time_s": 13189.17
     },
     {
       "algorithm": "shortest",
@@ -1134,13 +1134,13 @@
       "departure_time": "2026-07-12T07:00:00Z",
       "forecast_cycle": "2026-07-12T07:00:00Z",
       "id": "2026-07-12T07-fowey-hollywood-balanced",
-      "mean_current_mps": 0.9912,
+      "mean_current_mps": 0.9807,
       "minimum_depth_m": 116.58,
-      "modelled_propulsion_energy_wh": 877.26,
+      "modelled_propulsion_energy_wh": 868.24,
       "pair_id": "fowey-hollywood",
-      "path_length_m": 42621.32,
-      "risk_score": 0.3965,
-      "travel_time_s": 17546.63
+      "path_length_m": 42207.11,
+      "risk_score": 0.3923,
+      "travel_time_s": 17366.27
     },
     {
       "algorithm": "shortest",
@@ -1196,11 +1196,11 @@
       "id": "2026-07-12T07-hollywood-boca-balanced",
       "mean_current_mps": 0.8934,
       "minimum_depth_m": 62.65,
-      "modelled_propulsion_energy_wh": 893.4,
+      "modelled_propulsion_energy_wh": 893.35,
       "pair_id": "hollywood-boca",
       "path_length_m": 42414.21,
       "risk_score": 0.3574,
-      "travel_time_s": 17869.52
+      "travel_time_s": 17868.39
     },
     {
       "algorithm": "shortest",
@@ -1254,13 +1254,13 @@
       "departure_time": "2026-07-12T07:00:00Z",
       "forecast_cycle": "2026-07-12T07:00:00Z",
       "id": "2026-07-12T07-boca-lake-worth-balanced",
-      "mean_current_mps": 0.7819,
-      "minimum_depth_m": 13.29,
-      "modelled_propulsion_energy_wh": 670.86,
+      "mean_current_mps": 0.7816,
+      "minimum_depth_m": 13.0,
+      "modelled_propulsion_energy_wh": 656.51,
       "pair_id": "boca-lake-worth",
-      "path_length_m": 30035.53,
-      "risk_score": 0.3159,
-      "travel_time_s": 13418.31
+      "path_length_m": 29621.32,
+      "risk_score": 0.3452,
+      "travel_time_s": 13131.3
     },
     {
       "algorithm": "shortest",
@@ -1314,13 +1314,13 @@
       "departure_time": "2026-07-12T08:00:00Z",
       "forecast_cycle": "2026-07-12T08:00:00Z",
       "id": "2026-07-12T08-fowey-hollywood-balanced",
-      "mean_current_mps": 1.0031,
+      "mean_current_mps": 0.9922,
       "minimum_depth_m": 116.58,
-      "modelled_propulsion_energy_wh": 873.06,
+      "modelled_propulsion_energy_wh": 864.23,
       "pair_id": "fowey-hollywood",
-      "path_length_m": 42621.32,
-      "risk_score": 0.4012,
-      "travel_time_s": 17462.73
+      "path_length_m": 42207.11,
+      "risk_score": 0.3969,
+      "travel_time_s": 17286.02
     },
     {
       "algorithm": "shortest",
@@ -1376,11 +1376,11 @@
       "id": "2026-07-12T08-hollywood-boca-balanced",
       "mean_current_mps": 0.911,
       "minimum_depth_m": 62.65,
-      "modelled_propulsion_energy_wh": 887.13,
+      "modelled_propulsion_energy_wh": 887.07,
       "pair_id": "hollywood-boca",
       "path_length_m": 42414.21,
       "risk_score": 0.3644,
-      "travel_time_s": 17744.07
+      "travel_time_s": 17742.95
     },
     {
       "algorithm": "shortest",
@@ -1434,13 +1434,13 @@
       "departure_time": "2026-07-12T08:00:00Z",
       "forecast_cycle": "2026-07-12T08:00:00Z",
       "id": "2026-07-12T08-boca-lake-worth-balanced",
-      "mean_current_mps": 0.7948,
-      "minimum_depth_m": 13.29,
-      "modelled_propulsion_energy_wh": 667.3,
+      "mean_current_mps": 0.7941,
+      "minimum_depth_m": 13.0,
+      "modelled_propulsion_energy_wh": 653.03,
       "pair_id": "boca-lake-worth",
-      "path_length_m": 30035.53,
-      "risk_score": 0.321,
-      "travel_time_s": 13347.16
+      "path_length_m": 29621.32,
+      "risk_score": 0.3502,
+      "travel_time_s": 13061.7
     },
     {
       "algorithm": "shortest",
@@ -1554,13 +1554,13 @@
       "departure_time": "2026-07-12T09:00:00Z",
       "forecast_cycle": "2026-07-12T09:00:00Z",
       "id": "2026-07-12T09-hollywood-boca-balanced",
-      "mean_current_mps": 0.9276,
+      "mean_current_mps": 0.9272,
       "minimum_depth_m": 62.65,
-      "modelled_propulsion_energy_wh": 881.39,
+      "modelled_propulsion_energy_wh": 881.19,
       "pair_id": "hollywood-boca",
       "path_length_m": 42414.21,
-      "risk_score": 0.371,
-      "travel_time_s": 17629.26
+      "risk_score": 0.3709,
+      "travel_time_s": 17625.21
     },
     {
       "algorithm": "shortest",
@@ -1614,13 +1614,13 @@
       "departure_time": "2026-07-12T09:00:00Z",
       "forecast_cycle": "2026-07-12T09:00:00Z",
       "id": "2026-07-12T09-boca-lake-worth-balanced",
-      "mean_current_mps": 0.8103,
-      "minimum_depth_m": 13.29,
-      "modelled_propulsion_energy_wh": 663.14,
+      "mean_current_mps": 0.8101,
+      "minimum_depth_m": 13.0,
+      "modelled_propulsion_energy_wh": 648.69,
       "pair_id": "boca-lake-worth",
-      "path_length_m": 30035.53,
-      "risk_score": 0.3272,
-      "travel_time_s": 13264.0
+      "path_length_m": 29621.32,
+      "risk_score": 0.3566,
+      "travel_time_s": 12974.78
     },
     {
       "algorithm": "shortest",
@@ -1736,11 +1736,11 @@
       "id": "2026-07-12T10-hollywood-boca-balanced",
       "mean_current_mps": 0.9445,
       "minimum_depth_m": 62.65,
-      "modelled_propulsion_energy_wh": 875.03,
+      "modelled_propulsion_energy_wh": 875.01,
       "pair_id": "hollywood-boca",
       "path_length_m": 42414.21,
       "risk_score": 0.3778,
-      "travel_time_s": 17502.02
+      "travel_time_s": 17501.57
     },
     {
       "algorithm": "shortest",
@@ -1794,13 +1794,13 @@
       "departure_time": "2026-07-12T10:00:00Z",
       "forecast_cycle": "2026-07-12T10:00:00Z",
       "id": "2026-07-12T10-boca-lake-worth-balanced",
-      "mean_current_mps": 0.8261,
-      "minimum_depth_m": 13.29,
-      "modelled_propulsion_energy_wh": 658.9,
+      "mean_current_mps": 0.8254,
+      "minimum_depth_m": 13.0,
+      "modelled_propulsion_energy_wh": 644.56,
       "pair_id": "boca-lake-worth",
-      "path_length_m": 30035.53,
-      "risk_score": 0.3335,
-      "travel_time_s": 13179.19
+      "path_length_m": 29621.32,
+      "risk_score": 0.3627,
+      "travel_time_s": 12892.36
     }
   ],
   "scenarioId": "south-florida-noaa-v1"

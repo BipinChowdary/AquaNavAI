@@ -248,7 +248,7 @@ export function calculateRoute(
         Math.min(1, (20 - grid.depth[nextNode] * grid.depthScaleM) / 15),
       )
       const combinedRisk = 0.6 * edge.risk + 0.4 * shallowRisk
-      const nominalTravel = distance / grid.vehicle.cruiseSpeedMps
+      const nominalTravel = grid.resolutionM / grid.vehicle.cruiseSpeedMps
       const nominalEnergy =
         ((grid.vehicle.hotelPowerW +
           grid.vehicle.propulsionCoefficient *
@@ -264,8 +264,8 @@ export function calculateRoute(
               ? edge.energy
               : 0.35 * (edge.travel / nominalTravel) +
                 0.35 * (edge.energy / nominalEnergy) +
-                0.15 * edge.risk +
-                0.15 * shallowRisk
+                0.15 * edge.risk * (distance / grid.resolutionM) +
+                0.15 * shallowRisk * (distance / grid.resolutionM)
       const candidate = score + increment
       if (candidate < cost[nextState]) {
         cost[nextState] = candidate

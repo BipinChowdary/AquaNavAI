@@ -10,10 +10,10 @@
     "bathymetry.webp": "22e145900f257fdb1ee5f61adc7780ba608c9055a461d5b8458abf0c3836fe59",
     "coastline.geojson": "1a5a308d97ce4af0d935b1f47c25762770ffff144386d1f2fe1bbb6e96087690",
     "currents.geojson": "451417007e1ed8d4e23c58459ebb71a862b6ee52887806d3937491e0c3cb619c",
-    "metrics.json": "ce0da55f241b8ffa5a77be0df74df706f16a2f46652d7fc0ed41a04ee2f5fcb6",
+    "metrics.json": "0b40f8ec977177dd49ce2caf780beb0478948e780398f591cd1e690bd006fbea",
     "navigation-grid.json": "6abc05099a607989325b44be3f795dbfca7b5ec185a1b74b027ab60a3f0683e3",
     "provenance.json": "8e41135dab888852debc8a86835a02965dcba66ee8a9309fa74cd39e04b3e138",
-    "routes.geojson": "a944ba8f49b5e2787440efe03f3ff9e286d2d4f596de718c0cb07029cdc0607b",
+    "routes.geojson": "be45b14df39dde399ee9dc168650b4364c9de945b93bd802c50173a0293319db",
     "stations.geojson": "00922127863000c2ceb86802968ed28099c455565b70b54f007b90dc6b411464"
   },
   "citations": [

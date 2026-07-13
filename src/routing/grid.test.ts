@@ -38,6 +38,7 @@ describe('browser routing contract', () => {
     expect(
       routes.every((route) => route.riskScore >= 0 && route.riskScore <= 1),
     ).toBe(true)
+    expect(routes[3].travelTimeS).toBeLessThanOrEqual(distance.travelTimeS)
     expect(
       calculateRoute(grid, mission.start, mission.goal, 'balanced', 0)
         .coordinates,

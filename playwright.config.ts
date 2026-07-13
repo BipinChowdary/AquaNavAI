@@ -2,7 +2,11 @@ import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
   testDir: './tests/e2e',
-  fullyParallel: true,
+  // MapLibre WebGL contexts are intentionally serialized in CI; parallel
+  // headless Chromium contexts can exhaust the software renderer and emit a
+  // false fragment-shader compilation failure unrelated to application code.
+  fullyParallel: false,
+  workers: 1,
   reporter: 'line',
   use: {
     baseURL: 'http://127.0.0.1:5173',
