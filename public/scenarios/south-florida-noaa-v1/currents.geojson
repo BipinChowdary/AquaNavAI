@@ -1,0 +1,1760 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          -80.1453948044904,
+          25.547449084609994
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": -0.032,
+        "north_mps": 0.111,
+        "speed_mps": 0.116
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.1254882721147,
+          25.547331559626315
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": -0.032,
+        "north_mps": 0.111,
+        "speed_mps": 0.116
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.1055818654153,
+          25.547211329357996
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": -0.004,
+        "north_mps": 0.254,
+        "speed_mps": 0.254
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08567558725164,
+          25.54708839387212
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.025,
+        "north_mps": 0.397,
+        "speed_mps": 0.398
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.065769440483,
+          25.54696275323729
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.054,
+        "north_mps": 0.54,
+        "speed_mps": 0.543
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04586342796857,
+          25.54683440752363
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.083,
+        "north_mps": 0.684,
+        "speed_mps": 0.689
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02595755256739,
+          25.54670335680274
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.113,
+        "north_mps": 0.826,
+        "speed_mps": 0.834
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00605181713846,
+          25.546569601147773
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.144,
+        "north_mps": 0.969,
+        "speed_mps": 0.979
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.12516027668971,
+          25.5924782487481
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": -0.011,
+        "north_mps": 0.103,
+        "speed_mps": 0.103
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.1052464062697,
+          25.592357775898503
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.008,
+        "north_mps": 0.236,
+        "speed_mps": 0.237
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08533266459567,
+          25.592234592373693
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.027,
+        "north_mps": 0.37,
+        "speed_mps": 0.371
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06541905453159,
+          25.592108698242445
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.047,
+        "north_mps": 0.504,
+        "speed_mps": 0.506
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.0455055789413,
+          25.59198009357505
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.066,
+        "north_mps": 0.638,
+        "speed_mps": 0.641
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02559224068857,
+          25.591848778443296
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.089,
+        "north_mps": 0.791,
+        "speed_mps": 0.796
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.005679042637,
+          25.591714752920502
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.113,
+        "north_mps": 0.944,
+        "speed_mps": 0.951
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.12483149450247,
+          25.637624655257028
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.01,
+        "north_mps": 0.094,
+        "speed_mps": 0.094
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.10491014246134,
+          25.63750393964903
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.02,
+        "north_mps": 0.218,
+        "speed_mps": 0.219
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08498891937711,
+          25.63738050790418
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.03,
+        "north_mps": 0.342,
+        "speed_mps": 0.344
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06506782811847,
+          25.63725436009142
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.04,
+        "north_mps": 0.467,
+        "speed_mps": 0.468
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04514687155394,
+          25.637125496281207
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.05,
+        "north_mps": 0.591,
+        "speed_mps": 0.593
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02522605255196,
+          25.636993916545528
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.065,
+        "north_mps": 0.757,
+        "speed_mps": 0.76
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00530537398085,
+          25.636859620957882
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 0.921,
+        "speed_mps": 0.924
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.12450192426392,
+          25.68277077879159
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.01,
+        "north_mps": 0.095,
+        "speed_mps": 0.096
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.10457307267184,
+          25.682649820247562
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.02,
+        "north_mps": 0.22,
+        "speed_mps": 0.221
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.0846443502483,
+          25.68252614010105
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.03,
+        "north_mps": 0.344,
+        "speed_mps": 0.345
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06471575986666,
+          25.68239973842116
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.04,
+        "north_mps": 0.468,
+        "speed_mps": 0.47
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04478730440019,
+          25.682270615278533
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.051,
+        "north_mps": 0.596,
+        "speed_mps": 0.599
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.024858986722,
+          25.682138770745336
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.075,
+        "north_mps": 0.837,
+        "speed_mps": 0.841
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00493080970513,
+          25.682004204895232
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.096,
+        "north_mps": 1.035,
+        "speed_mps": 1.039
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.12417156468081,
+          25.727916618990943
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.01,
+        "north_mps": 0.095,
+        "speed_mps": 0.096
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.10423519557855,
+          25.727795417332764
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.02,
+        "north_mps": 0.22,
+        "speed_mps": 0.221
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08429895585715,
+          25.727671488602454
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.03,
+        "north_mps": 0.344,
+        "speed_mps": 0.345
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.0643628483947,
+          25.727544832869306
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.04,
+        "north_mps": 0.468,
+        "speed_mps": 0.47
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04442687606915,
+          25.727415450204127
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.117,
+        "north_mps": 1.19,
+        "speed_mps": 1.196
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02449104175838,
+          25.72728334067926
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.117,
+        "north_mps": 1.19,
+        "speed_mps": 1.196
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00455534834013,
+          25.72714850436857
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.117,
+        "north_mps": 1.19,
+        "speed_mps": 1.196
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.10389650985447,
+          25.772940730543976
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.106,
+        "north_mps": 1.151,
+        "speed_mps": 1.156
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08395273484717,
+          25.77281655304723
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.106,
+        "north_mps": 1.151,
+        "speed_mps": 1.156
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06400909231657,
+          25.77268964307417
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.106,
+        "north_mps": 1.151,
+        "speed_mps": 1.156
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04406558514535,
+          25.772560000695766
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.106,
+        "north_mps": 1.151,
+        "speed_mps": 1.156
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02412221621614,
+          25.772427625984555
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.106,
+        "north_mps": 1.151,
+        "speed_mps": 1.156
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.0041789884114,
+          25.772292519014567
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.106,
+        "north_mps": 1.151,
+        "speed_mps": 1.156
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.10355701416825,
+          25.818085759521207
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.092,
+        "north_mps": 1.112,
+        "speed_mps": 1.115
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.0836056858574,
+          25.81796133307488
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.092,
+        "north_mps": 1.112,
+        "speed_mps": 1.115
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06365449024173,
+          25.81783416867472
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.092,
+        "north_mps": 1.112,
+        "speed_mps": 1.115
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04370343020865,
+          25.8177042663919
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.092,
+        "north_mps": 1.112,
+        "speed_mps": 1.115
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02375250864554,
+          25.817571626299113
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.092,
+        "north_mps": 1.112,
+        "speed_mps": 1.115
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.0038017284396,
+          25.817436248470585
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.092,
+        "north_mps": 1.112,
+        "speed_mps": 1.115
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.10321670718422,
+          25.863230503905168
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.075,
+        "north_mps": 1.072,
+        "speed_mps": 1.075
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08325780752251,
+          25.863105828325605
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.075,
+        "north_mps": 1.072,
+        "speed_mps": 1.075
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06329904077514,
+          25.86297840931065
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.075,
+        "north_mps": 1.072,
+        "speed_mps": 1.075
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.0433404098343,
+          25.86284824693167
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.075,
+        "north_mps": 1.072,
+        "speed_mps": 1.075
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02338191759213,
+          25.862715341261524
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.075,
+        "north_mps": 1.072,
+        "speed_mps": 1.075
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00342356694061,
+          25.862579692374638
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.075,
+        "north_mps": 1.072,
+        "speed_mps": 1.075
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.10287558756232,
+          25.908374963337227
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.074,
+        "north_mps": 1.037,
+        "speed_mps": 1.039
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08290909847261,
+          25.90825003844024
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.074,
+        "north_mps": 1.037,
+        "speed_mps": 1.039
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06294274251714,
+          25.90812236462227
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.074,
+        "north_mps": 1.037,
+        "speed_mps": 1.039
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04297652259288,
+          25.907991941954847
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.074,
+        "north_mps": 1.037,
+        "speed_mps": 1.039
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02301044159672,
+          25.907858770511034
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.074,
+        "north_mps": 1.037,
+        "speed_mps": 1.039
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00304450242547,
+          25.90772285036542
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.074,
+        "north_mps": 1.037,
+        "speed_mps": 1.039
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.10253365395815,
+          25.95351913745946
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 1.003,
+        "speed_mps": 1.006
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08255955733343,
+          25.953393963060357
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 1.003,
+        "speed_mps": 1.006
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06258559406353,
+          25.95326603425062
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 1.003,
+        "speed_mps": 1.006
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04261176705027,
+          25.953135351101945
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 1.003,
+        "speed_mps": 1.006
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02263807919533,
+          25.953001913687583
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 1.003,
+        "speed_mps": 1.006
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00266453340029,
+          25.95286572208231
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 1.003,
+        "speed_mps": 1.006
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.10219090502285,
+          25.998663025914592
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 0.969,
+        "speed_mps": 0.972
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08220918272612,
+          25.99853760182816
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 0.969,
+        "speed_mps": 0.972
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06222759400553,
+          25.998409417837372
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 0.969,
+        "speed_mps": 0.972
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04224614176775,
+          25.998278474014107
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 0.969,
+        "speed_mps": 0.972
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02226482891922,
+          25.99814477043177
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 0.969,
+        "speed_mps": 0.972
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00228365836635,
+          25.998008307165346
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.08,
+        "north_mps": 0.969,
+        "speed_mps": 0.972
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.10184733940322,
+          26.043806628346044
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.083,
+        "north_mps": 0.934,
+        "speed_mps": 0.937
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08185797326739,
+          26.043680954386566
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.083,
+        "north_mps": 0.934,
+        "speed_mps": 0.937
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06186874092975,
+          26.043552515024924
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.083,
+        "north_mps": 0.934,
+        "speed_mps": 0.937
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04187964530179,
+          26.043421310333155
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.083,
+        "north_mps": 0.934,
+        "speed_mps": 0.937
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.0218906892948,
+          26.04328734038488
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.083,
+        "north_mps": 0.934,
+        "speed_mps": 0.937
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00190187582002,
+          26.04315060525525
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.083,
+        "north_mps": 0.934,
+        "speed_mps": 0.937
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08150592756938,
+          26.08882402037916
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.106,
+        "north_mps": 0.889,
+        "speed_mps": 0.895
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06150903341818,
+          26.08869532545632
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.106,
+        "north_mps": 0.889,
+        "speed_mps": 0.895
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04151227620423,
+          26.08856385970163
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.106,
+        "north_mps": 0.889,
+        "speed_mps": 0.895
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02151565884375,
+          26.088429623188887
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.106,
+        "north_mps": 0.889,
+        "speed_mps": 0.895
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00151918425277,
+          26.088292615993424
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.106,
+        "north_mps": 0.889,
+        "speed_mps": 0.895
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08115304423976,
+          26.133966799450207
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.11,
+        "north_mps": 0.835,
+        "speed_mps": 0.843
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06114847004812,
+          26.133837848775293
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.11,
+        "north_mps": 0.835,
+        "speed_mps": 0.843
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04114403302214,
+          26.133706121762707
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.11,
+        "north_mps": 0.835,
+        "speed_mps": 0.843
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02113973608283,
+          26.13357161848641
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.11,
+        "north_mps": 0.835,
+        "speed_mps": 0.843
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00113558215112,
+          26.133434339021928
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.11,
+        "north_mps": 0.835,
+        "speed_mps": 0.843
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.08079932188159,
+          26.179109291244654
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.082,
+        "north_mps": 0.768,
+        "speed_mps": 0.772
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06078704939232,
+          26.178980084626268
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.082,
+        "north_mps": 0.768,
+        "speed_mps": 0.772
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04077491429783,
+          26.178848096160255
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.082,
+        "north_mps": 0.768,
+        "speed_mps": 0.772
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.020762919524,
+          26.17871332592077
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.082,
+        "north_mps": 0.768,
+        "speed_mps": 0.772
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00075106799662,
+          26.178575773983525
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.082,
+        "north_mps": 0.768,
+        "speed_mps": 0.772
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06042477001881,
+          26.224122032654343
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04040491856888,
+          26.223989782538844
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02038520767437,
+          26.223854745135974
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.00036564026594,
+          26.223716920521642
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.06006163049095,
+          26.269263692505305
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.04003404436807,
+          26.269131180543702
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.02000659903612,
+          26.268995875776696
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -79.99997929743071,
+          26.268857778280374
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.05969762936742,
+          26.314405063825607
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.03966229022339,
+          26.314272289820742
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.0196270921066,
+          26.31413671748829
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.05933276520214,
+          26.35954614626242
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.03928965465803,
+          26.35941311001658
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.01924668537822,
+          26.3592772699168
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.03891613619035,
+          26.40455364077848
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.01886537733846,
+          26.40441753270895
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.03854173333386,
+          26.44969388175445
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.01848316646984,
+          26.449557505512146
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.03816644459721,
+          26.4948338325931
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.01810005124997,
+          26.494697187974474
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.01771603015146,
+          26.53983657974471
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.01733110164191,
+          26.58497568047232
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.01694526418397,
+          26.630114489807433
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -80.01655851623518,
+          26.675253007400897
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "east_mps": 0.07,
+        "north_mps": 0.74,
+        "speed_mps": 0.743
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}

@@ -1,0 +1,24 @@
+id: south-florida-noaa-v1
+title: NOAA South Florida Atlantic Shelf
+version: 1.0.0
+bbox: [-80.24, 25.55, -80.005, 26.70]
+analysis_crs: EPSG:32617
+interchange_crs: EPSG:4326
+grid_resolution_m: 500
+minimum_depth_m: 5
+land_buffer_m: 250
+forecast_time_bin_hours: 1
+offline_proxy: false
+route_pairs:
+  - id: fowey-hollywood
+    label: Fowey Rocks to Hollywood shelf
+    start: [-80.065, 25.60]
+    goal: [-80.055, 25.98]
+  - id: hollywood-boca
+    label: Hollywood to Boca Raton shelf
+    start: [-80.055, 25.98]
+    goal: [-80.045, 26.36]
+  - id: boca-lake-worth
+    label: Boca Raton to Lake Worth shelf
+    start: [-80.045, 26.36]
+    goal: [-80.025, 26.62]
