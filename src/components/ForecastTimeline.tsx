@@ -6,12 +6,18 @@ interface ForecastTimelineProps {
   onChange: (index: number) => void
 }
 
-export function ForecastTimeline({ cycles, selectedIndex, onChange }: ForecastTimelineProps) {
+export function ForecastTimeline({
+  cycles,
+  selectedIndex,
+  onChange,
+}: ForecastTimelineProps) {
   return (
     <section className="timeline" aria-labelledby="forecast-timeline-title">
       <div>
         <div className="eyebrow">Departure cycle</div>
-        <h2 id="forecast-timeline-title">{formatCycle(cycles[selectedIndex])}</h2>
+        <h2 id="forecast-timeline-title">
+          {formatCycle(cycles[selectedIndex])}
+        </h2>
       </div>
       <label className="sr-only" htmlFor="forecast-cycle">
         Select forecast cycle

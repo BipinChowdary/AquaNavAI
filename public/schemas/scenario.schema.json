@@ -65,13 +65,33 @@
     "citations": { "type": "array", "items": { "type": "string" } },
     "files": {
       "type": "object",
-      "required": ["bathymetry", "coastline", "currents", "metrics", "provenance", "routes", "stations"],
-      "additionalProperties": { "type": "string" }
+      "required": [
+        "bathymetry",
+        "coastline",
+        "currents",
+        "metrics",
+        "provenance",
+        "routes",
+        "stations"
+      ],
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+      }
     },
     "checksums": {
       "type": "object",
       "minProperties": 1,
       "additionalProperties": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "dataMode": { "const": "pinned-noaa" } },
+        "required": ["dataMode"]
+      },
+      "then": { "properties": { "files": { "required": ["grid"] } } }
+    }
+  ]
 }

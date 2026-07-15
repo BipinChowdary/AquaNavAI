@@ -16,11 +16,14 @@ async function walk(directory) {
 }
 
 await walk(root)
-if (files.length > maxFiles) throw new Error(`Build has ${files.length} files; limit is ${maxFiles}.`)
+if (files.length > maxFiles)
+  throw new Error(`Build has ${files.length} files; limit is ${maxFiles}.`)
 for (const file of files) {
   const info = await stat(file)
   if (info.size > maxBytes) {
-    throw new Error(`${relative(root, file)} is ${info.size} bytes; limit is ${maxBytes}.`)
+    throw new Error(
+      `${relative(root, file)} is ${info.size} bytes; limit is ${maxBytes}.`,
+    )
   }
 }
 console.log(`Asset check passed: ${files.length} files, all below 25 MiB.`)

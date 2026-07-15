@@ -20,14 +20,14 @@ jobs:
           cache: npm
       - uses: astral-sh/setup-uv@v6
         with:
-          version: "0.11.28"
+          version: '0.11.28'
           enable-cache: true
       - name: Install frontend dependencies
         run: npm ci
       - name: Sync Python environment
         run: uv sync --frozen --project engine --python 3.12.13
-      - name: Reproduce pinned offline fixture
-        run: uv run --project engine aquanav reproduce --scenario south-florida-v1 --offline
+      - name: Validate committed NOAA release
+        run: uv run --project engine aquanav data validate --scenario south-florida-noaa-v1
       - name: Check Python
         run: |
           uv run --project engine ruff check engine/src engine/tests

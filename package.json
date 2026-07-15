@@ -1,7 +1,7 @@
 {
   "name": "aquanavai",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Forecast-aware coastal route-planning research and offline professor demonstration.",
   "type": "module",
   "packageManager": "npm@11.13.0",
@@ -24,8 +24,6 @@
     "check": "npm run typecheck && npm run lint && npm run test && npm run build && npm run check:assets"
   },
   "dependencies": {
-    "ajv": "^8.20.0",
-    "ajv-formats": "^3.0.1",
     "maplibre-gl": "^5.24.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"

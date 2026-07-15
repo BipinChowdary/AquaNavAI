@@ -1,32 +1,149 @@
-schema_version: 1.0.0
-scenario: south-florida-v1
-mode: proxy
-sources:
-  - id: cudem
-    provider: NOAA NCEI
-    product: Continuously Updated Digital Elevation Model
-    role: primary bathymetry and feasibility mask
-    landing_page: https://www.ncei.noaa.gov/products/coastal-elevation-models
-    pinned_urls: []
-    expected_sha256: []
-  - id: etopo
-    provider: NOAA NCEI
-    product: ETOPO 2022 15 Arc-Second Global Relief Model
-    role: regional context only
-    landing_page: https://www.ncei.noaa.gov/products/etopo-global-relief-model
-    pinned_urls: []
-    expected_sha256: []
-  - id: rtofs
-    provider: NOAA NCEP
-    product: Global RTOFS
-    role: surface-current forcing
-    landing_page: https://polar.ncep.noaa.gov/global/about/index.shtml?text=
-    pinned_urls: []
-    expected_sha256: []
-  - id: ndbc
-    provider: NOAA NDBC
-    product: Realtime observations
-    role: observational context and later validation
-    landing_page: https://www.ndbc.noaa.gov/faq/rt_data_access.shtml
-    pinned_urls: []
-    expected_sha256: []
+schema_version: 2.0.0
+default_scenario: south-florida-noaa-v1
+scenarios:
+  south-florida-noaa-v1:
+    mode: pinned-noaa
+    geographic_bbox: [-80.24, 25.55, -80.005, 26.70]
+    processed_crs: EPSG:32617
+    retrieval_timestamp_utc: '2026-07-12T23:51:13Z'
+    sources:
+      - id: cudem
+        provider: NOAA National Centers for Environmental Information
+        product: Continuously Updated Digital Elevation Model 1/9 arc-second Florida topobathymetry
+        datasetIdentifier: NCEI_ninth_Topobathy_2014_8483
+        role: authoritative v1 elevation, bathymetry, land, shallow-water, and feasibility source
+        status: pinned
+        citation: NOAA NCEI Continuously Updated Digital Elevation Model (CUDEM), Florida 1/9 arc-second tiles
+        authoritativeEndpoint: https://chs.coast.noaa.gov/htdata/raster2/elevation/NCEI_ninth_Topobathy_2014_8483/FL/
+        retrievalTimestamp: '2026-07-12T23:51:13Z'
+        dataTimestamp: tile editions 2016v1 and 2018v1
+        geographicBoundingBox:
+          [-80.25018519, 25.49981481, -79.99981481, 26.75018519]
+        nativeCrs: EPSG:4269 (NAD83)
+        nativeGrid: 1/9 arc-second geographic raster, approximately 3 m
+        processedCrs: EPSG:32617
+        variables:
+          - name: elevation
+            units: m
+            verticalDatum: source tile metadata; elevations are not converted to a navigation-chart datum
+        missingValueRules: source NoData -9999; non-finite and uncovered target cells are invalid
+        regridding: bilinear reprojection to a 500 m EPSG:32617 analysis grid; interpolation does not increase source accuracy
+        licenseUsageAttribution: United States government NOAA data; source attribution retained; consult source metadata for survey-specific constraints
+        limitations: not a nautical chart; 500 m analysis cannot resolve all beaches, structures, channels, or hazards
+        processedArtifactChecksums:
+          bathymetry.webp: 22e145900f257fdb1ee5f61adc7780ba608c9055a461d5b8458abf0c3836fe59
+          coastline.geojson: 1a5a308d97ce4af0d935b1f47c25762770ffff144386d1f2fe1bbb6e96087690
+          navigation-grid.json: 6abc05099a607989325b44be3f795dbfca7b5ec185a1b74b027ab60a3f0683e3
+        files:
+          - url: https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/FL/ncei19_n25X75_w080X25_2018v1.tif
+            sha256: 8cce349860bc86ca2c8c60c2771f43e56799adda0c48c2b16c1907231a30f658
+          - url: https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/FL/ncei19_n26X00_w080X25_2018v1.tif
+            sha256: 3d88b26cd689bcc91600d0c0a684d9ce83bbe168fa7215e780144c7efbbc9764
+          - url: https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/FL/ncei19_n26X25_w080X25_2018v1.tif
+            sha256: e1366a3085d92d74683ddb40169df464617d265d8620b3df41a97d0021b863f5
+          - url: https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/FL/ncei19_n26X50_w080X25_2018v1.tif
+            sha256: 1e622414375aaf8565ffe3de39bad76daf6c640e0d2318de5447ac617eff6fb2
+          - url: https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/FL/ncei19_n26X75_w080X25_2018v1.tif
+            sha256: b5ec9cd1db31719e8aa1ae88612cd1943983708f18da6f4442cb1b685ba6ecc1
+      - id: rtofs
+        provider: NOAA National Centers for Environmental Prediction
+        product: Global Real-Time Ocean Forecast System western Atlantic standard fields
+        datasetIdentifier: rtofs_glo.t00z.f024_west_atl_std.grb2
+        role: modelled surface-current forcing
+        status: pinned
+        citation: NOAA NCEP Global Real-Time Ocean Forecast System (RTOFS), 2026-07-12 00Z cycle
+        authoritativeEndpoint: https://nomads.ncep.noaa.gov/pub/data/nccf/com/rtofs/prod/rtofs.20260712/
+        retrievalUrl: https://nomads.ncep.noaa.gov/pub/data/nccf/com/rtofs/prod/rtofs.20260712/rtofs_glo.t00z.f024_west_atl_std.grb2
+        retrievalTimestamp: '2026-07-12T23:47:38Z'
+        dataTimestamp: 2026-07-12T00:00:00Z cycle; hourly valid fields 2026-07-12T01:00:00Z through 2026-07-13T00:00:00Z
+        forecastCycle: '2026-07-12T00:00:00Z'
+        geographicBoundingBox:
+          [-100.0400696864, 9.9599078341, -53.9599303136, 44.8400921659]
+        nativeCrs: GRIB geographic sphere
+        nativeGrid: western Atlantic 0.08 degree raster, 575 x 435, north-up
+        processedCrs: EPSG:32617
+        variables:
+          - name: UOGRD at 0 m below sea level
+            units: m/s eastward
+          - name: VOGRD at 0 m below sea level
+            units: m/s northward
+        missingValueRules: GRIB NoData 9999; non-finite target values invalidate routing cells; no forecast extrapolation
+        regridding: component-wise bilinear reprojection to the same 500 m EPSG:32617 grid; no vector sign or axis swaps
+        sourceFileChecksum: 8c7d2f7132cd863781e575e95b2d556d5cae5905f131138a9ad932031a9fc3dd
+        licenseUsageAttribution: NOAA NCEP model output with visible NOAA attribution
+        limitations: modelled forecast, not an observation; native ocean-model resolution and five-metre minimum model depth limit nearshore interpretation
+        processedArtifactChecksums:
+          currents.geojson: 451417007e1ed8d4e23c58459ebb71a862b6ee52887806d3937491e0c3cb619c
+          routes.geojson: be45b14df39dde399ee9dc168650b4364c9de945b93bd802c50173a0293319db
+          metrics.json: 0b40f8ec977177dd49ce2caf780beb0478948e780398f591cd1e690bd006fbea
+      - id: ndbc
+        provider: NOAA National Data Buoy Center
+        product: Realtime station text observations
+        datasetIdentifier: NDBC realtime2 stations 41122 and LKWF1
+        role: contextual wave and meteorological observations only; not spatial current ground truth
+        status: pinned
+        citation: NOAA National Data Buoy Center realtime observations, stations 41122 and LKWF1
+        authoritativeEndpoint: https://www.ndbc.noaa.gov/data/realtime2/
+        retrievalTimestamp: '2026-07-12T23:50:47Z'
+        dataTimestamp: latest record embedded per station in stations.geojson
+        geographicBoundingBox: [-80.096, 26.001, -80.034, 26.613]
+        nativeCrs: WGS84 station coordinates
+        nativeGrid: point observations
+        processedCrs: EPSG:4326
+        variables:
+          - name: wind, gust, wave height/period/direction, water and air temperature when reported
+            units: NDBC realtime-file header units
+        missingValueRules: MM is serialized as null; records are automatically quality controlled and may change
+        regridding: none; latest observation retained at station coordinate
+        licenseUsageAttribution: NOAA NDBC data with station attribution
+        limitations: stations sample local conditions and cannot validate the full gridded current field
+        processedArtifactChecksums:
+          stations.geojson: 00922127863000c2ceb86802968ed28099c455565b70b54f007b90dc6b411464
+        files:
+          - url: https://www.ndbc.noaa.gov/data/realtime2/41122.txt
+            sha256: 48481ec4fc3fa1fd3ce3bb7917e0c3eee2ddcbeae4141abb275e283838f4366e
+          - url: https://www.ndbc.noaa.gov/data/realtime2/LKWF1.txt
+            sha256: 398a642deb96a287f9c731f73da09c1d727d76b9bacf45994b07ea30267818a7
+      - id: noaa-enc
+        provider: NOAA Office of Coast Survey
+        product: NOAA Electronic Navigational Charts and ENC Direct to GIS
+        datasetIdentifier: NOAA ENC / ENC Direct to GIS audit for South Florida cells
+        role: audited future chart-derived coastline, channel, obstruction, wreck, restricted-area, and marine-boundary constraints
+        status: audited-not-integrated
+        citation: NOAA Office of Coast Survey, NOAA Electronic Navigational Charts
+        authoritativeEndpoint: https://nauticalcharts.noaa.gov/charts/noaa-enc.html
+        retrievalTimestamp: '2026-07-13T01:20:00Z'
+        dataTimestamp: null
+        geographicBoundingBox: [-80.24, 25.55, -80.005, 26.70]
+        nativeCrs: ENC/S-57 chart cells; consult edition metadata
+        nativeGrid: vector chart features
+        processedCrs: EPSG:32617
+        variables:
+          - name: coastline, navigable-water context, channels, obstructions, wrecks, restricted features, and marine boundaries where available
+            units: feature geometry and chart attributes
+        missingValueRules: no ENC features are included in Navigation V2; CUDEM remains the sole v2 feasibility mask
+        regridding: none in Navigation V2
+        licenseUsageAttribution: visible NOAA attribution required; ENC Direct to GIS is a research/GIS aid and is not certified for operational navigation
+        limitations: chart-cell editions and applicable feature classes must be pinned and independently validated before they can alter the routing mask
+      - id: wavewatch-iii
+        provider: NOAA National Centers for Environmental Prediction
+        product: WAVEWATCH III
+        datasetIdentifier: deferred
+        role: future gridded wave forcing
+        status: deferred
+        citation: NOAA WAVEWATCH III model products
+        authoritativeEndpoint: https://polar.ncep.noaa.gov/waves/download.shtml
+        retrievalTimestamp: null
+        dataTimestamp: null
+        geographicBoundingBox: [-80.24, 25.55, -80.005, 26.70]
+        nativeCrs: not acquired
+        nativeGrid: not acquired
+        processedCrs: EPSG:32617
+        variables: []
+        missingValueRules: no wave values are generated or included
+        regridding: none
+        licenseUsageAttribution: NOAA attribution required when integrated
+        limitations: no cycle-aligned authoritative subset was pinned for v1; waves are excluded from route cost
+  south-florida-v1:
+    mode: offline-proxy
+    note: deterministic software fixture retained unchanged for unit and browser fallback tests

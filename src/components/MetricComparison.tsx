@@ -1,90 +1,85 @@
-import { formatDistance, formatDuration, formatEnergy, formatNumber } from '../lib/format'
+import {
+  formatDistance,
+  formatDuration,
+  formatEnergy,
+  formatNumber,
+} from '../lib/format'
 import type { RouteMetric } from '../types/scenario'
 
 interface MetricComparisonProps {
-  distance: RouteMetric
-  environmental: RouteMetric
+  routes: RouteMetric[]
+  selectedId: string
+  dataMode?: 'offline-proxy' | 'pinned-noaa'
 }
 
-function deltaPercent(baseline: number, value: number) {
-  return baseline === 0 ? 0 : ((value - baseline) / baseline) * 100
+const labels: Record<string, string> = {
+  shortest: 'Shortest',
+  fastest: 'Fastest',
+  energy: 'Energy',
+  balanced: 'Balanced',
 }
 
-export function MetricComparison({ distance, environmental }: MetricComparisonProps) {
-  const energyDelta = deltaPercent(
-    distance.modelled_propulsion_energy_wh,
-    environmental.modelled_propulsion_energy_wh,
-  )
-  const timeDelta = deltaPercent(distance.travel_time_s, environmental.travel_time_s)
-  const distanceDelta = deltaPercent(distance.path_length_m, environmental.path_length_m)
-  const metrics = [
-    {
-      label: 'Modelled energy',
-      baseline: formatEnergy(distance.modelled_propulsion_energy_wh),
-      treatment: formatEnergy(environmental.modelled_propulsion_energy_wh),
-      delta: energyDelta,
-    },
-    {
-      label: 'Transit time',
-      baseline: formatDuration(distance.travel_time_s),
-      treatment: formatDuration(environmental.travel_time_s),
-      delta: timeDelta,
-    },
-    {
-      label: 'Path length',
-      baseline: formatDistance(distance.path_length_m),
-      treatment: formatDistance(environmental.path_length_m),
-      delta: distanceDelta,
-    },
-  ]
+export function MetricComparison({
+  routes,
+  selectedId,
+  dataMode = 'offline-proxy',
+}: MetricComparisonProps) {
   return (
     <section className="metrics" aria-labelledby="metric-comparison-title">
       <div className="section-heading">
         <div>
-          <div className="eyebrow">Paired evaluation</div>
-          <h2 id="metric-comparison-title">Route outcome</h2>
+          <div className="eyebrow">Four-objective evaluation</div>
+          <h2 id="metric-comparison-title">Route outcomes</h2>
         </div>
-        <p>Same mission, grid, constraints, and departure cycle</p>
+        <p>Same mission, grid, constraints, vehicle, and forecast departure</p>
       </div>
-      <div className="metric-grid">
-        {metrics.map((metric) => (
-          <article className="metric-card" key={metric.label}>
+      <div className="metric-grid metric-grid--routes">
+        {routes.map((route) => (
+          <article
+            className={`metric-card ${route.algorithm === selectedId ? 'metric-card--selected' : ''}`}
+            key={route.id}
+            data-route-metric={route.algorithm}
+          >
             <div className="metric-card__header">
-              <span>{metric.label}</span>
-              <span className={metric.delta <= 0 ? 'delta delta--good' : 'delta delta--bad'}>
-                {metric.delta > 0 ? '+' : ''}
-                {formatNumber(metric.delta, 1)}%
+              <span>{labels[route.algorithm] ?? route.algorithm}</span>
+              <span className="tag">
+                {route.algorithm === 'shortest' ? 'Dijkstra' : 'A*'}
               </span>
             </div>
-            <div className="metric-values">
+            <dl className="route-metrics">
               <div>
-                <span>Distance</span>
-                <strong>{metric.baseline}</strong>
+                <dt>Distance</dt>
+                <dd>{formatDistance(route.path_length_m)}</dd>
               </div>
               <div>
-                <span>Environmental</span>
-                <strong>{metric.treatment}</strong>
+                <dt>Transit</dt>
+                <dd>{formatDuration(route.travel_time_s)}</dd>
               </div>
-            </div>
+              <div>
+                <dt>Modelled energy</dt>
+                <dd>{formatEnergy(route.modelled_propulsion_energy_wh)}</dd>
+              </div>
+              <div>
+                <dt>Risk score</dt>
+                <dd>{formatNumber(route.risk_score ?? 0, 2)}</dd>
+              </div>
+              <div>
+                <dt>Minimum depth</dt>
+                <dd>{formatNumber(route.minimum_depth_m, 1)} m</dd>
+              </div>
+              <div>
+                <dt>Mean current</dt>
+                <dd>{formatNumber(route.mean_current_mps, 2)} m/s</dd>
+              </div>
+            </dl>
           </article>
         ))}
-        <article className="metric-card metric-card--context">
-          <div className="metric-card__header">
-            <span>Environmental context</span>
-            <span className="tag">proxy</span>
-          </div>
-          <div className="metric-values">
-            <div>
-              <span>Minimum depth</span>
-              <strong>{formatNumber(environmental.minimum_depth_m, 1)} m</strong>
-            </div>
-            <div>
-              <span>Mean current</span>
-              <strong>{formatNumber(environmental.mean_current_mps, 2)} m/s</strong>
-            </div>
-          </div>
-        </article>
       </div>
+      <p className="control-hint">
+        {dataMode === 'pinned-noaa'
+          ? 'Currents are from the pinned NOAA RTOFS field; propulsion energy and risk are modelled quantities.'
+          : 'This fallback uses deterministic proxy inputs, not NOAA observations.'}
+      </p>
     </section>
   )
 }

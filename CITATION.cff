@@ -1,9 +1,9 @@
 cff-version: 1.2.0
-message: "A citation release will be assigned after research and IP review."
-title: "AquaNavAI: Forecast-aware coastal route planning"
+message: 'A citation release will be assigned after research and IP review.'
+title: 'AquaNavAI: Forecast-aware coastal route planning'
 type: software
 authors:
-  - family-names: "Chowdary"
-    given-names: "Bipin"
-version: 0.1.0
-date-released: 2026-07-12
+  - family-names: 'Chowdary'
+    given-names: 'Bipin'
+version: 0.2.0
+date-released: 2026-07-13

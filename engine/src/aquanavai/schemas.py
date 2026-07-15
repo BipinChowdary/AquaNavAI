@@ -28,7 +28,9 @@ class SourceRecord(BaseModel):
 class RouteResult(BaseModel):
     id: str
     pair_id: str
-    algorithm: Literal["distance", "environmental"]
+    algorithm: Literal[
+        "distance", "environmental", "shortest", "fastest", "energy", "balanced"
+    ]
     forecast_cycle: str
     departure_time: datetime
     path_length_m: float = Field(ge=0)
@@ -36,6 +38,7 @@ class RouteResult(BaseModel):
     modelled_propulsion_energy_wh: float = Field(ge=0)
     minimum_depth_m: float = Field(ge=0)
     mean_current_mps: float = Field(ge=0)
+    risk_score: float | None = Field(default=None, ge=0, le=1)
     compute_time_ms: float = Field(ge=0)
     compute_emissions_kg: float | None = Field(default=None, ge=0)
     coordinates: list[tuple[float, float]]

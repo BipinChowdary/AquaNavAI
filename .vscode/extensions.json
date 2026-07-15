@@ -12,8 +12,5 @@
     "github.vscode-pull-request-github",
     "pkief.material-icon-theme"
   ],
-  "unwantedRecommendations": [
-    "codecarbon.codecarbon",
-    "gruntfuggly.todo-tree"
-  ]
+  "unwantedRecommendations": ["codecarbon.codecarbon", "gruntfuggly.todo-tree"]
 }

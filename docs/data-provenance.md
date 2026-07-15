@@ -1,18 +1,9 @@
 # Data provenance policy
 
-Every source snapshot must record provider, product, exact URL, product/cycle
-identifier, UTC retrieval time, SHA-256, variables, units, bounding box, time
-range, CRS, vertical datum, missing-value handling, transformations, and formal
-citation.
+Every snapshot records provider, product, exact URL, product/cycle identifier, UTC retrieval time, SHA-256, variables, units, bounding box, time range, CRS, vertical datum, missing-value handling, transformations, and citation.
 
-CUDEM is the planned feasibility-mask source. ETOPO supplies regional context,
-not navigation detail. RTOFS supplies surface-current forcing, not obstacle
-geometry. NDBC supplies point observations and later wave/wind validation, not
-spatial current truth.
+Navigation V2 uses NOAA CUDEM as its bathymetry and feasibility source, NOAA RTOFS as modelled surface-current forcing, and NDBC as contextual observations. NDBC is not spatial current ground truth. Interpolation to 500 m never increases native environmental resolution.
 
-Raw and processed data are ignored. Only reviewed, bounded web derivatives are
-committed. Interpolation onto the 500 m grid must never be described as
-increasing the native environmental-data resolution.
+NOAA ENC and ENC Direct to GIS were audited as future chart-context sources. No ENC edition or feature class is integrated because a bounded, checksummed extraction has not yet been pinned. V2 therefore does not claim charted wreck, obstruction, channel, restriction, or marine-boundary avoidance. ENC Direct to GIS is useful for research/GIS demonstration but is not certified for operational navigation.
 
-`south-florida-v1` currently has `status: proxy`; its provenance explicitly
-states that source acquisition is pending.
+Raw downloads are ignored. Reviewed bounded derivatives are committed with checksums. `south-florida-noaa-v1` is the NOAA-derived release; `south-florida-v1` remains a separate deterministic proxy fixture and is never represented as NOAA-derived.

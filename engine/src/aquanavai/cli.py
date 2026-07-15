@@ -18,7 +18,7 @@ app.add_typer(data_app, name="data")
 
 
 def _scenario_option() -> str:
-    return "south-florida-v1"
+    return "south-florida-noaa-v1"
 
 
 @data_app.command("fetch")
@@ -31,6 +31,10 @@ def fetch_data(
             "The scenario catalog is in proxy mode. Pin exact NOAA URLs and expected checksums "
             "in data/catalog.yaml before any network acquisition."
         )
+    from aquanavai.pipeline.build_noaa_scenario import build
+
+    output = build(repository_root() / "data" / "catalog.yaml")
+    typer.echo(f"Fetched/validated pinned sources and rebuilt {output}.")
 
 
 @data_app.command("validate")
@@ -57,11 +61,21 @@ def validate_data(
 @app.command("route")
 def route(
     scenario: Annotated[str, typer.Option(help="Scenario identifier.")] = _scenario_option(),
-    algorithm: Annotated[str, typer.Option(help="distance or environmental")] = "environmental",
+    algorithm: Annotated[
+        str,
+        typer.Option(help="shortest, fastest, energy, or balanced"),
+    ] = "balanced",
 ) -> None:
-    if algorithm not in {"distance", "environmental"}:
-        raise typer.BadParameter("algorithm must be distance or environmental")
-    bundle = evaluate_scenario(load_scenario(scenario), load_vehicle(), all_cycles=False)
+    if algorithm not in {"shortest", "fastest", "energy", "balanced"}:
+        raise typer.BadParameter("algorithm must be shortest, fastest, energy, or balanced")
+    config = load_scenario(scenario)
+    if not config.offline_proxy:
+        path = repository_root() / "public" / "scenarios" / scenario / "metrics.json"
+        artifact = json.loads(path.read_text(encoding="utf-8"))
+        selected = [item for item in artifact["results"] if item["algorithm"] == algorithm]
+        typer.echo(json.dumps(selected, indent=2))
+        return
+    bundle = evaluate_scenario(config, load_vehicle(), all_cycles=False)
     selected = [result for result in bundle.results if result.algorithm == algorithm]
     typer.echo(
         json.dumps(
@@ -80,26 +94,39 @@ def evaluate(
         bool, typer.Option(help="Enable controlled CodeCarbon tracking.")
     ] = False,
 ) -> None:
+    config = load_scenario(scenario)
+    if not config.offline_proxy:
+        source = repository_root() / "public" / "scenarios" / scenario / "metrics.json"
+        artifact = json.loads(source.read_text(encoding="utf-8"))
+        write_json(output, artifact)
+        typer.echo(f"Wrote {len(artifact['results']) // 4} four-objective NOAA cases to {output}")
+        return
     with computation_emissions(output.parent, enabled=track_compute):
-        bundle = evaluate_scenario(load_scenario(scenario), load_vehicle(), all_cycles=True)
+        bundle = evaluate_scenario(config, load_vehicle(), all_cycles=True)
     write_json(
         output,
         {
             "scenarioId": scenario,
-            "pairedCases": len(bundle.results) // 2,
+            "pairedCases": len(bundle.results) // 4,
             "results": [
                 item.model_dump(mode="json", exclude={"coordinates"}) for item in bundle.results
             ],
         },
     )
-    typer.echo(f"Wrote {len(bundle.results) // 2} paired cases to {output}")
+    typer.echo(f"Wrote {len(bundle.results) // 4} four-objective cases to {output}")
 
 
 @app.command("export-web")
 def export_web(
     scenario: Annotated[str, typer.Option(help="Scenario identifier.")] = _scenario_option(),
 ) -> None:
-    output = export_web_scenario(load_scenario(scenario), load_vehicle())
+    config = load_scenario(scenario)
+    if not config.offline_proxy:
+        from aquanavai.pipeline.build_noaa_scenario import build
+
+        output = build(repository_root() / "data" / "catalog.yaml")
+    else:
+        output = export_web_scenario(config, load_vehicle())
     typer.echo(f"Exported immutable static scenario to {output}")
 
 
@@ -120,6 +147,12 @@ def reproduce(
                 f"Offline cache is missing at {raw}; run "
                 f"'aquanav data fetch --scenario {scenario}' explicitly."
             )
+        from aquanavai.pipeline.build_noaa_scenario import build
+
+        output = build(repository_root() / "data" / "catalog.yaml", allow_network=False)
+        validate_data(scenario)
+        typer.echo(f"Offline reproduction complete: {output}")
+        return
     output = export_web_scenario(config, load_vehicle())
     validate_data(scenario)
     typer.echo(f"Offline reproduction complete: {output}")

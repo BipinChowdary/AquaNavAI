@@ -11,8 +11,8 @@ from aquanavai.config import ScenarioConfig, VehicleConfig
 from aquanavai.energy.vehicle import VehicleModel
 from aquanavai.processing.grid import GridSpec
 from aquanavai.processing.mask import feasible_water_mask, snap_to_feasible
-from aquanavai.routing.environmental_astar import environmental_astar
 from aquanavai.routing.graph import GridEnvironment
+from aquanavai.routing.objective_astar import RouteObjective, objective_astar
 from aquanavai.routing.shortest_path import shortest_path
 from aquanavai.schemas import RouteResult
 
@@ -94,18 +94,23 @@ def evaluate_scenario(
         departure = datetime.fromisoformat(cycle.replace("Z", "+00:00"))
         for pair in scenario.route_pairs:
             start, goal = _nodes_for_pair(environment, pair.start, pair.goal)
+            from aquanavai.evaluation.metrics import evaluate_path
 
             started = perf_counter()
             distance_path = shortest_path(environment, start, goal)
             distance_elapsed = (perf_counter() - started) * 1000
-            from aquanavai.evaluation.metrics import evaluate_path
-
             distance_metrics = evaluate_path(environment, distance_path.nodes, vehicle)
+            shortest_risk = min(
+                1.0,
+                0.6 * distance_metrics.mean_current_mps / vehicle.cruise_speed_mps
+                + 0.4
+                * max(0.0, min(1.0, (20.0 - distance_metrics.minimum_depth_m) / 15.0)),
+            )
             results.append(
                 RouteResult(
-                    id=f"{cycle[:10]}-{pair.id}-distance",
+                    id=f"{cycle[:10]}-{pair.id}-shortest",
                     pair_id=pair.id,
-                    algorithm="distance",
+                    algorithm="shortest",
                     forecast_cycle=cycle,
                     departure_time=departure,
                     path_length_m=distance_metrics.path_length_m,
@@ -113,43 +118,40 @@ def evaluate_scenario(
                     modelled_propulsion_energy_wh=distance_metrics.energy_wh,
                     minimum_depth_m=distance_metrics.minimum_depth_m,
                     mean_current_mps=distance_metrics.mean_current_mps,
+                    risk_score=shortest_risk,
                     compute_time_ms=distance_elapsed,
                     coordinates=[environment.coordinate(node) for node in distance_path.nodes],
                 )
             )
-
-            started = perf_counter()
-            environmental_path = environmental_astar(environment, start, goal, vehicle)
-            environmental_elapsed = (perf_counter() - started) * 1000
-            results.append(
-                RouteResult(
-                    id=f"{cycle[:10]}-{pair.id}-environmental",
-                    pair_id=pair.id,
-                    algorithm="environmental",
-                    forecast_cycle=cycle,
-                    departure_time=departure,
-                    path_length_m=sum(
-                        environment.grid.resolution_m
-                        * (
-                            (environment.grid.cell(b)[0] - environment.grid.cell(a)[0]) ** 2
-                            + (environment.grid.cell(b)[1] - environment.grid.cell(a)[1]) ** 2
-                        )
-                        ** 0.5
-                        for a, b in zip(
-                            environmental_path.nodes, environmental_path.nodes[1:], strict=False
-                        )
-                    ),
-                    travel_time_s=environmental_path.travel_time_s,
-                    modelled_propulsion_energy_wh=environmental_path.energy_wh,
-                    minimum_depth_m=environment.minimum_depth(environmental_path.nodes),
-                    mean_current_mps=environmental_path.mean_current_mps,
-                    compute_time_ms=environmental_elapsed,
-                    coordinates=[environment.coordinate(node) for node in environmental_path.nodes],
+            objective_nodes: dict[str, list[int]] = {}
+            for objective in ("fastest", "energy", "balanced"):
+                typed_objective: RouteObjective = objective
+                started = perf_counter()
+                path = objective_astar(environment, start, goal, vehicle, typed_objective)
+                elapsed = (perf_counter() - started) * 1000
+                metric = evaluate_path(environment, path.nodes, vehicle)
+                objective_nodes[objective] = path.nodes
+                results.append(
+                    RouteResult(
+                        id=f"{cycle[:10]}-{pair.id}-{objective}",
+                        pair_id=pair.id,
+                        algorithm=objective,
+                        forecast_cycle=cycle,
+                        departure_time=departure,
+                        path_length_m=metric.path_length_m,
+                        travel_time_s=path.travel_time_s,
+                        modelled_propulsion_energy_wh=path.energy_wh,
+                        minimum_depth_m=metric.minimum_depth_m,
+                        mean_current_mps=path.mean_current_mps,
+                        risk_score=path.risk_score,
+                        compute_time_ms=elapsed,
+                        coordinates=[environment.coordinate(node) for node in path.nodes],
+                    )
                 )
-            )
             if cycle_index == 0:
-                primary_paths[f"{pair.id}:distance"] = distance_path.nodes
-                primary_paths[f"{pair.id}:environmental"] = environmental_path.nodes
+                primary_paths[f"{pair.id}:shortest"] = distance_path.nodes
+                for objective, nodes in objective_nodes.items():
+                    primary_paths[f"{pair.id}:{objective}"] = nodes
 
     if primary_environment is None:
         raise RuntimeError("No forecast cycles were evaluated")

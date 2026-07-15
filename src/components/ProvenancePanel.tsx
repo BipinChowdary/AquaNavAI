@@ -1,12 +1,16 @@
 import type { ProvenanceArtifact } from '../types/scenario'
 
-export function ProvenancePanel({ provenance }: { provenance: ProvenanceArtifact }) {
+export function ProvenancePanel({
+  provenance,
+}: {
+  provenance: ProvenanceArtifact
+}) {
   return (
-    <details className="provenance">
+    <details className="provenance" id="provenance">
       <summary>
         <span>
-          <span className="eyebrow">Audit trail</span>
-          Data provenance and limitations
+          <span className="eyebrow">Audit trail</span>Data provenance and
+          limitations
         </span>
         <span aria-hidden="true">+</span>
       </summary>
@@ -18,12 +22,29 @@ export function ProvenancePanel({ provenance }: { provenance: ProvenanceArtifact
               <span className="source-status">{source.status}</span>
               <h3>{source.product}</h3>
               <p>{source.role}</p>
-              <a href={source.url} rel="noreferrer" target="_blank">
-                {source.provider} source ↗
+              <a
+                href={source.url ?? source.authoritativeEndpoint}
+                rel="noreferrer"
+                target="_blank"
+              >
+                {source.provider} official source
               </a>
+              {source.retrievalTimestamp && (
+                <p>Retrieved {source.retrievalTimestamp}</p>
+              )}
+              {source.sourceFileChecksum && (
+                <code>{source.sourceFileChecksum.slice(0, 16)}...</code>
+              )}
             </article>
           ))}
         </div>
+        {provenance.limitations && (
+          <ul className="limitations">
+            {provenance.limitations.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        )}
       </div>
     </details>
   )

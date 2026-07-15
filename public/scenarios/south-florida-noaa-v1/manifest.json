@@ -1,0 +1,74 @@
+{
+  "bbox": [
+    -80.24,
+    25.55,
+    -80.005,
+    26.7
+  ],
+  "checksums": {
+    "PROVENANCE.md": "ca2eabc8ebd671a67f108b153ea7c8c80f5dacd70e2d961c0e641adb6ff3ad8a",
+    "bathymetry.webp": "22e145900f257fdb1ee5f61adc7780ba608c9055a461d5b8458abf0c3836fe59",
+    "coastline.geojson": "1a5a308d97ce4af0d935b1f47c25762770ffff144386d1f2fe1bbb6e96087690",
+    "currents.geojson": "451417007e1ed8d4e23c58459ebb71a862b6ee52887806d3937491e0c3cb619c",
+    "metrics.json": "0b40f8ec977177dd49ce2caf780beb0478948e780398f591cd1e690bd006fbea",
+    "navigation-grid.json": "6abc05099a607989325b44be3f795dbfca7b5ec185a1b74b027ab60a3f0683e3",
+    "provenance.json": "8e41135dab888852debc8a86835a02965dcba66ee8a9309fa74cd39e04b3e138",
+    "routes.geojson": "be45b14df39dde399ee9dc168650b4364c9de945b93bd802c50173a0293319db",
+    "stations.geojson": "00922127863000c2ceb86802968ed28099c455565b70b54f007b90dc6b411464"
+  },
+  "citations": [
+    "NOAA NCEI Continuously Updated Digital Elevation Model (CUDEM), Florida 1/9 arc-second tiles",
+    "NOAA NCEP Global Real-Time Ocean Forecast System (RTOFS), 2026-07-12 00Z cycle",
+    "NOAA National Data Buoy Center realtime observations, stations 41122 and LKWF1",
+    "NOAA Office of Coast Survey, NOAA Electronic Navigational Charts",
+    "NOAA WAVEWATCH III model products"
+  ],
+  "crs": {
+    "analysis": "EPSG:32617",
+    "interchange": "EPSG:4326"
+  },
+  "dataMode": "pinned-noaa",
+  "departureTimes": [
+    "2026-07-12T01:00:00Z",
+    "2026-07-12T02:00:00Z",
+    "2026-07-12T03:00:00Z",
+    "2026-07-12T04:00:00Z",
+    "2026-07-12T05:00:00Z",
+    "2026-07-12T06:00:00Z",
+    "2026-07-12T07:00:00Z",
+    "2026-07-12T08:00:00Z",
+    "2026-07-12T09:00:00Z",
+    "2026-07-12T10:00:00Z"
+  ],
+  "disclaimer": "Research demonstration only; not for navigation, collision avoidance, or operational mission planning.",
+  "files": {
+    "bathymetry": "bathymetry.webp",
+    "coastline": "coastline.geojson",
+    "currents": "currents.geojson",
+    "grid": "navigation-grid.json",
+    "metrics": "metrics.json",
+    "provenance": "provenance.json",
+    "provenanceReport": "PROVENANCE.md",
+    "routes": "routes.geojson",
+    "stations": "stations.geojson"
+  },
+  "forecastCycles": [
+    "2026-07-12T01:00:00Z",
+    "2026-07-12T02:00:00Z",
+    "2026-07-12T03:00:00Z",
+    "2026-07-12T04:00:00Z",
+    "2026-07-12T05:00:00Z",
+    "2026-07-12T06:00:00Z",
+    "2026-07-12T07:00:00Z",
+    "2026-07-12T08:00:00Z",
+    "2026-07-12T09:00:00Z",
+    "2026-07-12T10:00:00Z"
+  ],
+  "generatedAt": "2026-07-13T00:00:00Z",
+  "id": "south-florida-noaa-v1",
+  "immutable": true,
+  "referenceVehicleId": "reference-asv-v1",
+  "schemaVersion": "1.0.0",
+  "title": "NOAA South Florida Atlantic Shelf",
+  "version": "2.0.0"
+}
