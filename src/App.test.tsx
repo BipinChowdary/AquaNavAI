@@ -150,6 +150,10 @@ describe('AquaNavAI application', () => {
       document.querySelector('[data-init-stage="ready"]'),
     ).toBeInTheDocument()
     expect(screen.getByLabelText('Interactive coastal map')).toBeInTheDocument()
+    expect(
+      screen.getByText('AquaNavAI — Project by Bipin Chowdary'),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Scenario v1.0.0')).toBeInTheDocument()
   })
 
   it('exposes four independently toggleable route layers', async () => {

@@ -460,9 +460,8 @@ function App() {
         </aside>
       )}
       <footer>
-        <span>AquaNavAI | MS AI research demonstrator</span>
-        <span>Immutable scenario {scenario.manifest.version}</span>
-        <span>Generated {scenario.manifest.generatedAt.slice(0, 10)}</span>
+        <span>AquaNavAI — Project by Bipin Chowdary</span>
+        <span>Scenario v{scenario.manifest.version}</span>
       </footer>
     </div>
   )
