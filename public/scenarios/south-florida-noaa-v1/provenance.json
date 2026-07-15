@@ -113,8 +113,8 @@
       "nativeGrid": "western Atlantic 0.08 degree raster, 575 x 435, north-up",
       "processedArtifactChecksums": {
         "currents.geojson": "451417007e1ed8d4e23c58459ebb71a862b6ee52887806d3937491e0c3cb619c",
-        "metrics.json": "ce0da55f241b8ffa5a77be0df74df706f16a2f46652d7fc0ed41a04ee2f5fcb6",
-        "routes.geojson": "a944ba8f49b5e2787440efe03f3ff9e286d2d4f596de718c0cb07029cdc0607b"
+        "metrics.json": "0b40f8ec977177dd49ce2caf780beb0478948e780398f591cd1e690bd006fbea",
+        "routes.geojson": "be45b14df39dde399ee9dc168650b4364c9de945b93bd802c50173a0293319db"
       },
       "processedCrs": "EPSG:32617",
       "product": "Global Real-Time Ocean Forecast System western Atlantic standard fields",

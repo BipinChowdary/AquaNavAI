@@ -29,3 +29,22 @@ Preview deployments build non-production branches. Promote only a reviewed `main
 7. Inspect response headers for CSP, `nosniff`, `DENY`, no-referrer, and restrictive permissions.
 
 No deployment is considered complete until the public URL is retrieved and these checks pass.
+
+## Initialization and cache contract
+
+The release index and scenario manifests revalidate on every load. Hashed Vite
+assets and checksum-addressed scenario artifacts are cached immutably; artifact
+requests carry their manifest SHA-256 as a query key. A changed manifest therefore
+cannot silently reuse an older data object. No service worker is registered.
+
+Initialization records release-index, manifest, artifact-download, checksum,
+contract-validation, worker-startup, and model-construction timing. Eight seconds
+is a soft advisory only. A run fails only after 30 seconds without progress, at
+which point Retry aborts the old request and terminates the old worker. The
+diagnostic copy contains build identity, browser/map mode, stage timing, HTTP and
+content-length evidence, and expected/actual checksums; it contains no secret or
+local filesystem path.
+
+When WebGL is unavailable or lost, the application keeps routing and controls
+active and switches to the simplified same-origin SVG renderer. Production
+acceptance must exercise both renderers.

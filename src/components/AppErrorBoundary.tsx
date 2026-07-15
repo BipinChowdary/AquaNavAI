@@ -17,7 +17,10 @@ export class AppErrorBoundary extends Component<
       <main className="load-state load-state--error">
         <span>Application error</span>
         <h1>The interface encountered a recoverable rendering failure.</h1>
-        <p>{this.state.error.message}</p>
+        <p>
+          Reload the application to retry. Technical details were written to the
+          browser console for diagnostics.
+        </p>
         <button type="button" onClick={() => location.reload()}>
           Reload application
         </button>

@@ -17,5 +17,25 @@ export default defineConfig({
     url: 'http://127.0.0.1:5173',
     reuseExistingServer: !process.env.CI,
   },
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  projects: [
+    {
+      name: 'chromium',
+      testIgnore: /webgl-fallback\.spec\.ts/,
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'chromium-no-webgl',
+      testMatch: /webgl-fallback\.spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: {
+          args: [
+            '--disable-webgl',
+            '--disable-webgl2',
+            '--disable-software-rasterizer',
+          ],
+        },
+      },
+    },
+  ],
 })

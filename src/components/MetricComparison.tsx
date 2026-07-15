@@ -28,10 +28,18 @@ export function MetricComparison({
     <section className="metrics" aria-labelledby="metric-comparison-title">
       <div className="section-heading">
         <div>
-          <div className="eyebrow">Four-objective evaluation</div>
+          <div className="eyebrow">
+            {dataMode === 'pinned-noaa'
+              ? 'Four-objective evaluation'
+              : 'Legacy proxy evaluation'}
+          </div>
           <h2 id="metric-comparison-title">Route outcomes</h2>
         </div>
-        <p>Same mission, grid, constraints, vehicle, and forecast departure</p>
+        <p>
+          {dataMode === 'pinned-noaa'
+            ? 'Same mission, grid, constraints, vehicle, and forecast departure'
+            : 'Deterministic distance and environmental-cost software baselines'}
+        </p>
       </div>
       <div className="metric-grid metric-grid--routes">
         {routes.map((route) => (
@@ -43,7 +51,9 @@ export function MetricComparison({
             <div className="metric-card__header">
               <span>{labels[route.algorithm] ?? route.algorithm}</span>
               <span className="tag">
-                {route.algorithm === 'shortest' ? 'Dijkstra' : 'A*'}
+                {['shortest', 'distance'].includes(route.algorithm)
+                  ? 'Dijkstra'
+                  : 'A*'}
               </span>
             </div>
             <dl className="route-metrics">

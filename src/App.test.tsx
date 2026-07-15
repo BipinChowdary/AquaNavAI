@@ -1,6 +1,6 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
 import { loadScenario } from './data/loadScenario'
 import type {
@@ -135,7 +135,11 @@ const scenario: LoadedScenario = {
 }
 
 describe('AquaNavAI application', () => {
-  beforeEach(() => vi.mocked(loadScenario).mockResolvedValue(scenario))
+  beforeEach(() => {
+    vi.mocked(loadScenario).mockReset()
+    vi.mocked(loadScenario).mockResolvedValue(scenario)
+  })
+  afterEach(() => vi.useRealTimers())
 
   it('reaches ready with four objective metrics and the research warning', async () => {
     render(<App />)
@@ -164,5 +168,71 @@ describe('AquaNavAI application', () => {
     expect(checkboxes[0]).toBeChecked()
     await user.click(checkboxes[0])
     await waitFor(() => expect(checkboxes[0]).not.toBeChecked())
+  })
+
+  it('treats a 10-second cold load as a soft warning and still reaches ready', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    let resolveScenario: (value: LoadedScenario) => void = () => undefined
+    vi.mocked(loadScenario).mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolveScenario = resolve
+      }),
+    )
+    render(<App />)
+    await act(async () => vi.advanceTimersByTimeAsync(10_000))
+    expect(
+      screen.getByText(/still making progress and will continue safely/i),
+    ).toBeInTheDocument()
+    expect(document.querySelector('[data-init-stage="failed"]')).toBeNull()
+    await act(async () => {
+      resolveScenario(scenario)
+      await Promise.resolve()
+    })
+    await waitFor(() =>
+      expect(
+        document.querySelector('[data-init-stage="ready"]'),
+      ).toBeInTheDocument(),
+    )
+  })
+
+  it('surfaces acquisition failure and retries from a clean run', async () => {
+    vi.mocked(loadScenario)
+      .mockRejectedValueOnce(new Error('HTTP 503 while loading release index'))
+      .mockResolvedValueOnce(scenario)
+    const user = userEvent.setup()
+    render(<App />)
+    expect(
+      await screen.findByText(/HTTP 503 while loading release index/i),
+    ).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Retry' }))
+    await waitFor(() =>
+      expect(
+        document.querySelector('[data-init-stage="ready"]'),
+      ).toBeInTheDocument(),
+    )
+    expect(loadScenario).toHaveBeenCalledTimes(2)
+  })
+
+  it('requests the explicitly labelled proxy fixture after primary failure', async () => {
+    vi.mocked(loadScenario)
+      .mockRejectedValueOnce(new Error('Primary scenario unavailable'))
+      .mockResolvedValueOnce({
+        ...scenario,
+        manifest: {
+          ...scenario.manifest,
+          id: 'south-florida-v1',
+          dataMode: 'offline-proxy',
+        },
+      })
+    const user = userEvent.setup()
+    render(<App />)
+    await screen.findByText(/Primary scenario unavailable/i)
+    await user.click(
+      screen.getByRole('button', {
+        name: 'Load deterministic proxy fixture',
+      }),
+    )
+    await waitFor(() => expect(loadScenario).toHaveBeenCalledTimes(2))
+    expect(vi.mocked(loadScenario).mock.calls[1]?.[0]).toBe('south-florida-v1')
   })
 })
