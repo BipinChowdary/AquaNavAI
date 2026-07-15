@@ -5,8 +5,44 @@
   X-Frame-Options: DENY
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
 
+/
+  Cache-Control: no-cache, must-revalidate
+
+/index.html
+  Cache-Control: no-cache, must-revalidate
+
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-/scenarios/*
-  Cache-Control: public, max-age=0, must-revalidate
+/scenarios/index.json
+  Cache-Control: no-cache, must-revalidate
+
+/scenarios/*/manifest.json
+  Cache-Control: no-cache, must-revalidate
+
+/scenarios/*/bathymetry.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+/scenarios/*/coastline.geojson
+  Cache-Control: public, max-age=31536000, immutable
+
+/scenarios/*/currents.geojson
+  Cache-Control: public, max-age=31536000, immutable
+
+/scenarios/*/metrics.json
+  Cache-Control: public, max-age=31536000, immutable
+
+/scenarios/*/navigation-grid.json
+  Cache-Control: public, max-age=31536000, immutable
+
+/scenarios/*/provenance.json
+  Cache-Control: public, max-age=31536000, immutable
+
+/scenarios/*/PROVENANCE.md
+  Cache-Control: public, max-age=31536000, immutable
+
+/scenarios/*/routes.geojson
+  Cache-Control: public, max-age=31536000, immutable
+
+/scenarios/*/stations.geojson
+  Cache-Control: public, max-age=31536000, immutable

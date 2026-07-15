@@ -79,7 +79,7 @@ test('offline Navigation V2 proves four routes, exact-route movement, and custom
   )
   expect(releasedRoutes.every((route) => route.points > 2)).toBe(true)
   await page.screenshot({
-    path: 'docs/screenshots/navigation-v2-ready.png',
+    path: 'artifacts/screenshots/navigation-v2-ready.png',
     fullPage: true,
   })
 
@@ -114,20 +114,27 @@ test('offline Navigation V2 proves four routes, exact-route movement, and custom
   await slider.fill('25')
   const quarter = await marker(page)
   await page.screenshot({
-    path: 'docs/screenshots/navigation-v2-progress-25.png',
+    path: 'artifacts/screenshots/navigation-v2-progress-25.png',
   })
   await slider.fill('50')
   const halfway = await marker(page)
   await page.screenshot({
-    path: 'docs/screenshots/navigation-v2-progress-50.png',
+    path: 'artifacts/screenshots/navigation-v2-progress-50.png',
   })
   expect(
     Math.hypot(halfway.lng - quarter.lng, halfway.lat - quarter.lat),
   ).toBeGreaterThan(0.001)
+  await slider.fill('75')
+  const threeQuarter = await marker(page)
+  expect(
+    Math.hypot(threeQuarter.lng - halfway.lng, threeQuarter.lat - halfway.lat),
+  ).toBeGreaterThan(0.001)
   await slider.fill('100')
   const end = await marker(page)
   expect(end.progress).toBe(1)
-  await page.screenshot({ path: 'docs/screenshots/navigation-v2-complete.png' })
+  await page.screenshot({
+    path: 'artifacts/screenshots/navigation-v2-complete.png',
+  })
   await page.getByRole('button', { name: 'Reset', exact: true }).click()
   const reset = await marker(page)
   expect(reset.lng).toBeCloseTo(start.lng, 5)
@@ -156,7 +163,7 @@ test('offline Navigation V2 proves four routes, exact-route movement, and custom
     page.getByRole('option', { name: 'Custom map selection' }),
   ).toBeAttached()
   await page.screenshot({
-    path: 'docs/screenshots/navigation-v2-custom-route.png',
+    path: 'artifacts/screenshots/navigation-v2-custom-route.png',
     fullPage: true,
   })
 

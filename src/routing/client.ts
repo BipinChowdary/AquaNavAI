@@ -29,6 +29,7 @@ export class RoutingWorkerClient {
   private latestRouteRequest = 0
   status: WorkerStatus = 'idle'
   decodeTimeMs = 0
+  startupTimeMs = 0
   private readonly onStatus?: (status: WorkerStatus) => void
 
   constructor(onStatus?: (status: WorkerStatus) => void) {
@@ -40,9 +41,10 @@ export class RoutingWorkerClient {
     this.onStatus?.(status)
   }
 
-  async initialize(grid: NavigationGridArtifact, timeoutMs = 8_000) {
+  async initialize(grid: NavigationGridArtifact, timeoutMs = 30_000) {
     this.dispose()
     this.setStatus('initializing')
+    const started = performance.now()
     const worker = new Worker(
       new URL('../workers/routeWorker.ts', import.meta.url),
       {
@@ -54,6 +56,7 @@ export class RoutingWorkerClient {
       const message = event.data
       if (message.type === 'ready') {
         this.decodeTimeMs = message.decodeTimeMs ?? 0
+        this.startupTimeMs = performance.now() - started
         this.setStatus('ready')
       }
       const request = this.pending.get(message.id)
@@ -75,6 +78,10 @@ export class RoutingWorkerClient {
     }
     const fail = (message: string) => {
       this.setStatus('error')
+      if (this.worker === worker) {
+        worker.terminate()
+        this.worker = null
+      }
       for (const request of this.pending.values()) {
         clearTimeout(request.timer)
         request.reject(new Error(message))
@@ -85,20 +92,36 @@ export class RoutingWorkerClient {
     worker.onmessageerror = () =>
       fail('Routing worker returned an unreadable message.')
     const id = ++this.sequence
-    await new Promise<void>((resolve, reject) => {
-      const timer = setTimeout(() => {
-        this.pending.delete(id)
-        reject(
-          new Error('Routing worker initialization timed out after 8 seconds.'),
-        )
-      }, timeoutMs)
-      this.pending.set(id, {
-        resolve: () => resolve(),
-        reject,
-        timer,
+    try {
+      await new Promise<void>((resolve, reject) => {
+        const timer = setTimeout(() => {
+          this.pending.delete(id)
+          if (this.worker === worker) {
+            worker.terminate()
+            this.worker = null
+          }
+          this.setStatus('error')
+          reject(
+            new Error(
+              `Routing worker made no progress before the ${Math.round(timeoutMs / 1000)}-second stall deadline.`,
+            ),
+          )
+        }, timeoutMs)
+        this.pending.set(id, {
+          resolve: () => resolve(),
+          reject,
+          timer,
+        })
+        worker.postMessage({ type: 'init', id, grid })
       })
-      worker.postMessage({ type: 'init', id, grid })
-    })
+    } catch (reason) {
+      if (this.worker === worker) {
+        worker.terminate()
+        this.worker = null
+      }
+      this.setStatus('error')
+      throw reason
+    }
   }
 
   async calculate(
@@ -159,6 +182,8 @@ export class RoutingWorkerClient {
       request.reject(new Error('Routing worker was disposed.'))
     }
     this.pending.clear()
+    this.decodeTimeMs = 0
+    this.startupTimeMs = 0
     this.setStatus('idle')
   }
 }

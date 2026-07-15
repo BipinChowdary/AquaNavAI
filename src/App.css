@@ -125,6 +125,16 @@
   color: var(--teal);
 }
 
+.data-status button {
+  padding: 0;
+  border: 0;
+  color: var(--teal);
+  background: transparent;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .disclaimer__mark {
   width: 22px;
   height: 22px;
@@ -463,6 +473,90 @@ a:focus-visible {
   height: 100%;
 }
 
+.map-shell--checking {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  background: #061b2a;
+}
+
+.map-shell--simplified {
+  background: #061b2a;
+}
+
+.coastal-map--simplified {
+  cursor: crosshair;
+  touch-action: manipulation;
+}
+
+.fallback-land path {
+  fill: #e8e2d2;
+  stroke: #84877d;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.fallback-routes polyline {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 2px 2px #03121c);
+}
+
+.fallback-endpoints circle {
+  stroke: #fff;
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.fallback-endpoints .start {
+  fill: #22c55e;
+}
+
+.fallback-endpoints .goal {
+  fill: #fb7185;
+}
+
+.asv-marker--svg {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.asv-marker--svg .asv-pulse {
+  fill: rgba(251, 191, 36, 0.16);
+  stroke: rgba(251, 191, 36, 0.8);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.asv-marker--svg .asv-icon {
+  fill: #fff7d6;
+  stroke: #03121c;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.map-fallback-notice,
+.fallback-attribution {
+  position: absolute;
+  z-index: 4;
+  right: 12px;
+  padding: 6px 8px;
+  border: 1px solid rgba(203, 226, 231, 0.2);
+  border-radius: 2px;
+  color: #b7d0d7;
+  background: rgba(3, 18, 28, 0.88);
+  font-size: 9px;
+}
+
+.map-fallback-notice {
+  top: 18px;
+}
+
+.fallback-attribution {
+  bottom: 10px;
+}
+
 .map-label {
   position: absolute;
   z-index: 2;
@@ -722,6 +816,27 @@ footer {
 .load-state h1 {
   max-width: 640px;
   color: var(--text);
+}
+.slow-initialization {
+  max-width: 620px;
+  margin: 0 auto;
+  color: #d8c59d;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.slow-initialization--banner {
+  position: fixed;
+  z-index: 99;
+  top: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(620px, calc(100vw - 24px));
+  padding: 8px 12px;
+  border: 1px solid rgba(216, 197, 157, 0.35);
+  border-radius: 3px;
+  background: rgba(3, 18, 28, 0.96);
+  text-align: center;
 }
 .recovery-actions {
   display: flex;

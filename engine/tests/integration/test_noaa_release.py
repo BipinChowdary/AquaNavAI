@@ -21,3 +21,7 @@ def test_committed_noaa_release_schema_and_checksums() -> None:
     for source in catalog["scenarios"]["south-florida-noaa-v1"]["sources"]:
         for filename, checksum in source.get("processedArtifactChecksums", {}).items():
             assert sha256_file(scenario / filename) == checksum
+    provenance = json.loads((scenario / "provenance.json").read_text(encoding="utf-8"))
+    for source in provenance["sources"]:
+        for filename, checksum in source.get("processedArtifactChecksums", {}).items():
+            assert sha256_file(scenario / filename) == checksum

@@ -4,6 +4,7 @@ import {
   useImperativeHandle,
   useMemo,
   useRef,
+  useState,
 } from 'react'
 import maplibregl, {
   type FilterSpecification,
@@ -13,13 +14,14 @@ import maplibregl, {
   type StyleSpecification,
 } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import type { AnimationFrame } from '../animation/useRouteAnimation'
 import { decodeGrid } from '../routing/grid'
 import type {
   Algorithm,
   InteractiveRoute,
   LoadedScenario,
 } from '../types/scenario'
+import { CoastalMapFallback, type CoastalMapHandle } from './CoastalMapFallback'
+import { supportsWebGl } from './webglSupport'
 
 interface Props {
   scenario: LoadedScenario
@@ -31,12 +33,14 @@ interface Props {
   endpoints: { start: [number, number]; goal: [number, number] }
   onMapClick: (coordinate: [number, number]) => void
   onReady?: () => void
+  onModeChange?: (mode: 'webgl' | 'simplified', reason: string | null) => void
 }
 
-export interface CoastalMapHandle {
-  updateVessel: (frame: AnimationFrame, route: [number, number][]) => void
-  fitRoute: (route: [number, number][]) => void
+interface MapLibreProps extends Props {
+  onFatalError: (reason: string) => void
 }
+
+export type { CoastalMapHandle } from './CoastalMapFallback'
 
 const algorithms: Algorithm[] = ['shortest', 'fastest', 'energy', 'balanced']
 const routeColors: Record<Algorithm, string> = {
@@ -93,8 +97,8 @@ function routeCollection(
   return { type: 'FeatureCollection' as const, features }
 }
 
-export const CoastalMap = forwardRef<CoastalMapHandle, Props>(
-  function CoastalMap(
+const MapLibreCoastalMap = forwardRef<CoastalMapHandle, MapLibreProps>(
+  function MapLibreCoastalMap(
     {
       scenario,
       pairId,
@@ -105,6 +109,7 @@ export const CoastalMap = forwardRef<CoastalMapHandle, Props>(
       endpoints,
       onMapClick,
       onReady,
+      onFatalError,
     },
     ref,
   ) {
@@ -114,10 +119,12 @@ export const CoastalMap = forwardRef<CoastalMapHandle, Props>(
     const markerElement = useRef<HTMLDivElement | null>(null)
     const clickHandler = useRef(onMapClick)
     const readyHandler = useRef(onReady)
+    const fatalHandler = useRef(onFatalError)
     useEffect(() => {
       clickHandler.current = onMapClick
       readyHandler.current = onReady
-    }, [onMapClick, onReady])
+      fatalHandler.current = onFatalError
+    }, [onFatalError, onMapClick, onReady])
     const decodedGrid = useMemo(
       () =>
         scenario.navigationGrid ? decodeGrid(scenario.navigationGrid) : null,
@@ -171,19 +178,29 @@ export const CoastalMap = forwardRef<CoastalMapHandle, Props>(
     useEffect(() => {
       if (!container.current) return
       const [west, south, east, north] = scenario.manifest.bbox
-      const instance = new maplibregl.Map({
-        container: container.current,
-        style: localStyle(),
-        center: [(west + east) / 2, (south + north) / 2],
-        zoom: 8.7,
-        minZoom: 7.5,
-        maxZoom: 14,
-        maxBounds: [
-          [west - 0.75, south - 0.3],
-          [east + 0.75, north + 0.3],
-        ],
-        attributionControl: false,
-      })
+      let instance: MapLibreMap
+      try {
+        instance = new maplibregl.Map({
+          container: container.current,
+          style: localStyle(),
+          center: [(west + east) / 2, (south + north) / 2],
+          zoom: 8.7,
+          minZoom: 7.5,
+          maxZoom: 14,
+          maxBounds: [
+            [west - 0.75, south - 0.3],
+            [east + 0.75, north + 0.3],
+          ],
+          attributionControl: false,
+        })
+      } catch (reason) {
+        fatalHandler.current(
+          reason instanceof Error
+            ? reason.message
+            : 'MapLibre could not create a WebGL map.',
+        )
+        return
+      }
       const resizeObserver = new ResizeObserver(() => instance.resize())
       resizeObserver.observe(container.current)
       instance.on('load', () => {
@@ -348,6 +365,10 @@ export const CoastalMap = forwardRef<CoastalMapHandle, Props>(
       instance.on('click', (event) =>
         clickHandler.current([event.lngLat.lng, event.lngLat.lat]),
       )
+      instance.on('webglcontextlost', (event) => {
+        event.originalEvent.preventDefault()
+        fatalHandler.current('The browser WebGL context was lost.')
+      })
       instance.addControl(new maplibregl.NavigationControl(), 'top-right')
       instance.addControl(
         new maplibregl.ScaleControl({ unit: 'nautical' }),
@@ -495,6 +516,48 @@ export const CoastalMap = forwardRef<CoastalMapHandle, Props>(
           aria-label="Interactive South Florida coastal route map. Click to choose mission endpoints."
         />
       </div>
+    )
+  },
+)
+
+export const CoastalMap = forwardRef<CoastalMapHandle, Props>(
+  function CoastalMap(props, ref) {
+    const [mode, setMode] = useState<'checking' | 'webgl' | 'simplified'>(
+      'checking',
+    )
+    const modeHandler = useRef(props.onModeChange)
+
+    useEffect(() => {
+      modeHandler.current = props.onModeChange
+    }, [props.onModeChange])
+
+    useEffect(() => {
+      const supported = supportsWebGl()
+      const next = supported ? 'webgl' : 'simplified'
+      setMode(next)
+      modeHandler.current?.(
+        next,
+        supported ? null : 'WebGL is unavailable or disabled in this browser.',
+      )
+    }, [])
+
+    if (mode === 'checking')
+      return (
+        <div className="map-shell map-shell--checking" role="status">
+          <span>Checking map renderer…</span>
+        </div>
+      )
+    if (mode === 'simplified')
+      return <CoastalMapFallback {...props} ref={ref} />
+    return (
+      <MapLibreCoastalMap
+        {...props}
+        ref={ref}
+        onFatalError={(reason) => {
+          setMode('simplified')
+          modeHandler.current?.('simplified', reason)
+        }}
+      />
     )
   },
 )

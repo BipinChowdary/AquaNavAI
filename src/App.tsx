@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 import { useRouteAnimation } from './animation/useRouteAnimation'
+import { BUILD_INFO } from './buildInfo'
 import { AnimationControls } from './components/AnimationControls'
 import { CoastalMap, type CoastalMapHandle } from './components/CoastalMap'
 import { ForecastTimeline } from './components/ForecastTimeline'
@@ -11,6 +12,14 @@ import { RouteControls } from './components/RouteControls'
 import { ScenarioSummary } from './components/ScenarioSummary'
 import { StatusBanner } from './components/StatusBanner'
 import { loadScenario } from './data/loadScenario'
+import {
+  INITIALIZATION_SOFT_WARNING_MS,
+  INITIALIZATION_STALL_DEADLINE_MS,
+  initializationLabels,
+  type InitializationStage,
+  type MapDiagnostic,
+  type ResourceDiagnostic,
+} from './initialization/diagnostics'
 import { RoutingWorkerClient, type WorkerStatus } from './routing/client'
 import {
   PROXY_MISSIONS,
@@ -20,26 +29,6 @@ import {
   type RouteMetric,
 } from './types/scenario'
 
-type InitStage =
-  | 'idle'
-  | 'loading_manifest'
-  | 'loading_artifacts'
-  | 'validating'
-  | 'initializing_worker'
-  | 'initializing_map'
-  | 'ready'
-  | 'error'
-
-const initLabels: Record<InitStage, string> = {
-  idle: 'Preparing scenario',
-  loading_manifest: 'Loading scenario manifest',
-  loading_artifacts: 'Loading checksummed NOAA artifacts',
-  validating: 'Validating scenario contract',
-  initializing_worker: 'Decoding navigation grid in worker',
-  initializing_map: 'Initializing offline coastal map',
-  ready: 'Navigation V2 ready',
-  error: 'Initialization failed',
-}
 const EMPTY_COORDINATES: [number, number][] = []
 
 function asMetric(route: InteractiveRoute, cycle: string): RouteMetric {
@@ -62,10 +51,24 @@ function asMetric(route: InteractiveRoute, cycle: string): RouteMetric {
 
 function App() {
   const [scenario, setScenario] = useState<LoadedScenario | null>(null)
-  const [initStage, setInitStage] = useState<InitStage>('idle')
+  const [initStage, setInitStage] = useState<InitializationStage>('idle')
   const [initError, setInitError] = useState<string | null>(null)
   const [initRun, setInitRun] = useState(0)
   const [useFallback, setUseFallback] = useState(false)
+  const [slowInitialization, setSlowInitialization] = useState(false)
+  const [initStartedAt, setInitStartedAt] = useState('')
+  const [initDurationMs, setInitDurationMs] = useState<number | null>(null)
+  const [stageDurationsMs, setStageDurationsMs] = useState<
+    Partial<Record<InitializationStage, number>>
+  >({})
+  const [initErrorName, setInitErrorName] = useState<string | null>(null)
+  const [resourceDiagnostics, setResourceDiagnostics] = useState<
+    ResourceDiagnostic[]
+  >([])
+  const [mapDiagnostic, setMapDiagnostic] = useState<MapDiagnostic>({
+    mode: 'pending',
+    reason: null,
+  })
   const [mapReady, setMapReady] = useState(false)
   const [workerReady, setWorkerReady] = useState(false)
   const [workerStatus, setWorkerStatus] = useState<WorkerStatus>('idle')
@@ -88,80 +91,140 @@ function App() {
   const [routeError, setRouteError] = useState<string | null>(null)
   const mapRef = useRef<CoastalMapHandle>(null)
   const initialRouteStarted = useRef(false)
-  const initStageRef = useRef<InitStage>('idle')
-  const mapReadyRef = useRef(false)
-  const workerReadyRef = useRef(false)
   const [worker] = useState(
     () => new RoutingWorkerClient((status) => setWorkerStatus(status)),
   )
 
   useEffect(() => {
-    initStageRef.current = initStage
-  }, [initStage])
-
-  useEffect(() => {
     let active = true
-    const timeout = window.setTimeout(() => {
+    let stalled = false
+    let stallTimer = 0
+    const controller = new AbortController()
+    const started = performance.now()
+    let timedStage: InitializationStage = 'idle'
+    let stageStarted = started
+    const softTimer = window.setTimeout(() => {
+      if (active) setSlowInitialization(true)
+    }, INITIALIZATION_SOFT_WARNING_MS)
+    const failForStall = () => {
       if (!active) return
-      if (mapReadyRef.current && workerReadyRef.current) return
+      stalled = true
+      controller.abort()
+      worker.dispose()
+      const now = performance.now()
+      setInitDurationMs(now - started)
+      setStageDurationsMs((current) => ({
+        ...current,
+        [timedStage]: (current[timedStage] ?? 0) + (now - stageStarted),
+      }))
+      setInitErrorName('TimeoutError')
       setInitError(
-        `Cold initialization exceeded 8 seconds during ${initLabels[initStageRef.current]}.`,
+        `Initialization stopped because no progress was observed for ${INITIALIZATION_STALL_DEADLINE_MS / 1000} seconds during ${initializationLabels[timedStage].toLowerCase()}. Retry the scenario or load the deterministic proxy fixture.`,
       )
-      setInitStage('error')
-    }, 8_000)
+      setInitStage('failed')
+    }
+    const markProgress = (stage?: InitializationStage) => {
+      if (!active) return
+      if (stage && stage !== timedStage) {
+        const now = performance.now()
+        const completedStage = timedStage
+        const completedDuration = now - stageStarted
+        setStageDurationsMs((current) => ({
+          ...current,
+          [completedStage]: (current[completedStage] ?? 0) + completedDuration,
+        }))
+        timedStage = stage
+        stageStarted = now
+        setInitStage(stage)
+      }
+      clearTimeout(stallTimer)
+      stallTimer = window.setTimeout(
+        failForStall,
+        INITIALIZATION_STALL_DEADLINE_MS,
+      )
+    }
     const initialize = async () => {
       try {
         setInitError(null)
+        setInitErrorName(null)
+        setSlowInitialization(false)
+        setInitStartedAt(new Date().toISOString())
+        setInitDurationMs(null)
+        setStageDurationsMs({})
+        setResourceDiagnostics([])
+        setMapDiagnostic({ mode: 'pending', reason: null })
         initialRouteStarted.current = false
-        mapReadyRef.current = false
-        workerReadyRef.current = false
         setScenario(null)
         setMapReady(false)
         setWorkerReady(false)
-        setInitStage('loading_manifest')
-        await Promise.resolve()
-        setInitStage('loading_artifacts')
+        markProgress('loading_release_index')
         const loaded = await loadScenario(
-          useFallback ? 'south-florida-noaa-v1' : undefined,
+          useFallback ? 'south-florida-v1' : undefined,
+          {
+            signal: controller.signal,
+            onStage: markProgress,
+            onResource: (next) => {
+              markProgress()
+              setResourceDiagnostics((current) => {
+                const without = current.filter(
+                  (resource) => resource.name !== next.name,
+                )
+                return [...without, next]
+              })
+            },
+          },
         )
         if (!active) return
-        setInitStage('validating')
-        if (!loaded.navigationGrid)
-          throw new Error(
-            'The selected scenario has no browser navigation grid.',
-          )
-        const mission = loaded.navigationGrid.missions[0] ?? PROXY_MISSIONS[0]
+        const mission = loaded.navigationGrid?.missions[0] ?? PROXY_MISSIONS[0]
         setScenario(loaded)
         setPairId(mission.id)
         setEndpoints({ start: [...mission.start], goal: [...mission.goal] })
         setInteractiveRoutes([])
         setCycleIndex(0)
-        setInitStage('initializing_worker')
-        await worker.initialize(loaded.navigationGrid)
-        if (!active) return
-        workerReadyRef.current = true
-        setWorkerReady(true)
-        setInitStage('initializing_map')
-      } catch (reason) {
-        if (!active) return
-        setInitError(
-          reason instanceof Error
-            ? reason.message
-            : 'Unknown initialization error',
+        if (!loaded.navigationGrid) {
+          markProgress('ready')
+          setInitDurationMs(performance.now() - started)
+          clearTimeout(stallTimer)
+          return
+        }
+        markProgress('starting_worker')
+        await Promise.resolve()
+        markProgress('constructing_model')
+        await worker.initialize(
+          loaded.navigationGrid,
+          INITIALIZATION_STALL_DEADLINE_MS,
         )
-        setInitStage('error')
+        if (!active) return
+        setWorkerReady(true)
+        markProgress('ready')
+        setInitDurationMs(performance.now() - started)
+        clearTimeout(stallTimer)
+      } catch (reason) {
+        if (!active || stalled) return
+        setInitDurationMs(performance.now() - started)
+        setInitErrorName(reason instanceof Error ? reason.name : 'Error')
+        setInitError(
+          reason instanceof DOMException && reason.name === 'AbortError'
+            ? 'Scenario loading was interrupted. Retry to start a clean initialization run.'
+            : reason instanceof Error
+              ? reason.message
+              : 'Unknown initialization error',
+        )
+        markProgress('failed')
+        clearTimeout(stallTimer)
       }
     }
     void initialize()
     return () => {
       active = false
-      clearTimeout(timeout)
+      controller.abort()
+      clearTimeout(softTimer)
+      clearTimeout(stallTimer)
       worker.dispose()
     }
   }, [initRun, useFallback, worker])
 
-  const effectiveInitStage: InitStage =
-    workerReady && mapReady ? 'ready' : initStage
+  const effectiveInitStage: InitializationStage = initStage
 
   const cycle = scenario?.manifest.forecastCycles[cycleIndex] ?? ''
   const selectedRoute =
@@ -218,11 +281,12 @@ function App() {
   )
 
   useEffect(() => {
-    if (effectiveInitStage !== 'ready' || !endpoints || !cycle) return
+    if (effectiveInitStage !== 'ready' || !workerReady || !endpoints || !cycle)
+      return
     if (initialRouteStarted.current) return
     initialRouteStarted.current = true
     void calculateFor(endpoints)
-  }, [effectiveInitStage, endpoints, cycle, calculateFor])
+  }, [effectiveInitStage, workerReady, endpoints, cycle, calculateFor])
 
   const choosePair = (id: string) => {
     if (!scenario) return
@@ -271,8 +335,14 @@ function App() {
   }
 
   const routeMetrics = useMemo(
-    () => interactiveRoutes.map((route) => asMetric(route, cycle)),
-    [interactiveRoutes, cycle],
+    () =>
+      interactiveRoutes.length
+        ? interactiveRoutes.map((route) => asMetric(route, cycle))
+        : (scenario?.metrics.results ?? []).filter(
+            (metric) =>
+              metric.pair_id === pairId && metric.forecast_cycle === cycle,
+          ),
+    [interactiveRoutes, cycle, pairId, scenario],
   )
   const toggleAlgorithm = (algorithm: Algorithm) =>
     setVisibleAlgorithms((current) => {
@@ -283,24 +353,47 @@ function App() {
     })
 
   const diagnostic = JSON.stringify({
+    application: BUILD_INFO,
     stage: effectiveInitStage,
+    startedAt: initStartedAt,
+    durationMs: initDurationMs,
+    stageDurationsMs,
+    softWarningAfterMs: INITIALIZATION_SOFT_WARNING_MS,
+    stallDeadlineMs: INITIALIZATION_STALL_DEADLINE_MS,
     scenario: scenario?.manifest.id ?? null,
     version: scenario?.manifest.version ?? null,
     worker: workerStatus,
     workerDecodeMs: worker.decodeTimeMs,
-    error: initError,
+    workerStartupMs: worker.startupTimeMs,
+    mapReady,
+    map: mapDiagnostic,
+    browser: {
+      userAgent: navigator.userAgent,
+      language: navigator.language,
+      platform: navigator.platform,
+    },
+    resources: resourceDiagnostics,
+    error: initError
+      ? { name: initErrorName ?? 'Error', message: initError }
+      : null,
   })
 
-  if (!scenario || effectiveInitStage === 'error')
+  if (!scenario || effectiveInitStage === 'failed')
     return (
       <main
-        className={`load-state ${effectiveInitStage === 'error' ? 'load-state--error' : ''}`}
+        className={`load-state ${effectiveInitStage === 'failed' ? 'load-state--error' : ''}`}
         data-init-stage={effectiveInitStage}
       >
-        {effectiveInitStage !== 'error' && (
+        {effectiveInitStage !== 'failed' && (
           <div className="loading-ring" aria-hidden="true" />
         )}
-        <span>{initLabels[effectiveInitStage]}</span>
+        <span>{initializationLabels[effectiveInitStage]}</span>
+        {slowInitialization && effectiveInitStage !== 'failed' && (
+          <p className="slow-initialization" role="status">
+            Initialization is taking longer than expected. AquaNavAI is still
+            making progress and will continue safely.
+          </p>
+        )}
         {initError && (
           <>
             <h1>AquaNavAI could not initialize the pinned scenario.</h1>
@@ -319,7 +412,7 @@ function App() {
                   setInitRun((value) => value + 1)
                 }}
               >
-                Load bundled fallback
+                Load deterministic proxy fixture
               </button>
               <button
                 type="button"
@@ -341,8 +434,16 @@ function App() {
     >
       {effectiveInitStage !== 'ready' && (
         <div className="initialization-banner" role="status">
-          <span>{initLabels[effectiveInitStage]}</span>
+          <span>{initializationLabels[effectiveInitStage]}</span>
           <progress />
+        </div>
+      )}
+      {slowInitialization && effectiveInitStage !== 'ready' && (
+        <div
+          className="slow-initialization slow-initialization--banner"
+          role="status"
+        >
+          Still loading safely; progress continues beyond the 8-second advisory.
         </div>
       )}
       <header className="topbar">
@@ -372,6 +473,14 @@ function App() {
           ? 'Verified NOAA-derived environmental snapshot. Research demonstrator; not for operational navigation.'
           : 'Deterministic proxy fixture; not a NOAA-derived scientific result.'}
         <a href="#provenance">Data provenance</a>
+        {mapDiagnostic.mode === 'simplified' && (
+          <button
+            type="button"
+            onClick={() => void navigator.clipboard?.writeText(diagnostic)}
+          >
+            Copy diagnostic
+          </button>
+        )}
       </div>
       <main id="top" className="workspace">
         <aside className="workspace-sidebar">
@@ -409,9 +518,11 @@ function App() {
               endpoints={endpoints}
               onMapClick={choosePoint}
               onReady={() => {
-                mapReadyRef.current = true
                 setMapReady(true)
               }}
+              onModeChange={(mode, reason) =>
+                setMapDiagnostic({ mode, reason })
+              }
             />
           )}
           <AnimationControls

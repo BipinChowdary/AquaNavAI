@@ -30,7 +30,7 @@ test('four objectives and map remain usable on a narrow viewport', async ({
     ),
   ).toBe(true)
   await page.screenshot({
-    path: 'docs/screenshots/navigation-v2-mobile.png',
+    path: 'artifacts/screenshots/navigation-v2-mobile.png',
     fullPage: true,
   })
 })
