@@ -7,12 +7,12 @@
   ],
   "checksums": {
     "bathymetry.webp": "7a4d0eef9fea7c9b94fd531638b7f72dc4f0a6e5c581cd7485efc569bd18be79",
-    "coastline.geojson": "61e1541fbcbdb0352b1c7b5cfa96be4bb9327b5c16f4b1e47b9fbf48ecc1fc9e",
-    "currents.geojson": "e756589a1deaa3588824003beca8da699296652f0b2eabf29656f3bbd745ba2b",
-    "metrics.json": "0b0f5054026380716fa1ff3bf524d06171d48c6b3b02f39c77b2ebcb13ffeba9",
-    "provenance.json": "0eddec6cfec6c3d247627fcbb79eaa4193f0757df6e30f6f62ae2a8287be4a13",
-    "routes.geojson": "c3dde889c728646698569a365f451418c91e7dcf13fc83696be7676dcaf100bf",
-    "stations.geojson": "5d714bd8552f4bd97206292fe383a2e0f4b0a5beef287532ecdb1f661f14c9ae"
+    "coastline.geojson": "ef74a83fd0585783f710445c5e5eb30be42e638eccaf24b92e5a4d4caf0f23e4",
+    "currents.geojson": "4debd5fcd535800a8f6121ddf99e82d5e31d3aede6f5e1dd9682fba558f2dbb3",
+    "metrics.json": "d8f4c5bd426a0d0e372083ed44fe144ab1b961fb8a303cf27f55655a5f1cf47c",
+    "provenance.json": "5db74bf1d43f459cc57565f4b6d5bb62678229faa936d2b7c3466ea121422c5f",
+    "routes.geojson": "662a6e4f3c6031b7773126a4fba74a174c9cdd8442c6502e18af34e7edc3b71a",
+    "stations.geojson": "a55b431e78049bb7fdc7330ffdf2c9f8e87712545ebba199445408d48694225a"
   },
   "citations": [
     "NOAA NCEI ETOPO 2022 Global Relief Model",

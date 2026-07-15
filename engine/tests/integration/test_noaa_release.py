@@ -25,3 +25,12 @@ def test_committed_noaa_release_schema_and_checksums() -> None:
     for source in provenance["sources"]:
         for filename, checksum in source.get("processedArtifactChecksums", {}).items():
             assert sha256_file(scenario / filename) == checksum
+
+
+def test_committed_proxy_fixture_checksums() -> None:
+    root = Path(__file__).resolve().parents[3]
+    scenario = root / "public" / "scenarios" / "south-florida-v1"
+    manifest = json.loads((scenario / "manifest.json").read_text(encoding="utf-8"))
+    for filename, checksum in manifest["checksums"].items():
+        assert sha256_file(scenario / filename) == checksum
+    assert manifest["dataMode"] == "offline-proxy"

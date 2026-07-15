@@ -9,6 +9,7 @@ import type { AnimationFrame } from '../animation/useRouteAnimation'
 import type {
   Algorithm,
   InteractiveRoute,
+  LegacyAlgorithm,
   LoadedScenario,
 } from '../types/scenario'
 
@@ -31,11 +32,15 @@ export interface CoastalMapFallbackProps {
 
 const WIDTH = 1_000
 const HEIGHT = 680
-const colors: Record<Algorithm, string> = {
+type DisplayAlgorithm = Algorithm | LegacyAlgorithm
+
+const colors: Record<DisplayAlgorithm, string> = {
   shortest: '#f8fafc',
   fastest: '#22d3ee',
   energy: '#4ade80',
   balanced: '#fbbf24',
+  distance: '#f8fafc',
+  environmental: '#4ade80',
 }
 
 function project(
@@ -89,9 +94,16 @@ function releasedRoutes(
   return scenario.routes.features.flatMap((feature) => {
     if (feature.geometry.type !== 'LineString') return []
     const properties = feature.properties ?? {}
-    const algorithm = properties.algorithm as Algorithm
+    const algorithm = properties.algorithm as DisplayAlgorithm
     if (
-      !['shortest', 'fastest', 'energy', 'balanced'].includes(algorithm) ||
+      ![
+        'shortest',
+        'fastest',
+        'energy',
+        'balanced',
+        'distance',
+        'environmental',
+      ].includes(algorithm) ||
       properties.pairId !== pairId ||
       properties.forecastCycle !== cycle
     )
@@ -206,7 +218,9 @@ export const CoastalMapFallback = forwardRef<
         </g>
         <g className="fallback-routes">
           {routes.map((route) =>
-            visibleAlgorithms.has(route.algorithm) ? (
+            !['shortest', 'fastest', 'energy', 'balanced'].includes(
+              route.algorithm,
+            ) || visibleAlgorithms.has(route.algorithm as Algorithm) ? (
               <polyline
                 key={route.algorithm}
                 data-route-algorithm={route.algorithm}
@@ -215,7 +229,9 @@ export const CoastalMapFallback = forwardRef<
                 stroke={colors[route.algorithm]}
                 strokeWidth={route.algorithm === selectedAlgorithm ? 7 : 4}
                 strokeDasharray={
-                  route.algorithm === 'shortest' ? '12 8' : undefined
+                  ['shortest', 'distance'].includes(route.algorithm)
+                    ? '12 8'
+                    : undefined
                 }
                 opacity={route.algorithm === selectedAlgorithm ? 1 : 0.76}
                 vectorEffect="non-scaling-stroke"

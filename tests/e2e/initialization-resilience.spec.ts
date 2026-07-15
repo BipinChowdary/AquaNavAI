@@ -44,6 +44,38 @@ test('a transient index failure exposes retry and recovers cleanly', async ({
   })
 })
 
+test('the deterministic proxy fallback is checksum-validated and clearly bounded', async ({
+  page,
+}) => {
+  let first = true
+  await page.route('**/scenarios/index.json*', async (route) => {
+    if (first) {
+      first = false
+      await route.fulfill({ status: 503, body: 'temporary outage' })
+      return
+    }
+    await route.continue()
+  })
+  await page.goto('/?resilience=proxy-fallback')
+  await page
+    .getByRole('button', { name: 'Load deterministic proxy fixture' })
+    .click()
+  await expect(page.locator('[data-init-stage="ready"]')).toBeVisible({
+    timeout: 20_000,
+  })
+  await expect(
+    page.getByText(/Deterministic proxy fixture; not a NOAA/i),
+  ).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: 'Static fallback' }),
+  ).toBeVisible()
+  await expect(page.locator('[data-route-metric]')).toHaveCount(2)
+  await expect(page.getByText(/Legacy proxy evaluation/i)).toBeVisible()
+  await expect(
+    page.getByText(/proxy values are not NOAA results/i),
+  ).toBeVisible()
+})
+
 test('five cache-disabled cold reloads complete without terminal errors', async ({
   page,
 }) => {

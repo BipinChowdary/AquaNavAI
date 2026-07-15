@@ -304,11 +304,17 @@ function App() {
     setRouteError(null)
     setSelectingGoal(false)
     animation.reset()
-    void calculateFor(next)
+    if (scenario.navigationGrid) void calculateFor(next)
   }
 
   const choosePoint = (coordinate: [number, number]) => {
     if (!endpoints || effectiveInitStage !== 'ready') return
+    if (!scenario?.navigationGrid) {
+      setRouteError(
+        'Custom routing is unavailable in the static deterministic proxy fixture.',
+      )
+      return
+    }
     animation.reset()
     setPairId('custom')
     setInteractiveRoutes([])
@@ -331,7 +337,8 @@ function App() {
     setCycleIndex(index)
     setInteractiveRoutes([])
     animation.reset()
-    if (endpoints) void calculateFor(endpoints, index)
+    if (endpoints && scenario?.navigationGrid)
+      void calculateFor(endpoints, index)
   }
 
   const routeMetrics = useMemo(
@@ -351,6 +358,15 @@ function App() {
       else next.add(algorithm)
       return next
     })
+  const caseCount = useMemo(
+    () =>
+      new Set(
+        scenario?.metrics.results.map(
+          (metric) => `${metric.pair_id}:${metric.forecast_cycle}`,
+        ) ?? [],
+      ).size,
+    [scenario],
+  )
 
   const diagnostic = JSON.stringify({
     application: BUILD_INFO,
@@ -462,10 +478,7 @@ function App() {
           <span>Research demonstrator</span>
           <strong>Forecast-aware coastal routing · Navigation V2</strong>
         </div>
-        <StatusBanner
-          dataMode={scenario.manifest.dataMode}
-          cases={scenario.metrics.results.length / 4}
-        />
+        <StatusBanner dataMode={scenario.manifest.dataMode} cases={caseCount} />
       </header>
       <ResearchDisclaimer text={scenario.manifest.disclaimer} />
       <div className={`data-status data-status--${scenario.manifest.dataMode}`}>
@@ -500,6 +513,7 @@ function App() {
             calculating={calculating}
             routeError={routeError}
             workerStatus={workerStatus}
+            fallbackMode={!scenario.navigationGrid}
           />
         </aside>
         <section

@@ -18,6 +18,7 @@ import { decodeGrid } from '../routing/grid'
 import type {
   Algorithm,
   InteractiveRoute,
+  LegacyAlgorithm,
   LoadedScenario,
 } from '../types/scenario'
 import { CoastalMapFallback, type CoastalMapHandle } from './CoastalMapFallback'
@@ -43,11 +44,16 @@ interface MapLibreProps extends Props {
 export type { CoastalMapHandle } from './CoastalMapFallback'
 
 const algorithms: Algorithm[] = ['shortest', 'fastest', 'energy', 'balanced']
+const legacyAlgorithms: LegacyAlgorithm[] = ['distance', 'environmental']
 const routeColors: Record<Algorithm, string> = {
   shortest: '#f8fafc',
   fastest: '#22d3ee',
   energy: '#4ade80',
   balanced: '#fbbf24',
+}
+const legacyRouteColors: Record<LegacyAlgorithm, string> = {
+  distance: '#f8fafc',
+  environmental: '#4ade80',
 }
 
 const filter = (
@@ -316,6 +322,22 @@ const MapLibreCoastalMap = forwardRef<CoastalMapHandle, MapLibreProps>(
             },
           })
         }
+        for (const algorithm of legacyAlgorithms) {
+          instance.addLayer({
+            id: `${algorithm}-legacy-route`,
+            type: 'line',
+            source: 'routes',
+            filter: ['==', ['get', 'algorithm'], '__initial__'],
+            layout: { 'line-join': 'round', 'line-cap': 'round' },
+            paint: {
+              'line-color': legacyRouteColors[algorithm],
+              'line-width': 4,
+              ...(algorithm === 'distance'
+                ? { 'line-dasharray': [2, 1.4] }
+                : {}),
+            },
+          })
+        }
         instance.addLayer({
           id: 'route-progress',
           type: 'line',
@@ -456,6 +478,13 @@ const MapLibreCoastalMap = forwardRef<CoastalMapHandle, MapLibreProps>(
           algorithm === selectedAlgorithm ? 1 : 0.72,
         )
       }
+      for (const algorithm of legacyAlgorithms)
+        instance.setFilter(`${algorithm}-legacy-route`, [
+          'all',
+          ['==', ['get', 'pairId'], pairId],
+          ['==', ['get', 'forecastCycle'], forecastCycle],
+          ['==', ['get', 'algorithm'], algorithm],
+        ])
       ;(
         instance.getSource('mission-points') as GeoJSONSource | undefined
       )?.setData({
