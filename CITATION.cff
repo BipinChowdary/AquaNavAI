@@ -1,9 +1,11 @@
 cff-version: 1.2.0
-message: 'A citation release will be assigned after research and IP review.'
-title: 'AquaNavAI: Forecast-aware coastal route planning'
+message: 'If you use AquaNavAI in research, please cite this software.'
+title: 'AquaNavAI'
 type: software
 authors:
   - family-names: 'Chowdary'
     given-names: 'Bipin'
 version: 0.2.0
 date-released: 2026-07-13
+repository-code: 'https://github.com/BipinChowdary/AquaNavAI'
+url: 'https://aquanavai.pages.dev/'
