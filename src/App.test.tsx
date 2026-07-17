@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from '@testing-library/react'
+import { act, cleanup, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
@@ -139,7 +139,10 @@ describe('AquaNavAI application', () => {
     vi.mocked(loadScenario).mockReset()
     vi.mocked(loadScenario).mockResolvedValue(scenario)
   })
-  afterEach(() => vi.useRealTimers())
+  afterEach(() => {
+    cleanup()
+    vi.useRealTimers()
+  })
 
   it('reaches ready with four objective metrics and the research warning', async () => {
     render(<App />)
@@ -158,6 +161,17 @@ describe('AquaNavAI application', () => {
       screen.getByText('AquaNavAI — Project by Bipin Chowdary'),
     ).toBeInTheDocument()
     expect(screen.getByText('Scenario v1.0.0')).toBeInTheDocument()
+  })
+
+  it('links the header creator credit to the portfolio in a new tab', async () => {
+    render(<App />)
+    await screen.findByText('South Florida Atlantic Shelf')
+
+    const link = screen.getByRole('link', { name: 'Bipin Chowdary' })
+    expect(link).toHaveAttribute('href', 'https://bipinchowdary.github.io/')
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', expect.stringContaining('noopener'))
+    expect(link).toHaveAttribute('rel', expect.stringContaining('noreferrer'))
   })
 
   it('exposes four independently toggleable route layers', async () => {

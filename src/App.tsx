@@ -478,6 +478,16 @@ function App() {
           <span>Research demonstrator</span>
           <strong>Forecast-aware coastal routing · Navigation V2</strong>
         </div>
+        <div className="project-credit">
+          <span>A Research Project by</span>
+          <a
+            href="https://bipinchowdary.github.io/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <strong>Bipin Chowdary</strong>
+          </a>
+        </div>
         <StatusBanner dataMode={scenario.manifest.dataMode} cases={caseCount} />
       </header>
       <ResearchDisclaimer text={scenario.manifest.disclaimer} />

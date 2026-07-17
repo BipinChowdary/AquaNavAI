@@ -9,7 +9,8 @@
 .topbar {
   min-height: 78px;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-areas: 'brand title credit status';
+  grid-template-columns: auto minmax(280px, 1fr) minmax(max-content, 0.7fr) auto;
   align-items: center;
   gap: 28px;
   padding: 14px 24px;
@@ -19,6 +20,7 @@
 }
 
 .brand {
+  grid-area: brand;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -57,6 +59,7 @@
 }
 
 .project-title {
+  grid-area: title;
   padding-left: 28px;
   border-left: 1px solid var(--line);
   display: flex;
@@ -79,7 +82,43 @@
   color: var(--muted);
 }
 
+.project-credit {
+  grid-area: credit;
+  display: flex;
+  align-items: baseline;
+  justify-self: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.project-credit a {
+  color: #d8f5f1;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition:
+    color 160ms ease,
+    text-decoration-color 160ms ease;
+}
+
+.project-credit a:hover {
+  color: var(--teal);
+  text-decoration-color: currentColor;
+}
+
+.project-credit a:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+.project-credit strong {
+  font-weight: 700;
+}
+
 .status-banner {
+  grid-area: status;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -902,9 +941,23 @@ footer {
   }
 }
 
-@media (max-width: 1050px) {
-  .status-banner {
-    display: none;
+@media (max-width: 1100px) {
+  .topbar {
+    grid-template-areas:
+      'brand title status'
+      'brand credit status';
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    column-gap: 20px;
+    row-gap: 6px;
+  }
+
+  .project-title {
+    padding-left: 16px;
+  }
+
+  .project-credit {
+    justify-self: start;
+    padding-left: 16px;
   }
 
   .workspace {
@@ -922,6 +975,11 @@ footer {
   }
 
   .topbar {
+    grid-template-areas:
+      'brand'
+      'title'
+      'credit'
+      'status';
     grid-template-columns: 1fr;
     gap: 10px;
   }
@@ -930,6 +988,22 @@ footer {
     padding: 8px 0 0;
     border-left: 0;
     border-top: 1px solid var(--line);
+  }
+
+  .project-credit {
+    width: 100%;
+    padding-top: 10px;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    justify-self: stretch;
+  }
+
+  .status-banner {
+    max-width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    justify-self: start;
+    white-space: normal;
   }
 
   .disclaimer {
