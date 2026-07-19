@@ -513,7 +513,7 @@ function App() {
           </a>
           <a
             className="header-button header-button--secondary"
-            href="https://github.com/BipinChowdary/AQNV/blob/main/Paper.pdf"
+            href="https://bipinchowdary.github.io/AQNV/images/Paper.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >
