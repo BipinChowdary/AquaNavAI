@@ -81,7 +81,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "codecarbon", specifier = ">=3.2,<4" },
+    { name = "codecarbon", specifier = ">=3.2.9,<4" },
     { name = "h5netcdf", specifier = ">=1.6,<2" },
     { name = "h5py", specifier = ">=3.13,<4" },
     { name = "httpx", specifier = ">=0.28,<1" },
@@ -250,7 +250,7 @@ wheels = [
 
 [[package]]
 name = "codecarbon"
-version = "3.2.8"
+version = "3.2.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "arrow" },
@@ -270,9 +270,9 @@ dependencies = [
     { name = "rich" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/90/a8/b2a7b999071cb52b75c5584575706524690c917bf1a57bb7b523ce0efb8c/codecarbon-3.2.8.tar.gz", hash = "sha256:8ac67b801db8385d7baf4af9248c245b805302e83c65feaa278ebcd426da86eb", size = 425274, upload-time = "2026-06-07T21:02:00.805Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/77/61/369f144950903622f0bd37558b289bcf78d2d694afd2153db941e4b0ac31/codecarbon-3.2.9.tar.gz", hash = "sha256:e0bb43bf59896398d7fa01cf973a97b2cb2ffb82d9cf50613bcf0c650ad2d00b", size = 432755, upload-time = "2026-07-19T20:09:06.549Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/83/1c/95b9e4fa5f88a013a271ade052b676b9f7f052b1596220f596ad9374e269/codecarbon-3.2.8-py3-none-any.whl", hash = "sha256:639be4d7f10a74addb2b44fb8197da52b4cbaa444b0bc570633456c311dd1cf5", size = 384615, upload-time = "2026-06-07T21:01:59.143Z" },
+    { url = "https://files.pythonhosted.org/packages/8e/3f/b0a002326cf2c2c478c550c64e5a76cc37f35306efb054ee855381f78791/codecarbon-3.2.9-py3-none-any.whl", hash = "sha256:677c7f4c59d7506f8d6305be8fac357da29c62fb6d03c1a59ec454aefb704ae9", size = 388942, upload-time = "2026-07-19T20:09:04.476Z" },
 ]
 
 [[package]]

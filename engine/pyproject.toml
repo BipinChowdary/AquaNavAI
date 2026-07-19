@@ -9,7 +9,7 @@ description = "Reproducible forecast-aware coastal route-planning research engin
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-  "codecarbon>=3.2,<4",
+  "codecarbon>=3.2.9,<4",
   "h5netcdf>=1.6,<2",
   "h5py>=3.13,<4",
   "httpx>=0.28,<1",
