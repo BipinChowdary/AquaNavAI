@@ -147,6 +147,17 @@ export const CoastalMapFallback = forwardRef<
         : releasedRoutes(scenario, pairId, forecastCycle),
     [forecastCycle, interactiveRoutes, pairId, scenario],
   )
+  const displayRoutes = useMemo(
+    () =>
+      [...routes].sort((first, second) =>
+        first.algorithm === selectedAlgorithm
+          ? 1
+          : second.algorithm === selectedAlgorithm
+            ? -1
+            : 0,
+      ),
+    [routes, selectedAlgorithm],
+  )
   const land = useMemo(() => coastlinePaths(scenario), [scenario])
   const [startX, startY] = project(endpoints.start, bbox)
   const [goalX, goalY] = project(endpoints.goal, bbox)
@@ -217,25 +228,34 @@ export const CoastalMapFallback = forwardRef<
           ))}
         </g>
         <g className="fallback-routes">
-          {routes.map((route) =>
+          {displayRoutes.map((route) =>
             !['shortest', 'fastest', 'energy', 'balanced'].includes(
               route.algorithm,
             ) || visibleAlgorithms.has(route.algorithm as Algorithm) ? (
-              <polyline
-                key={route.algorithm}
-                data-route-algorithm={route.algorithm}
-                points={linePoints(route.coordinates, bbox)}
-                fill="none"
-                stroke={colors[route.algorithm]}
-                strokeWidth={route.algorithm === selectedAlgorithm ? 7 : 4}
-                strokeDasharray={
-                  ['shortest', 'distance'].includes(route.algorithm)
-                    ? '12 8'
-                    : undefined
-                }
-                opacity={route.algorithm === selectedAlgorithm ? 1 : 0.76}
-                vectorEffect="non-scaling-stroke"
-              />
+              <g key={route.algorithm}>
+                <polyline
+                  points={linePoints(route.coordinates, bbox)}
+                  fill="none"
+                  stroke="#03121c"
+                  strokeWidth={route.algorithm === selectedAlgorithm ? 11 : 7}
+                  opacity={route.algorithm === selectedAlgorithm ? 0.95 : 0.6}
+                  vectorEffect="non-scaling-stroke"
+                />
+                <polyline
+                  data-route-algorithm={route.algorithm}
+                  points={linePoints(route.coordinates, bbox)}
+                  fill="none"
+                  stroke={colors[route.algorithm]}
+                  strokeWidth={route.algorithm === selectedAlgorithm ? 7 : 4}
+                  strokeDasharray={
+                    ['shortest', 'distance'].includes(route.algorithm)
+                      ? '12 8'
+                      : undefined
+                  }
+                  opacity={route.algorithm === selectedAlgorithm ? 1 : 0.76}
+                  vectorEffect="non-scaling-stroke"
+                />
+              </g>
             ) : null,
           )}
           <polyline

@@ -18,7 +18,7 @@ const expectNoOverlap = async (first: Locator, second: Locator) => {
   expect(overlaps).toBe(false)
 }
 
-for (const width of [1440, 1024, 760, 390]) {
+for (const width of [2048, 1440, 1024, 760, 390]) {
   test(`creator credit remains usable at ${width}px`, async ({
     context,
     page,
@@ -44,6 +44,8 @@ for (const width of [1440, 1024, 760, 390]) {
     const credit = page.locator('.project-credit')
     const status = page.locator('.status-banner')
     const link = page.getByRole('link', { name: 'Bipin Chowdary' })
+    const details = page.getByRole('link', { name: 'View Project Details' })
+    const paper = page.getByRole('link', { name: 'View Paper' })
 
     await expect(link).toBeVisible()
     await expect(link).toHaveAttribute(
@@ -51,6 +53,18 @@ for (const width of [1440, 1024, 760, 390]) {
       'https://bipinchowdary.github.io/',
     )
     await expect(link).toHaveAttribute('target', '_blank')
+    await expect(details).toHaveAttribute(
+      'href',
+      'https://bipinchowdary.github.io/AQNV/',
+    )
+    await expect(details).toHaveAttribute('target', '_blank')
+    await expect(paper).toHaveAttribute(
+      'href',
+      'https://github.com/BipinChowdary/AQNV/blob/main/Paper.pdf',
+    )
+    await expect(paper).toHaveAttribute('target', '_blank')
+    await expect(paper).toHaveAttribute('rel', /noopener/)
+    await expect(paper).toHaveAttribute('rel', /noreferrer/)
     await expectNoOverlap(title, credit)
     await expectNoOverlap(credit, status)
     expect(
@@ -78,6 +92,14 @@ for (const width of [1440, 1024, 760, 390]) {
         .toMatch(/^https:\/\/bipinchowdary\.github\.io\//)
       expect(portfolioRequests.length).toBeGreaterThan(0)
       await popup.close()
+
+      const paperPopupPromise = page.waitForEvent('popup')
+      await paper.click()
+      const paperPopup = await paperPopupPromise
+      await expect
+        .poll(() => paperPopup.url())
+        .toBe('https://github.com/BipinChowdary/AQNV/blob/main/Paper.pdf')
+      await paperPopup.close()
     }
   })
 }
