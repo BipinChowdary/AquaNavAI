@@ -22,6 +22,10 @@ import {
 } from './initialization/diagnostics'
 import { RoutingWorkerClient, type WorkerStatus } from './routing/client'
 import {
+  exactOverlapMessage,
+  ROUTE_ALGORITHMS,
+} from './routing/routePresentation'
+import {
   PROXY_MISSIONS,
   type Algorithm,
   type InteractiveRoute,
@@ -257,9 +261,15 @@ function App() {
           nextEndpoints.goal,
           nextCycleIndex,
         )
-        if (routes.length !== 4)
+        const routeAlgorithms = routes.map((route) => route.algorithm)
+        const uniqueAlgorithms = new Set(routeAlgorithms)
+        if (
+          routes.length !== ROUTE_ALGORITHMS.length ||
+          uniqueAlgorithms.size !== ROUTE_ALGORITHMS.length ||
+          ROUTE_ALGORITHMS.some((algorithm) => !uniqueAlgorithms.has(algorithm))
+        )
           throw new Error(
-            `Only ${routes.length} of four objectives returned a valid route.`,
+            `Expected four independent route objectives; received ${routeAlgorithms.join(', ') || 'none'}.`,
           )
         setInteractiveRoutes(routes)
         const active = routes.find(
@@ -350,6 +360,10 @@ function App() {
               metric.pair_id === pairId && metric.forecast_cycle === cycle,
           ),
     [interactiveRoutes, cycle, pairId, scenario],
+  )
+  const overlapMessage = useMemo(
+    () => exactOverlapMessage(interactiveRoutes),
+    [interactiveRoutes],
   )
   const toggleAlgorithm = (algorithm: Algorithm) =>
     setVisibleAlgorithms((current) => {
@@ -478,14 +492,32 @@ function App() {
           <span>Research demonstrator</span>
           <strong>Forecast-aware coastal routing · Navigation V2</strong>
         </div>
-        <div className="project-credit">
-          <span>A Research Project by</span>
+        <div className="project-actions">
+          <div className="project-credit">
+            <span>A Research Project by</span>
+            <a
+              href="https://bipinchowdary.github.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <strong>Bipin Chowdary</strong>
+            </a>
+          </div>
           <a
-            href="https://bipinchowdary.github.io/"
+            className="header-button header-button--primary"
+            href="https://bipinchowdary.github.io/AQNV/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <strong>Bipin Chowdary</strong>
+            View Project Details
+          </a>
+          <a
+            className="header-button header-button--secondary"
+            href="https://github.com/BipinChowdary/AQNV/blob/main/Paper.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Paper
           </a>
         </div>
         <StatusBanner dataMode={scenario.manifest.dataMode} cases={caseCount} />
@@ -507,7 +539,6 @@ function App() {
       </div>
       <main id="top" className="workspace">
         <aside className="workspace-sidebar">
-          <ScenarioSummary scenario={scenario} />
           <RouteControls
             pairId={pairId}
             onPairChange={choosePair}
@@ -522,9 +553,11 @@ function App() {
             onCalculate={() => endpoints && void calculateFor(endpoints)}
             calculating={calculating}
             routeError={routeError}
+            overlapMessage={overlapMessage}
             workerStatus={workerStatus}
             fallbackMode={!scenario.navigationGrid}
           />
+          <ScenarioSummary scenario={scenario} />
         </aside>
         <section
           className="map-workspace"

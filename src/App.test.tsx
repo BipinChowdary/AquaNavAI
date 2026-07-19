@@ -13,12 +13,26 @@ vi.mock('./components/CoastalMap', async () => {
   const React = await import('react')
   return {
     CoastalMap: React.forwardRef(function MapFixture(
-      props: { onReady?: () => void },
+      props: {
+        onReady?: () => void
+        visibleAlgorithms: Set<Algorithm>
+        interactiveRoutes: InteractiveRoute[]
+      },
       ref,
     ) {
       void ref
       React.useEffect(() => props.onReady?.(), [props])
-      return <div aria-label="Interactive coastal map">Map fixture</div>
+      return (
+        <div
+          aria-label="Interactive coastal map"
+          data-route-algorithms={props.interactiveRoutes
+            .map((route) => route.algorithm)
+            .join(',')}
+          data-visible-algorithms={[...props.visibleAlgorithms].join(',')}
+        >
+          Map fixture
+        </div>
+      )
     }),
   }
 })
@@ -172,6 +186,21 @@ describe('AquaNavAI application', () => {
     expect(link).toHaveAttribute('target', '_blank')
     expect(link).toHaveAttribute('rel', expect.stringContaining('noopener'))
     expect(link).toHaveAttribute('rel', expect.stringContaining('noreferrer'))
+
+    const details = screen.getByRole('link', { name: 'View Project Details' })
+    expect(details).toHaveAttribute(
+      'href',
+      'https://bipinchowdary.github.io/AQNV/',
+    )
+    expect(details).toHaveAttribute('target', '_blank')
+    const paper = screen.getByRole('link', { name: 'View Paper' })
+    expect(paper).toHaveAttribute(
+      'href',
+      'https://github.com/BipinChowdary/AQNV/blob/main/Paper.pdf',
+    )
+    expect(paper).toHaveAttribute('target', '_blank')
+    expect(paper).toHaveAttribute('rel', expect.stringContaining('noopener'))
+    expect(paper).toHaveAttribute('rel', expect.stringContaining('noreferrer'))
   })
 
   it('exposes four independently toggleable route layers', async () => {
@@ -179,9 +208,36 @@ describe('AquaNavAI application', () => {
     render(<App />)
     const checkboxes = await screen.findAllByRole('checkbox', { name: /show/i })
     expect(checkboxes).toHaveLength(4)
-    expect(checkboxes[0]).toBeChecked()
-    await user.click(checkboxes[0])
-    await waitFor(() => expect(checkboxes[0]).not.toBeChecked())
+    const map = screen.getByLabelText('Interactive coastal map')
+    const algorithms = ['shortest', 'fastest', 'energy', 'balanced']
+    for (const [index, algorithm] of algorithms.entries()) {
+      expect(checkboxes[index]).toBeChecked()
+      await user.click(checkboxes[index])
+      await waitFor(() => expect(checkboxes[index]).not.toBeChecked())
+      expect(map.dataset.visibleAlgorithms?.split(',')).not.toContain(algorithm)
+      await user.click(checkboxes[index])
+      await waitFor(() => expect(checkboxes[index]).toBeChecked())
+    }
+  })
+
+  it('places Mission Controls before the pinned domain and keeps provenance open', async () => {
+    render(<App />)
+    await screen.findByText('South Florida Atlantic Shelf')
+
+    const controls = screen.getByRole('heading', { name: 'Navigation V2' })
+    const domain = screen.getByRole('heading', {
+      name: 'South Florida Atlantic Shelf',
+    })
+    expect(
+      controls.compareDocumentPosition(domain) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy()
+    expect(document.querySelector('.provenance')).not.toBeInstanceOf(
+      HTMLDetailsElement,
+    )
+    expect(
+      screen.getByRole('heading', { name: 'Data provenance and limitations' }),
+    ).toBeVisible()
   })
 
   it('treats a 10-second cold load as a soft warning and still reaches ready', async () => {

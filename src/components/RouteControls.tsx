@@ -38,6 +38,7 @@ interface RouteControlsProps {
   onCalculate: () => void
   calculating: boolean
   routeError: string | null
+  overlapMessage: string | null
   workerStatus: string
   fallbackMode?: boolean
 }
@@ -93,6 +94,11 @@ export function RouteControls(props: RouteControlsProps) {
       {props.routeError && (
         <p className="route-error" role="alert">
           {props.routeError}
+        </p>
+      )}
+      {props.overlapMessage && (
+        <p className="route-overlap-message" role="status">
+          {props.overlapMessage}
         </p>
       )}
       {!props.fallbackMode && (

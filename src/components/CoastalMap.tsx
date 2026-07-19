@@ -15,6 +15,13 @@ import maplibregl, {
 } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { decodeGrid } from '../routing/grid'
+import {
+  objectiveRouteCollection,
+  routeCasingLayerId,
+  routeLayerId,
+  routeSourceId,
+  ROUTE_ALGORITHMS,
+} from '../routing/routePresentation'
 import type {
   Algorithm,
   InteractiveRoute,
@@ -43,7 +50,6 @@ interface MapLibreProps extends Props {
 
 export type { CoastalMapHandle } from './CoastalMapFallback'
 
-const algorithms: Algorithm[] = ['shortest', 'fastest', 'energy', 'balanced']
 const legacyAlgorithms: LegacyAlgorithm[] = ['distance', 'environmental']
 const routeColors: Record<Algorithm, string> = {
   shortest: '#f8fafc',
@@ -82,27 +88,6 @@ function localStyle(): StyleSpecification {
   }
 }
 
-function routeCollection(
-  scenario: LoadedScenario,
-  routes: InteractiveRoute[],
-  pairId: string,
-  cycle: string,
-) {
-  const features = routes.length ? [] : [...scenario.routes.features]
-  for (const route of routes)
-    features.push({
-      type: 'Feature',
-      properties: {
-        pairId,
-        forecastCycle: cycle,
-        algorithm: route.algorithm,
-        interactive: true,
-      },
-      geometry: { type: 'LineString', coordinates: route.coordinates },
-    })
-  return { type: 'FeatureCollection' as const, features }
-}
-
 const MapLibreCoastalMap = forwardRef<CoastalMapHandle, MapLibreProps>(
   function MapLibreCoastalMap(
     {
@@ -126,6 +111,20 @@ const MapLibreCoastalMap = forwardRef<CoastalMapHandle, MapLibreProps>(
     const clickHandler = useRef(onMapClick)
     const readyHandler = useRef(onReady)
     const fatalHandler = useRef(onFatalError)
+    const presentation = useRef({
+      pairId,
+      forecastCycle,
+      interactiveRoutes,
+      visibleAlgorithms,
+      selectedAlgorithm,
+    })
+    presentation.current = {
+      pairId,
+      forecastCycle,
+      interactiveRoutes,
+      visibleAlgorithms,
+      selectedAlgorithm,
+    }
     useEffect(() => {
       clickHandler.current = onMapClick
       readyHandler.current = onReady
@@ -232,7 +231,22 @@ const MapLibreCoastalMap = forwardRef<CoastalMapHandle, MapLibreProps>(
           type: 'geojson',
           data: scenario.stations,
         })
-        instance.addSource('routes', { type: 'geojson', data: scenario.routes })
+        instance.addSource('routes-legacy', {
+          type: 'geojson',
+          data: scenario.routes,
+        })
+        const currentPresentation = presentation.current
+        for (const algorithm of ROUTE_ALGORITHMS)
+          instance.addSource(routeSourceId(algorithm), {
+            type: 'geojson',
+            data: objectiveRouteCollection(
+              scenario,
+              currentPresentation.interactiveRoutes,
+              currentPresentation.pairId,
+              currentPresentation.forecastCycle,
+              algorithm,
+            ),
+          })
         instance.addSource('mission-points', {
           type: 'geojson',
           data: { type: 'FeatureCollection', features: [] },
@@ -294,11 +308,11 @@ const MapLibreCoastalMap = forwardRef<CoastalMapHandle, MapLibreProps>(
             'circle-stroke-width': 1.5,
           },
         })
-        for (const algorithm of algorithms) {
+        for (const algorithm of ROUTE_ALGORITHMS) {
           instance.addLayer({
-            id: `${algorithm}-route-casing`,
+            id: routeCasingLayerId(algorithm),
             type: 'line',
-            source: 'routes',
+            source: routeSourceId(algorithm),
             filter: ['==', ['get', 'algorithm'], '__initial__'],
             layout: { 'line-join': 'round', 'line-cap': 'round' },
             paint: {
@@ -308,9 +322,9 @@ const MapLibreCoastalMap = forwardRef<CoastalMapHandle, MapLibreProps>(
             },
           })
           instance.addLayer({
-            id: `${algorithm}-route`,
+            id: routeLayerId(algorithm),
             type: 'line',
-            source: 'routes',
+            source: routeSourceId(algorithm),
             filter: ['==', ['get', 'algorithm'], '__initial__'],
             layout: { 'line-join': 'round', 'line-cap': 'round' },
             paint: {
@@ -326,7 +340,7 @@ const MapLibreCoastalMap = forwardRef<CoastalMapHandle, MapLibreProps>(
           instance.addLayer({
             id: `${algorithm}-legacy-route`,
             type: 'line',
-            source: 'routes',
+            source: 'routes-legacy',
             filter: ['==', ['get', 'algorithm'], '__initial__'],
             layout: { 'line-join': 'round', 'line-cap': 'round' },
             paint: {
@@ -349,6 +363,22 @@ const MapLibreCoastalMap = forwardRef<CoastalMapHandle, MapLibreProps>(
             'line-opacity': 0.75,
           },
         })
+        if (container.current) {
+          container.current.dataset.routeSourceIds =
+            ROUTE_ALGORITHMS.map(routeSourceId).join(',')
+          container.current.dataset.routeLayerIds =
+            ROUTE_ALGORITHMS.map(routeLayerId).join(',')
+          container.current.dataset.routeAlgorithms =
+            currentPresentation.interactiveRoutes
+              .map((route) => route.algorithm)
+              .join(',')
+          container.current.dataset.visibleRouteAlgorithms =
+            ROUTE_ALGORITHMS.filter((algorithm) =>
+              currentPresentation.visibleAlgorithms.has(algorithm),
+            ).join(',')
+          container.current.dataset.selectedRouteAlgorithm =
+            currentPresentation.selectedAlgorithm
+        }
         instance.addLayer({
           id: 'mission-points',
           type: 'circle',
@@ -419,107 +449,159 @@ const MapLibreCoastalMap = forwardRef<CoastalMapHandle, MapLibreProps>(
 
     useEffect(() => {
       const instance = map.current
-      if (!instance?.isStyleLoaded()) return
-      instance.resize()
-      ;(instance.getSource('routes') as GeoJSONSource | undefined)?.setData(
-        routeCollection(scenario, interactiveRoutes, pairId, forecastCycle),
-      )
-      if (decodedGrid && scenario.navigationGrid) {
-        const time = Math.max(
-          0,
-          scenario.navigationGrid.forecastTimes.indexOf(forecastCycle),
-        )
-        const features = []
-        for (let row = 0; row < decodedGrid.height; row += 10)
-          for (let column = 0; column < decodedGrid.width; column += 4) {
-            const node = row * decodedGrid.width + column
-            if (!decodedGrid.feasible[node]) continue
-            const offset = time * decodedGrid.feasible.length + node
-            const east =
-              decodedGrid.currentEast[offset] * decodedGrid.currentScaleMps
-            const north =
-              decodedGrid.currentNorth[offset] * decodedGrid.currentScaleMps
-            features.push({
-              type: 'Feature' as const,
-              properties: { speed_mps: Math.hypot(east, north) },
-              geometry: {
-                type: 'Point' as const,
-                coordinates: [
-                  decodedGrid.longitude[node],
-                  decodedGrid.latitude[node],
-                ],
-              },
-            })
-          }
-        ;(instance.getSource('currents') as GeoJSONSource | undefined)?.setData(
-          {
+      if (!instance) return
+      const updatePresentation = () => {
+        instance.resize()
+        for (const algorithm of ROUTE_ALGORITHMS) {
+          ;(
+            instance.getSource(routeSourceId(algorithm)) as
+              GeoJSONSource | undefined
+          )?.setData(
+            objectiveRouteCollection(
+              scenario,
+              interactiveRoutes,
+              pairId,
+              forecastCycle,
+              algorithm,
+            ),
+          )
+        }
+        if (decodedGrid && scenario.navigationGrid) {
+          const time = Math.max(
+            0,
+            scenario.navigationGrid.forecastTimes.indexOf(forecastCycle),
+          )
+          const features = []
+          for (let row = 0; row < decodedGrid.height; row += 10)
+            for (let column = 0; column < decodedGrid.width; column += 4) {
+              const node = row * decodedGrid.width + column
+              if (!decodedGrid.feasible[node]) continue
+              const offset = time * decodedGrid.feasible.length + node
+              const east =
+                decodedGrid.currentEast[offset] * decodedGrid.currentScaleMps
+              const north =
+                decodedGrid.currentNorth[offset] * decodedGrid.currentScaleMps
+              features.push({
+                type: 'Feature' as const,
+                properties: { speed_mps: Math.hypot(east, north) },
+                geometry: {
+                  type: 'Point' as const,
+                  coordinates: [
+                    decodedGrid.longitude[node],
+                    decodedGrid.latitude[node],
+                  ],
+                },
+              })
+            }
+          ;(
+            instance.getSource('currents') as GeoJSONSource | undefined
+          )?.setData({
             type: 'FeatureCollection',
             features,
-          },
-        )
-      }
-      for (const algorithm of algorithms) {
-        const value = filter(
-          pairId,
-          forecastCycle,
-          algorithm,
-          visibleAlgorithms.has(algorithm),
-        )
-        instance.setFilter(`${algorithm}-route`, value)
-        instance.setFilter(`${algorithm}-route-casing`, value)
-        instance.setPaintProperty(
-          `${algorithm}-route`,
-          'line-width',
-          algorithm === selectedAlgorithm ? 6 : 3.25,
-        )
-        instance.setPaintProperty(
-          `${algorithm}-route`,
-          'line-opacity',
-          algorithm === selectedAlgorithm ? 1 : 0.72,
-        )
-      }
-      for (const algorithm of legacyAlgorithms)
-        instance.setFilter(`${algorithm}-legacy-route`, [
-          'all',
-          ['==', ['get', 'pairId'], pairId],
-          ['==', ['get', 'forecastCycle'], forecastCycle],
-          ['==', ['get', 'algorithm'], algorithm],
-        ])
-      ;(
-        instance.getSource('mission-points') as GeoJSONSource | undefined
-      )?.setData({
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            properties: { kind: 'start' },
-            geometry: { type: 'Point', coordinates: endpoints.start },
-          },
-          {
-            type: 'Feature',
-            properties: { kind: 'goal' },
-            geometry: { type: 'Point', coordinates: endpoints.goal },
-          },
-        ],
-      })
-      const coordinates =
-        interactiveRoutes.find((route) => route.algorithm === selectedAlgorithm)
-          ?.coordinates ??
-        interactiveRoutes.flatMap((route) => route.coordinates)
-      if (coordinates.length) {
-        const bounds = coordinates.reduce(
-          (value, coordinate) => value.extend(coordinate),
-          new maplibregl.LngLatBounds(coordinates[0], coordinates[0]),
-        )
-        requestAnimationFrame(() => {
-          instance.resize()
-          instance.fitBounds(bounds, {
-            padding: 90,
-            maxZoom: 11.5,
-            duration: 0,
           })
-          instance.setCenter(bounds.getCenter())
+        }
+        for (const algorithm of ROUTE_ALGORITHMS) {
+          const value = filter(
+            pairId,
+            forecastCycle,
+            algorithm,
+            visibleAlgorithms.has(algorithm),
+          )
+          instance.setFilter(routeLayerId(algorithm), value)
+          instance.setFilter(routeCasingLayerId(algorithm), value)
+          instance.setPaintProperty(
+            routeLayerId(algorithm),
+            'line-width',
+            algorithm === selectedAlgorithm ? 6 : 3.25,
+          )
+          instance.setPaintProperty(
+            routeLayerId(algorithm),
+            'line-opacity',
+            algorithm === selectedAlgorithm ? 1 : 0.72,
+          )
+          instance.setPaintProperty(
+            routeCasingLayerId(algorithm),
+            'line-width',
+            algorithm === selectedAlgorithm ? 10 : 6,
+          )
+          instance.setPaintProperty(
+            routeCasingLayerId(algorithm),
+            'line-opacity',
+            algorithm === selectedAlgorithm ? 0.95 : 0.65,
+          )
+        }
+        if (instance.getLayer('route-progress')) {
+          instance.moveLayer(
+            routeCasingLayerId(selectedAlgorithm),
+            'route-progress',
+          )
+          instance.moveLayer(routeLayerId(selectedAlgorithm), 'route-progress')
+        }
+        if (container.current) {
+          container.current.dataset.routeAlgorithms = interactiveRoutes
+            .map((route) => route.algorithm)
+            .join(',')
+          container.current.dataset.visibleRouteAlgorithms =
+            ROUTE_ALGORITHMS.filter((algorithm) =>
+              visibleAlgorithms.has(algorithm),
+            ).join(',')
+          container.current.dataset.selectedRouteAlgorithm = selectedAlgorithm
+          const routeLayerIds = new Set(ROUTE_ALGORITHMS.map(routeLayerId))
+          container.current.dataset.routeLayerOrder = instance
+            .getStyle()
+            .layers.filter((layer) => routeLayerIds.has(layer.id))
+            .map((layer) => layer.id)
+            .join(',')
+        }
+        for (const algorithm of legacyAlgorithms)
+          instance.setFilter(`${algorithm}-legacy-route`, [
+            'all',
+            ['==', ['get', 'pairId'], pairId],
+            ['==', ['get', 'forecastCycle'], forecastCycle],
+            ['==', ['get', 'algorithm'], algorithm],
+          ])
+        ;(
+          instance.getSource('mission-points') as GeoJSONSource | undefined
+        )?.setData({
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              properties: { kind: 'start' },
+              geometry: { type: 'Point', coordinates: endpoints.start },
+            },
+            {
+              type: 'Feature',
+              properties: { kind: 'goal' },
+              geometry: { type: 'Point', coordinates: endpoints.goal },
+            },
+          ],
         })
+        const coordinates =
+          interactiveRoutes.find(
+            (route) => route.algorithm === selectedAlgorithm,
+          )?.coordinates ??
+          interactiveRoutes.flatMap((route) => route.coordinates)
+        if (coordinates.length) {
+          const bounds = coordinates.reduce(
+            (value, coordinate) => value.extend(coordinate),
+            new maplibregl.LngLatBounds(coordinates[0], coordinates[0]),
+          )
+          requestAnimationFrame(() => {
+            instance.resize()
+            instance.fitBounds(bounds, {
+              padding: 90,
+              maxZoom: 11.5,
+              duration: 0,
+            })
+            instance.setCenter(bounds.getCenter())
+          })
+        }
+      }
+      if (instance.isStyleLoaded()) updatePresentation()
+      else instance.once('idle', updatePresentation)
+      return () => {
+        instance.off('idle', updatePresentation)
       }
     }, [
       scenario,

@@ -6,14 +6,17 @@ export function ProvenancePanel({
   provenance: ProvenanceArtifact
 }) {
   return (
-    <details className="provenance" id="provenance">
-      <summary>
-        <span>
-          <span className="eyebrow">Audit trail</span>Data provenance and
-          limitations
-        </span>
-        <span aria-hidden="true">+</span>
-      </summary>
+    <section
+      className="provenance"
+      id="provenance"
+      aria-labelledby="provenance-title"
+    >
+      <header className="provenance__heading">
+        <div>
+          <span className="eyebrow">Audit trail</span>
+          <h2 id="provenance-title">Data provenance and limitations</h2>
+        </div>
+      </header>
       <div className="provenance__content">
         <p className="proxy-warning">{provenance.warning}</p>
         <div className="source-grid">
@@ -46,6 +49,6 @@ export function ProvenancePanel({
           </ul>
         )}
       </div>
-    </details>
+    </section>
   )
 }

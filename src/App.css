@@ -1,5 +1,5 @@
 .app-frame {
-  width: min(1540px, 100%);
+  width: min(1920px, calc(100vw - 24px));
   margin: 0 auto;
   min-height: 100vh;
   border-inline: 1px solid var(--line);
@@ -9,10 +9,10 @@
 .topbar {
   min-height: 78px;
   display: grid;
-  grid-template-areas: 'brand title credit status';
-  grid-template-columns: auto minmax(280px, 1fr) minmax(max-content, 0.7fr) auto;
+  grid-template-areas: 'brand title actions status';
+  grid-template-columns: auto minmax(230px, 0.7fr) minmax(470px, 1.3fr) auto;
   align-items: center;
-  gap: 28px;
+  gap: 20px;
   padding: 14px 24px;
   border-bottom: 1px solid var(--line);
   background: rgba(3, 18, 28, 0.88);
@@ -71,25 +71,33 @@
 .eyebrow {
   font-family: 'Cascadia Mono', 'Segoe UI Mono', ui-monospace, monospace;
   color: var(--teal);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
 }
 
 .project-title strong {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--muted);
 }
 
+.project-actions {
+  grid-area: actions;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
 .project-credit {
-  grid-area: credit;
   display: flex;
   align-items: baseline;
-  justify-self: center;
   gap: 5px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
   white-space: nowrap;
 }
 
@@ -115,6 +123,39 @@
 
 .project-credit strong {
   font-weight: 700;
+}
+
+.header-button {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 11px;
+  border: 1px solid rgba(45, 212, 191, 0.38);
+  border-radius: 3px;
+  color: #dffcf8;
+  background: rgba(45, 212, 191, 0.06);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.header-button--primary {
+  border-color: rgba(45, 212, 191, 0.78);
+  background: rgba(45, 212, 191, 0.2);
+  box-shadow: 0 0 18px rgba(45, 212, 191, 0.08);
+}
+
+.header-button:hover {
+  border-color: var(--teal);
+  color: #ffffff;
+  background: rgba(45, 212, 191, 0.16);
+}
+
+.header-button--primary:hover {
+  background: rgba(45, 212, 191, 0.28);
 }
 
 .status-banner {
@@ -202,7 +243,7 @@
 
 .workspace {
   display: grid;
-  grid-template-columns: 310px minmax(0, 1fr);
+  grid-template-columns: 360px minmax(0, 1fr);
   min-height: 76vh;
   border-bottom: 1px solid var(--line);
 }
@@ -323,7 +364,7 @@ a:focus-visible {
 
 .route-legend label {
   display: grid;
-  grid-template-columns: 15px 28px 1fr;
+  grid-template-columns: 18px 42px 1fr;
   align-items: center;
   gap: 9px;
   padding: 9px 0;
@@ -335,8 +376,18 @@ a:focus-visible {
   accent-color: var(--teal);
 }
 
+.controls select {
+  min-height: 44px;
+  font-size: 15.5px;
+}
+
+.controls .route-legend legend {
+  font-size: 11px;
+  font-weight: 600;
+}
+
 .legend-line {
-  height: 2px;
+  height: 3px;
   border-radius: 2px;
 }
 
@@ -364,9 +415,13 @@ a:focus-visible {
   grid-template-columns: 1fr auto;
   align-items: center;
   border-bottom: 1px solid rgba(92, 123, 134, 0.16);
+  min-height: 66px;
 }
 .route-objective > label:first-child {
-  grid-template-columns: 15px 28px 1fr;
+  grid-template-columns: 18px 42px 1fr;
+  min-width: 0;
+  padding: 12px 0;
+  cursor: pointer;
 }
 .route-objective strong,
 .route-objective small {
@@ -374,16 +429,45 @@ a:focus-visible {
 }
 .route-objective strong {
   color: #d7e8ec;
-  font-size: 10px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.25;
 }
 .route-objective small {
-  margin-top: 3px;
+  margin-top: 4px;
   color: #68828c;
-  font-size: 8px;
+  font-size: 10.5px;
+  line-height: 1.35;
 }
 .route-objective .visibility-toggle {
-  padding: 10px 0 10px 10px;
+  display: grid;
+  min-width: 44px;
+  min-height: 44px;
+  place-items: center;
+  padding: 11px 0 11px 10px;
+  cursor: pointer;
+}
+
+.route-objective .visibility-toggle input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.route-objective input[type='radio'] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.route-overlap-message {
+  margin: 12px 0 2px;
+  padding: 11px 12px;
+  border-left: 2px solid var(--teal);
+  color: #b9ded9;
+  background: rgba(45, 212, 191, 0.06);
+  font-size: 10.5px;
+  line-height: 1.5;
 }
 
 .map-workspace {
@@ -767,28 +851,25 @@ a:focus-visible {
   border-bottom: 1px solid var(--line);
 }
 
-.provenance summary {
+.provenance__heading {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 28px;
   color: #c8dce1;
-  cursor: pointer;
-  list-style: none;
   font-size: 13px;
 }
 
-.provenance summary::-webkit-details-marker {
-  display: none;
-}
-
-.provenance summary .eyebrow {
+.provenance__heading .eyebrow {
   display: block;
   margin-bottom: 4px;
 }
 
-.provenance[open] summary > span:last-child {
-  transform: rotate(45deg);
+.provenance__heading h2 {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+  font-weight: 500;
 }
 
 .provenance__content {
@@ -945,7 +1026,7 @@ footer {
   .topbar {
     grid-template-areas:
       'brand title status'
-      'brand credit status';
+      'brand actions status';
     grid-template-columns: auto minmax(0, 1fr) auto;
     column-gap: 20px;
     row-gap: 6px;
@@ -955,13 +1036,12 @@ footer {
     padding-left: 16px;
   }
 
-  .project-credit {
-    justify-self: start;
+  .project-actions {
     padding-left: 16px;
   }
 
   .workspace {
-    grid-template-columns: 270px minmax(0, 1fr);
+    grid-template-columns: 340px minmax(0, 1fr);
   }
 
   .metric-grid {
@@ -971,6 +1051,7 @@ footer {
 
 @media (max-width: 760px) {
   .app-frame {
+    width: 100%;
     border: 0;
   }
 
@@ -978,7 +1059,7 @@ footer {
     grid-template-areas:
       'brand'
       'title'
-      'credit'
+      'actions'
       'status';
     grid-template-columns: 1fr;
     gap: 10px;
@@ -990,12 +1071,16 @@ footer {
     border-top: 1px solid var(--line);
   }
 
-  .project-credit {
+  .project-actions {
     width: 100%;
     padding-top: 10px;
     padding-left: 0;
     border-top: 1px solid var(--line);
-    justify-self: stretch;
+  }
+
+  .project-credit {
+    flex-basis: 100%;
+    font-size: 13px;
   }
 
   .status-banner {
